@@ -3,7 +3,7 @@
 
 
 CameraManager::CameraManager()
-	:vPos(0.f, 100.f, -100.f), vLookAt(0.f, 0.f, 0.f), vUp(0.f, 1.f, 0.f)
+	:vPos(0.f, 250.f, -350.f), vLookAt(0.f, 200.f, 50.f), vUp(0.f, 1, 0)
 {
 	SetProjMatrix();
 	SetViewMatrix();
@@ -24,6 +24,7 @@ void CameraManager::Update()
 void CameraManager::SetViewMatrix()
 {
 	D3DXMatrixLookAtLH(&matView, &vPos, &vLookAt, &vUp);
+	v4Pos = Vector4(vPos.x, vPos.y, vPos.z, 1.f);
 }
 
 void CameraManager::SetProjMatrix()

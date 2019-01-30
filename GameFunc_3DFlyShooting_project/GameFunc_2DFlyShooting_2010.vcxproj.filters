@@ -57,6 +57,9 @@
     <Filter Include="Component\ShaderRenderer">
       <UniqueIdentifier>{2b2bca38-813a-4729-a66c-924dfbc30d16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\InputManager">
+      <UniqueIdentifier>{5bf4ae51-cfd2-435b-8663-776d51010e0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -164,6 +167,9 @@
     <ClCompile Include="ShaderRenderer.cpp">
       <Filter>Component\ShaderRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Manager\InputManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -210,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="ShaderRenderer.h">
       <Filter>Component\ShaderRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Manager\InputManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

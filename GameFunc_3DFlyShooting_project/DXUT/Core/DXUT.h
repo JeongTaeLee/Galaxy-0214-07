@@ -376,7 +376,14 @@ enum SYSTEM
 
 using Vector2 = D3DXVECTOR2;
 using Vector3 = D3DXVECTOR3;
+using Vector4 = D3DXVECTOR4;
 using Matrix = D3DXMATRIX;
+
+
+#define SetShaderVector(s, v) GetEffect()->SetVector(D3DXHANDLE(s), v)
+#define SetShaderMatrix(s, v) GetEffect()->SetMatrix(D3DXHANDLE(s), v)
+#define SetShaderTexture(s, v) GetEffect()->SetTexture(D3DXHANDLE(s), v->lpD3DTexture)
+
 
 struct texture
 {
@@ -411,6 +418,16 @@ struct Mesh
 {
 	LPD3DXMESH lpD3DXMesh;
 	std::vector<Material*> vMaterial;
+
+	Material * GetMaterial(int index)
+	{
+		return vMaterial[index];
+	}
+
+	texture * GetTexture(int index)
+	{
+		return vMaterial[index]->map;
+	}
 
 	~Mesh()
 	{

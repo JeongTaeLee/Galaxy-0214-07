@@ -8,6 +8,7 @@ public:
 	Vector3 worldPos;
 	Vector3 rot;
 	Vector3 scale;
+	Vector4 v4Pos;
 	
 	Matrix matWorld;
 public:

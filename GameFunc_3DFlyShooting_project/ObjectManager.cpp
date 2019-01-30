@@ -29,14 +29,22 @@ void ObjectManager::Reset()
 
 void ObjectManager::Update()
 {
-	for (auto Iter : liGameObjects)
+	for (auto Iter = liGameObjects.begin(); Iter != liGameObjects.end();)
 	{
-		Iter->Update();
-		Iter->ComUpdate();
-		Iter->transform->UpdateTransform();
+		if ((*Iter)->GetDestroy())
+		{
+			SAFE_DELETE(*Iter);
+			Iter = liGameObjects.erase(Iter);
+		}
+		else
+		{
+			(*Iter)->Update();
+			(*Iter)->transform->UpdateTransform();
+			++Iter;
+		}
 	}
 
-	DestroyProcess();
+	//DestroyProcess();
 }
 
 void ObjectManager::Render()
@@ -45,6 +53,7 @@ void ObjectManager::Render()
 		Iter->Render();
 }
 
+/*
 void ObjectManager::DestroyProcess()
 {
 	for (auto Iter = liGameObjects.begin(); Iter != liGameObjects.end();)
@@ -59,6 +68,7 @@ void ObjectManager::DestroyProcess()
 			++Iter;
 	}
 }
+*/
 
 Renderer* ObjectManager::RegisterRenderer(Renderer* renderer)
 {
@@ -68,6 +78,8 @@ Renderer* ObjectManager::RegisterRenderer(Renderer* renderer)
 
 void ObjectManager::UnRegisterRenderer(Renderer* renderer)
 {
+	liRenderer.remove(renderer);
+	/*
 	for (auto Iter = liRenderer.begin(); Iter != liRenderer.end();)
 	{
 		if ((*Iter) == renderer)
@@ -78,4 +90,5 @@ void ObjectManager::UnRegisterRenderer(Renderer* renderer)
 		else
 			++Iter;
 	}
+	*/
 }

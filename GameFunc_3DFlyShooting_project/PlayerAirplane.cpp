@@ -27,8 +27,7 @@ void PlayerAirplane::Init()
 	
 	lpRenderer->SetRenderBegin(
 		[&]() {
-			lpRenderer->GetEffect()->SetVector(D3DXHANDLE("gWorldCamera"), 
-				&D3DXVECTOR4(CAMERA.GetPos()->x, CAMERA.GetPos()->y, CAMERA.GetPos()->z, 0.f));
-			lpRenderer->GetEffect()->SetTexture(D3DXHANDLE("gMap"), lpRenderer->GetMesh()->vMaterial[0]->map->lpD3DTexture);
+			lpRenderer->SetShaderVector("gWorldCamera", CAMERA.GetV4Pos());
+			lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
 		});
 }

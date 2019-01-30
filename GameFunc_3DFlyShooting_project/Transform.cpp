@@ -4,7 +4,8 @@
 
 Transform::Transform()
 	:pos(0.f, 0.f, 0.f), worldPos(0.f, 0.f, 0.f), 
-	rot(0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f)
+	rot(0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
+	v4Pos(0.f, 0.f, 0.f, 1.f)
 {
 	D3DXMatrixIdentity(&matWorld);
 }
@@ -33,8 +34,9 @@ void Transform::UpdateTransform()
 	Matrix matScale;
 	D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);
 	
-	matWorld = matScale * matRot * matPos;
-	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);
+	matWorld	= matScale * matRot * matPos;
+	worldPos	= Vector3(matWorld._41, matWorld._42, matWorld._43);
+	v4Pos		= Vector4(matWorld._41, matWorld._42, matWorld._43, v4Pos.w);
 }
 
 void Transform::SetTransform()

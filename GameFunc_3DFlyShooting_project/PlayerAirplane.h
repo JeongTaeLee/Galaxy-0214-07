@@ -14,6 +14,5 @@ public:
 	virtual ~PlayerAirplane();
 
 	virtual void Init()	override;
-	
 };
 

@@ -21,7 +21,7 @@ public:
 	void Render();
 
 public:
-	void DestroyProcess();
+	//void DestroyProcess();
 
 public:
 	Renderer* RegisterRenderer(Renderer* renderer);
