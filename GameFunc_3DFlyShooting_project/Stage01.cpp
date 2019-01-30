@@ -6,6 +6,7 @@
 
 //GameObject
 #include "PlayerAirplane.h"
+#include "SkyBox.h"
 
 Stage01::Stage01()
 {
@@ -18,6 +19,7 @@ Stage01::~Stage01()
 
 void Stage01::Init()
 {
+	OBJECT.AddObject<SkyBox>();
 	OBJECT.AddObject<PlayerAirplane>();
 }
 

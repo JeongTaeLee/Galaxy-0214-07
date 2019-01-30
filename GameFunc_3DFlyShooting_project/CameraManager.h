@@ -21,11 +21,11 @@ public:
 	void SetProjMatrix();
 	void SetViewTransform();
 
-	Matrix * GetViewMatrix() { return &matView; }
-	Matrix * GetProjMatrix() { return &matProj; }
+	Matrix & GetViewMatrix() { return matView; }
+	Matrix & GetProjMatrix() { return matProj; }
 	
-	Vector3 * GetPos() { return &vPos; }
-	Vector4 * GetV4Pos() { return &v4Pos; }
+	Vector3 & GetPos() { return vPos; }
+	Vector4 & GetV4Pos() { return v4Pos; }
 };
 
 #define CAMERA CameraManager::GetInst()

@@ -60,6 +60,9 @@
     <Filter Include="Manager\InputManager">
       <UniqueIdentifier>{5bf4ae51-cfd2-435b-8663-776d51010e0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\SkyBox">
+      <UniqueIdentifier>{43efba8c-2731-4d0a-96e7-68fbe4900c68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -170,6 +173,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Manager\InputManager</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>GameObject\SkyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -219,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Manager\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>GameObject\SkyBox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

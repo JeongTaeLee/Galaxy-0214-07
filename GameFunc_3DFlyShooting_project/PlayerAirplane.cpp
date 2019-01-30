@@ -22,12 +22,18 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	lpRenderer = AC(ShaderRenderer);
-	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Player_Airplane", "./rs/obj/Player.obj"));
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Player_Airplane", "./rs/obj/Player/Player.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
 	
 	lpRenderer->SetRenderBegin(
 		[&]() {
-			lpRenderer->SetShaderVector("gWorldCamera", CAMERA.GetV4Pos());
+
+			lpRenderer->SetShaderVector("gWorldCamera", &CAMERA.GetV4Pos());
 			lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
 		});
+
+}
+
+void PlayerAirplane::Update()
+{
 }

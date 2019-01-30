@@ -17,8 +17,8 @@ ShaderRenderer::~ShaderRenderer()
 void ShaderRenderer::Render()
 {
 	lpEffect->SetMatrix(D3DXHANDLE("gWorldMatrix"), &transform->matWorld);
-	lpEffect->SetMatrix(D3DXHANDLE("gViewMatrix"), CAMERA.GetViewMatrix());
-	lpEffect->SetMatrix(D3DXHANDLE("gProjMatrix"), CAMERA.GetProjMatrix());
+	lpEffect->SetMatrix(D3DXHANDLE("gViewMatrix"), &CAMERA.GetViewMatrix());
+	lpEffect->SetMatrix(D3DXHANDLE("gProjMatrix"), &CAMERA.GetProjMatrix());
 
 	if (RenderBegin)
 		RenderBegin(); 

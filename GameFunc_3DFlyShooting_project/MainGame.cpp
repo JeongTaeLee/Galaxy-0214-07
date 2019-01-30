@@ -23,6 +23,8 @@ void MainGame::Init()
 {
 	SCENE.AddScene("Stage01", new Stage01);
 	SCENE.ChangeScene("Stage01");
+
+	g_device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void MainGame::Release()
