@@ -35,14 +35,14 @@ void ObjectManager::Update()
 		Iter->ComUpdate();
 		Iter->transform->UpdateTransform();
 	}
+
+	DestroyProcess();
 }
 
 void ObjectManager::Render()
 {
 	for (auto Iter : liRenderer)
 		Iter->Render();
-
-	DestroyProcess();
 }
 
 void ObjectManager::DestroyProcess()
