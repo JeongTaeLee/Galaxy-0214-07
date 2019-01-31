@@ -43,8 +43,6 @@ void ObjectManager::Update()
 			++Iter;
 		}
 	}
-
-	//DestroyProcess();
 }
 
 void ObjectManager::Render()
@@ -52,23 +50,6 @@ void ObjectManager::Render()
 	for (auto Iter : liRenderer)
 		Iter->Render();
 }
-
-/*
-void ObjectManager::DestroyProcess()
-{
-	for (auto Iter = liGameObjects.begin(); Iter != liGameObjects.end();)
-	{
-		if ((*Iter)->GetDestroy())
-		{
-			(*Iter)->Release();
-			SAFE_DELETE((*Iter));
-			Iter = liGameObjects.erase(Iter);
-		}
-		else
-			++Iter;
-	}
-}
-*/
 
 Renderer* ObjectManager::RegisterRenderer(Renderer* renderer)
 {

@@ -125,6 +125,13 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     // Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+
+	if (AllocConsole())
+	{
+		freopen("CONIN$", "rb", stdin);
+		freopen("CONOUT$", "wb", stdout);
+		freopen("CONOUT$", "wb", stderr);
+	}
 #endif
 
     // Set the callback functions
@@ -151,6 +158,10 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTMainLoop();
 
     // TODO: Perform any application-level cleanup here
+
+#ifdef DEBUG
+	FreeConsole();
+#endif
 
     return DXUTGetExitCode();
 }

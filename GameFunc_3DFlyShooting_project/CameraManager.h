@@ -19,13 +19,17 @@ public:
 
 	void SetViewMatrix();
 	void SetProjMatrix();
-	void SetViewTransform();
+
+	void SetCameraTransform();
+	void SetProjectionTransform();
 
 	Matrix & GetViewMatrix() { return matView; }
 	Matrix & GetProjMatrix() { return matProj; }
 	
 	Vector3 & GetPos() { return vPos; }
 	Vector4 & GetV4Pos() { return v4Pos; }
+
+	void SetCameraInfo(const Vector3 & _vPos, const Vector3 & _vLook);
 };
 
 #define CAMERA CameraManager::GetInst()

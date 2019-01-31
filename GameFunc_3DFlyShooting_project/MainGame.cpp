@@ -9,6 +9,8 @@
 #include "ObjectManager.h"
 #include "ImageManager.h"
 #include "CameraManager.h"
+#include "TimeManager.h"
+#include "InputManager.h"
 
 MainGame::MainGame()
 {
@@ -23,8 +25,6 @@ void MainGame::Init()
 {
 	SCENE.AddScene("Stage01", new Stage01);
 	SCENE.ChangeScene("Stage01");
-
-	g_device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
 void MainGame::Release()
@@ -33,18 +33,23 @@ void MainGame::Release()
 	ObjectManager::ReleaseInst();
 	ImageManager::ReleaseInst();
 	CameraManager::ReleaseInst();
+	InputManager::ReleaseInst();
+	TimeManager::ReleaseInst();
 }
 
 void MainGame::Update()
 {
-	CAMERA.Update();
+	INPUT.Update();
+	
 	SCENE.Update();
 	OBJECT.Update();
+	
+	CAMERA.Update();
 }
 
 void MainGame::Render()
 {
-	CAMERA.SetViewTransform();
+	CAMERA.SetCameraTransform();
 	OBJECT.Render();
 }
 

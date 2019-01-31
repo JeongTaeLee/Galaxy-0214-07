@@ -3,12 +3,13 @@
 
 
 CameraManager::CameraManager()
-	:vPos(0.f, 250.f, -350.f), vLookAt(0.f, 200.f, 50.f), vUp(0.f, 1, 0)
+	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), vUp(0.f, 1, 0)
 {
 	SetProjMatrix();
 	SetViewMatrix();
 
-	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
+	SetCameraTransform();
+	SetProjectionTransform();
 }
 
 
@@ -18,8 +19,8 @@ CameraManager::~CameraManager()
 
 void CameraManager::Update()
 {
+	SetViewMatrix();
 }
-
 
 void CameraManager::SetViewMatrix()
 {
@@ -32,7 +33,18 @@ void CameraManager::SetProjMatrix()
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI * 0.5f, WINSIZEX / WINSIZEY, 1.f, 1000.f);
 }
 
-void CameraManager::SetViewTransform()
+void CameraManager::SetCameraTransform()
 {
 	g_device->SetTransform(D3DTS_VIEW, &matView);
+}
+
+void CameraManager::SetProjectionTransform()
+{
+	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
+}
+
+void CameraManager::SetCameraInfo(const Vector3 & _vPos, const Vector3 & _vLook)
+{
+	vPos = _vPos;
+	vLookAt = _vLook;
 }

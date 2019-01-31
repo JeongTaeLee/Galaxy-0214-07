@@ -66,9 +66,6 @@
     <Filter Include="GameObject\Map">
       <UniqueIdentifier>{b9be0718-fd75-452c-9624-830efdd5b7b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Water">
-      <UniqueIdentifier>{006503e8-f727-443e-b5c2-12b9b9f4823b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\TimeManager">
       <UniqueIdentifier>{8538c7b0-a10d-4303-a812-766d95a7b49a}</UniqueIdentifier>
     </Filter>
@@ -191,9 +188,6 @@
     <ClCompile Include="Map.cpp">
       <Filter>GameObject\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Water.cpp">
-      <Filter>GameObject\Water</Filter>
-    </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\TimeManager</Filter>
     </ClCompile>
@@ -252,9 +246,6 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>GameObject\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Water.h">
-      <Filter>GameObject\Water</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>Manager\TimeManager</Filter>

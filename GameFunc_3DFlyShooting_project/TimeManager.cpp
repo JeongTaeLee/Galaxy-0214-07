@@ -3,6 +3,7 @@
 
 
 TimeManager::TimeManager()
+	:bFastTime(false)
 {
 }
 

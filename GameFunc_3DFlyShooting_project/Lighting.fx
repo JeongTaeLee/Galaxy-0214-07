@@ -73,7 +73,7 @@ float4 ps_main(PS_INPUT Input) : COLOR
 	if (diffuse.x > 0)
 	{
 		specular = saturate(dot(reflectDir, -viewDir));
-		specular = pow(specular, 10);
+		specular = pow(specular, 20.f);
 	}
 
 	return float4 (ambient + diffuse + specular, 1);
