@@ -63,6 +63,15 @@
     <Filter Include="GameObject\SkyBox">
       <UniqueIdentifier>{43efba8c-2731-4d0a-96e7-68fbe4900c68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Map">
+      <UniqueIdentifier>{b9be0718-fd75-452c-9624-830efdd5b7b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Water">
+      <UniqueIdentifier>{006503e8-f727-443e-b5c2-12b9b9f4823b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TimeManager">
+      <UniqueIdentifier>{8538c7b0-a10d-4303-a812-766d95a7b49a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -125,6 +134,9 @@
     <None Include="Lighting.fx">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Water.fx">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameFunc_2DFlyShooting.cpp" />
@@ -175,6 +187,15 @@
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>GameObject\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>GameObject\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Water.cpp">
+      <Filter>GameObject\Water</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Manager\TimeManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +249,15 @@
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>GameObject\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>GameObject\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Water.h">
+      <Filter>GameObject\Water</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Manager\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

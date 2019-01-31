@@ -10,6 +10,7 @@
 #include "Transform.h"
 
 SkyBox::SkyBox()
+	:lpRenderer(nullptr)
 {
 }
 

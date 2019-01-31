@@ -11,6 +11,8 @@
 #include "CameraManager.h"
 
 PlayerAirplane::PlayerAirplane()
+	:lpRenderer(nullptr), vForwardDir(0.f, 0.f, 1.f),
+	fSpeed(50.f), fAddSpeed(0.f)
 {
 }
 
@@ -36,4 +38,10 @@ void PlayerAirplane::Init()
 
 void PlayerAirplane::Update()
 {
+	Move();
+}
+
+void PlayerAirplane::Move()
+{
+	transform->pos += vForwardDir * (fSpeed * DXUTGetElapsedTime());
 }

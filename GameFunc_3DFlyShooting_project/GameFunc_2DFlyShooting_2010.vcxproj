@@ -387,6 +387,7 @@
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MainGame.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerAirplane.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -395,12 +396,15 @@
     <ClCompile Include="ShaderRenderer.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Stage01.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PlayerAirplane.h" />
@@ -411,7 +415,9 @@
     <ClInclude Include="singleton.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Stage01.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Water.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />
     <ClInclude Include="DXUT\Core\DXUTenum.h" />
@@ -450,6 +456,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Water.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

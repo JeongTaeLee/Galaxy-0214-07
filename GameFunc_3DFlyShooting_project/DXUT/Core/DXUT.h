@@ -379,7 +379,7 @@ using Vector3 = D3DXVECTOR3;
 using Vector4 = D3DXVECTOR4;
 using Matrix = D3DXMATRIX;
 
-
+#define SetShaderFloat(s, f) GetEffect()->SetFloat(D3DXHANDLE(s), f)
 #define SetShaderVector(s, v) GetEffect()->SetVector(D3DXHANDLE(s), v)
 #define SetShaderMatrix(s, v) GetEffect()->SetMatrix(D3DXHANDLE(s), v)
 #define SetShaderTexture(s, v) GetEffect()->SetTexture(D3DXHANDLE(s), v->lpD3DTexture)

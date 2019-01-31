@@ -9,11 +9,17 @@ class PlayerAirplane :
 {
 private:
 	ShaderRenderer * lpRenderer;
+
+	Vector3 vForwardDir;
+	float	fSpeed;
+	float	fAddSpeed;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();
 
 	virtual void Init()	override;
 	virtual void Update()	override;
+
+	void Move();
 };
 
