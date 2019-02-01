@@ -14,7 +14,7 @@
 
 PlayerAirplane::PlayerAirplane()
 	:lpRenderer(nullptr), vForwardDir(0.f, 0.f, 1.f),
-	vCameraDir(0.f, 0.f, 0.f), fCameraDistance(350.f),
+	vCameraDir(0.f, 0.f, 0.f), fCameraDistance(150.f),
 	fSpeed(50.f), fAddSpeed(0.f)
 {
 }
@@ -34,14 +34,13 @@ void PlayerAirplane::Init()
 	
 	lpRenderer->SetRenderBegin(
 		[&]() {
-
 			lpRenderer->SetShaderVector("gWorldCamera", &CAMERA.GetV4Pos());
 			lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
 		});
 #pragma endregion RendererSetting
 
 #pragma region CameraSetting
-	fCameraAngle = 135.f;
+	fCameraAngle = 160.f;
 
 	float z = D3DXToRadian(fCameraAngle);
 	float y = D3DXToRadian(fCameraAngle);
@@ -64,7 +63,7 @@ void PlayerAirplane::Move()
 {
 	if (KEYPRESS('A') || KEYPRESS('D'))
 	{
-		float fRotAngle;
+		float fRotAngle = 0.f;
 		
 		if (KEYPRESS('A'))
 			fRotAngle = -D3DXToRadian(5);
@@ -92,5 +91,5 @@ void PlayerAirplane::SetCamera()
 	
 	CAMERA.SetCameraInfo(
 		transform->worldPos + vCameraDir * fCameraDistance,
-		transform->worldPos + Vector3(0.f, 210.f, 0.f));
+		transform->worldPos + Vector3(0.f, 70.f, 0.f));
 }

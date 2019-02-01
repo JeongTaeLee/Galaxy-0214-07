@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 31.01.2019 15:41:49
+# File Created: 01.02.2019 13:09:26
 
-newmtl 13___Default
+newmtl 01___Default
 	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
@@ -12,5 +12,5 @@ newmtl 13___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Plane005CompleteMap.png
-	map_Kd Plane005CompleteMap.png
+	map_Ka Stage.png
+	map_Kd Stage.png

@@ -22,6 +22,7 @@ float4x4 gProjMatrix;
 
 float4 gWorldLight = float4(500, 500, 500, 1);
 float4 gWorldCamera;
+float3 gLightingColor = float3(0.5, 0.5, 0.8);
 
 
 VS_OUTPUT vs_main(VS_INPUT Input)
@@ -63,7 +64,7 @@ sampler gMapSampler = sampler_state
 float4 ps_main(PS_INPUT Input) : COLOR
 {
 	float3 albedo = tex2D(gMapSampler, Input.mUv);
-	float3 diffuse = albedo.rgb * saturate(Input.mDiffuse);
+	float3 diffuse = albedo.rgb * (saturate(Input.mDiffuse) * gLightingColor);
 	float3 specular = 0;
 	float3 ambient = 0.1;
 
@@ -74,6 +75,9 @@ float4 ps_main(PS_INPUT Input) : COLOR
 	{
 		specular = saturate(dot(reflectDir, -viewDir));
 		specular = pow(specular, 20.f);
+
+		//specular Texture나 diffuse Texture는 꼭 조명계산을 다한후 적용한다 (컬러가있다면 컬러랑같이)
+		specular *= albedo.rgb * gLightingColor;
 	}
 
 	return float4 (ambient + diffuse + specular, 1);

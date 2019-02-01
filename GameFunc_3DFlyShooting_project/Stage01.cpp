@@ -20,6 +20,7 @@ Stage01::~Stage01()
 
 void Stage01::Init()
 {
+	OBJECT.AddObject<SkyBox>();
 	OBJECT.AddObject<Map>();
 	OBJECT.AddObject<PlayerAirplane>();
 }

@@ -30,7 +30,7 @@ void CameraManager::SetViewMatrix()
 
 void CameraManager::SetProjMatrix()
 {
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI * 0.5f, WINSIZEX / WINSIZEY, 1.f, 1000.f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(90), 16.f / 9.f, 1.f, 1000.f);
 }
 
 void CameraManager::SetCameraTransform()
