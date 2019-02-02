@@ -8,11 +8,22 @@ private:
 	bool bNowKey[256];
 	bool bOldKey[256];
 
+	Vector2 vOldMousePos;
+	Vector2 vNowMousePos;
+	Vector2 vMouseGap;
+
+	bool bMouseClip;
 public:
 	InputManager();
 	~InputManager();
 
 	void Update();
+	void MouseGapProcess();
+
+	const Vector2 & GetMousePos() { return vNowMousePos; }
+	const Vector2 & GetMouseGap() { return vMouseGap; }
+
+	void SetMouseClip(bool _bMouseClip);
 
 	bool GetUpKey(int i) { return (!bNowKey[i] && bOldKey[i]); }
 	bool GetDownKey(int i) { return (bNowKey[i] && !bOldKey[i]); }

@@ -1,6 +1,14 @@
 #pragma once
 #include "GameObject.h"
 
+enum vAxis
+{
+	E_AXIS_UP,
+	E_AXIS_RIGHT,
+	E_AXIS_FORWARD,
+	E_AXIS,
+};
+
 class Renderer;
 class ShaderRenderer;
 
@@ -10,15 +18,13 @@ class PlayerAirplane :
 private:
 	ShaderRenderer * lpRenderer;
 
-	Vector3 vForwardDir;
-	
-	Vector3 vCameraDir;
+	Vector3 vAxis[E_AXIS];
+
+	Vector3 vCameraDir;	
+	Vector3 vCameraPos;
+	Vector3 vCameraLookAt;
+
 	float fCameraDistance;
-
-	float	fSpeed;
-	float	fAddSpeed;
-
-	float fCameraAngle;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();
@@ -26,7 +32,7 @@ public:
 	virtual void Init()	override;
 	virtual void Update()	override;
 
-	void Move();
-	void SetCamera();
+	void InputMouse();
+	void InputKeyboard();
 };
 

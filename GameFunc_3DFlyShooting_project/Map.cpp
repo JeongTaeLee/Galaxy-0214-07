@@ -23,12 +23,11 @@ void Map::Init()
 {
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("TestObject", "./rs/obj/TestObject/TestObject.obj"));
-	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
+	lpRenderer->SetEffect(IMAGE.LoadEffect("NoMapLighting", "NoMapLighting.fx"));
 
 	lpRenderer->SetRenderBegin(
 		[&]() {
 
 			lpRenderer->SetShaderVector("gWorldCamera", &CAMERA.GetV4Pos());
-			lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
 		});
 }

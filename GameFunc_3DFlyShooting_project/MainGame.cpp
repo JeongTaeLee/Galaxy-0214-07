@@ -12,6 +12,8 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 
+//Object
+#include "SkyBox.h"
 MainGame::MainGame()
 {
 }
@@ -23,6 +25,7 @@ MainGame::~MainGame()
 
 void MainGame::Init()
 {
+
 	SCENE.AddScene("Stage01", new Stage01);
 	SCENE.ChangeScene("Stage01");
 }
@@ -40,10 +43,9 @@ void MainGame::Release()
 void MainGame::Update()
 {
 	INPUT.Update();
-	
 	SCENE.Update();
 	OBJECT.Update();
-	
+
 	CAMERA.Update();
 }
 

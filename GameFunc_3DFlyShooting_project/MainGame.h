@@ -1,8 +1,10 @@
 #pragma once
+
+class SkyBox;
+
 class MainGame
 {
 private:
-	
 public:
 	MainGame();
 	virtual ~MainGame();

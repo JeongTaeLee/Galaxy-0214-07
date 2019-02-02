@@ -28,6 +28,7 @@ public:
 	
 	Vector3 & GetPos() { return vPos; }
 	Vector4 & GetV4Pos() { return v4Pos; }
+	Vector3& GetLookAt() { return vLookAt; }
 
 	void SetCameraInfo(const Vector3 & _vPos, const Vector3 & _vLook);
 };

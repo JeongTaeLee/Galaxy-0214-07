@@ -454,7 +454,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Water.fx">
+    <Text Include="NoMapLighting.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Skybox.fx">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

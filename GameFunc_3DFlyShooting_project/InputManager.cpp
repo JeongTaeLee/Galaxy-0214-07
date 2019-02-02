@@ -3,6 +3,8 @@
 
 
 InputManager::InputManager()
+	:vOldMousePos(0.f,0.f), vNowMousePos(0.f,0.f), 
+	vMouseGap(0.f, 0.f), bMouseClip(false)
 {
 	memset(bNowKey, false, sizeof(bool) * 256);
 	memset(bOldKey, false, sizeof(bool) * 256);
@@ -23,4 +25,44 @@ void InputManager::Update()
 		if (GetAsyncKeyState(i))
 			bNowKey[i] = true;
 	}
+
+	vOldMousePos = vNowMousePos;
+
+	POINT pt = { 0 };
+	GetCursorPos(&pt);
+	ScreenToClient(g_hwnd, &pt);
+	
+	vNowMousePos = Vector2(pt.x, pt.y);
+		
+	MouseGapProcess();
+}
+
+void InputManager::MouseGapProcess()
+{
+	if (bMouseClip)
+	{
+		vMouseGap = vNowMousePos - Vector2(WINSIZEX / 2, WINSIZEY / 2);
+
+		POINT pt = { WINSIZEX / 2, WINSIZEY / 2 };
+		ClientToScreen(g_hwnd, &pt);
+
+		SetCursorPos(pt.x, pt.y);
+	}
+	else
+		vMouseGap = vNowMousePos - vOldMousePos;
+}
+
+void InputManager::SetMouseClip(bool _bMouseClip)
+{
+	if (_bMouseClip)
+	{
+		bMouseClip = _bMouseClip;
+
+		POINT pt = { WINSIZEX / 2, WINSIZEY / 2 };
+		ClientToScreen(g_hwnd, &pt);
+
+		SetCursorPos(pt.x, pt.y);
+	}
+	else
+		bMouseClip = _bMouseClip;
 }

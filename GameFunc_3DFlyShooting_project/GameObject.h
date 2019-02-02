@@ -44,7 +44,7 @@ public:
 	template<class T>
 	T * AddComponent();
 	template<class T>
-	T * GetComopnent();
+	T * GetComponent();
 	template<class T>
 	void DeleteComponent();
 };
@@ -62,7 +62,7 @@ inline T * GameObject::AddComponent()
 }
 
 template<class T>
-inline T * GameObject::GetComopnent()
+inline T * GameObject::GetComponent()
 {
 	for (auto Iter : liComponents)
 	{

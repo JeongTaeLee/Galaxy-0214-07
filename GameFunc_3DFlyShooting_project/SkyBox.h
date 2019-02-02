@@ -2,12 +2,12 @@
 #include "GameObject.h"
 
 class Renderer;
-
+class ShaderRenderer;
 class SkyBox :
 	public GameObject
 {
 private:
-	Renderer * lpRenderer;
+	ShaderRenderer * lpRenderer;
 public:
 	SkyBox();
 	~SkyBox();
