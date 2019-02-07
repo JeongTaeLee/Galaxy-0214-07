@@ -25,7 +25,6 @@ MainGame::~MainGame()
 
 void MainGame::Init()
 {
-
 	SCENE.AddScene("Stage01", new Stage01);
 	SCENE.ChangeScene("Stage01");
 }

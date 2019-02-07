@@ -379,6 +379,9 @@ using Vector3 = D3DXVECTOR3;
 using Vector4 = D3DXVECTOR4;
 using Matrix = D3DXMATRIX;
 
+#define DEBUG_VEC(vec) std::cout << vec.x << " / " << vec.y << " / " << vec.z << std::endl
+#define normalize(vec) D3DXVec3Normalize(&vec, &vec)
+
 #define SetShaderFloat(s, f) GetEffect()->SetFloat(D3DXHANDLE(s), f)
 #define SetShaderVector(s, v) GetEffect()->SetVector(D3DXHANDLE(s), v)
 #define SetShaderMatrix(s, v) GetEffect()->SetMatrix(D3DXHANDLE(s), v)

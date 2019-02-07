@@ -43,8 +43,9 @@ void CameraManager::SetProjectionTransform()
 	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
-void CameraManager::SetCameraInfo(const Vector3 & _vPos, const Vector3 & _vLook)
+void CameraManager::SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp)
 {
 	vPos = _vPos;
 	vLookAt = _vLook;
+	vUp = _vUp;
 }
