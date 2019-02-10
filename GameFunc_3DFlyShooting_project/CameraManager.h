@@ -9,6 +9,11 @@ private:
 	Vector3 vUp;
 	Vector4 v4Pos;
 
+	Vector3 vTargetPos;
+
+	bool	bTargeting;
+	float	bTargetS;
+
 	Matrix matView;
 	Matrix matProj;
 public:
@@ -30,7 +35,7 @@ public:
 	Vector4 & GetV4Pos() { return v4Pos; }
 	Vector3& GetLookAt() { return vLookAt; }
 
-	void SetCameraInfo(const Vector3 & _vPos, const Vector3 & _vLook, const Vector3& _vUp);
+	void SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp, bool _bTargeting = false, float bTargetS = 0.f);
 };
 
 #define CAMERA CameraManager::GetInst()

@@ -21,10 +21,13 @@ private:
 	Vector3 vAxis[E_AXIS];
 
 	Vector3 vCameraDir;	
+	Vector3 vCameraLookAtDir;
+
 	Vector3 vCameraPos;
 	Vector3 vCameraLookAt;
 
 	float fCameraDistance;
+	float fCameraLookAtDistance;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();

@@ -11,11 +11,17 @@ public:
 	Vector4 v4Pos;
 	
 	Matrix matWorld;
+	Matrix matRot;
+	Matrix matScale;
+	Matrix matPos;
+
+	bool bTransformUpdate;
 public:
 	Transform();
 	virtual ~Transform();
 
 	void UpdateTransform();
+	void UpdateTransform02();
 	void SetTransform();
 };
 

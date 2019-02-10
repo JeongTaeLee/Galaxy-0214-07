@@ -39,6 +39,7 @@ void ObjectManager::Update()
 		else
 		{
 			(*Iter)->Update();
+			(*Iter)->ComUpdate();
 			(*Iter)->transform->UpdateTransform();
 			++Iter;
 		}

@@ -407,11 +407,12 @@ struct Material
 	D3DMATERIAL9 material;
 	texture* map = nullptr;
 
-	float fAlpha = 1;
+	float fAlpha;
 	float fIllum;
 	float fNs;
 
 	Material()
+		:fAlpha(1.f), fIllum(0.f), fNs(0.f)
 	{
 		material.Power = 1;
 	}

@@ -3,7 +3,9 @@
 
 
 CameraManager::CameraManager()
-	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), vUp(0.f, 1, 0)
+	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), 
+	vUp(0.f, 1, 0), vTargetPos(0.f, 0.f, 0.f),
+	bTargeting(false), bTargetS(0.f)
 {
 	SetProjMatrix();
 	SetViewMatrix();
@@ -19,6 +21,22 @@ CameraManager::~CameraManager()
 
 void CameraManager::Update()
 {
+	if (bTargeting)
+	{
+		D3DXVec3Lerp(&vPos, &vPos, &vTargetPos, bTargetS);
+
+		Vector3 vLength = vTargetPos - vPos;
+		float	fLength = D3DXVec3Length(&vLength);
+
+		if (fLength < 0.1f)
+		{
+			vPos = vTargetPos;
+			vTargetPos = Vector3(0.f, 0.f, 0.f);
+			
+			bTargeting = false;
+		}
+	}
+
 	SetViewMatrix();
 }
 
@@ -43,9 +61,21 @@ void CameraManager::SetProjectionTransform()
 	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
-void CameraManager::SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp)
+void CameraManager::SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp, bool _bTargeting, float _bTargetS)
 {
-	vPos = _vPos;
+	if (vPos == _vPos)
+		bTargeting = false;
+	else
+		bTargeting = _bTargeting;
+
+	if (bTargeting)
+	{
+		vTargetPos = _vPos;
+		bTargetS = _bTargetS;
+	}
+	else
+		vPos = _vPos;
+		
 	vLookAt = _vLook;
-	vUp = _vUp;
+	vUp = _vUp;	
 }

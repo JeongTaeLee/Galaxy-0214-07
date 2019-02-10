@@ -62,6 +62,10 @@ void InputManager::SetMouseClip(bool _bMouseClip)
 		ClientToScreen(g_hwnd, &pt);
 
 		SetCursorPos(pt.x, pt.y);
+
+		vNowMousePos = Vector2(WINSIZEX / 2, WINSIZEY / 2);
+		vOldMousePos = Vector2(WINSIZEX / 2, WINSIZEY / 2);
+		vMouseGap = Vector2(0.f, 0.f);
 	}
 	else
 		bMouseClip = _bMouseClip;
