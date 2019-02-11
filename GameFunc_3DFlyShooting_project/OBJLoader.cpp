@@ -225,8 +225,25 @@ void OBJLoader::MtlLoad(const std::string & mtlName, Mesh * mesh, const std::str
 				else
 					ImagePath = mapPath + tag;
 
-				lpMtl->map = LOADTEX(ImagePath, ImagePath);
+				lpMtl->DiffuseMap = LOADTEX(ImagePath, ImagePath);
 			}
+			if (tag == "map_Ks")
+			{
+				mtlLoader >> tag;
+
+				std::string ImagePath;
+
+				if (mapPath == "None")
+				{
+					int pathIndex = OBJPath.rfind("/"); // 마지막으로 사용된 해당 문자의 인덱스를 가져옴
+					ImagePath = OBJPath.substr(0, pathIndex + 1) + tag; // 첫번쨰 인자부터 두번째 인자의 수만큼 글자를 가져옴
+				}
+				else
+					ImagePath = mapPath + tag;
+
+				lpMtl->specularMap = LOADTEX(ImagePath, ImagePath);
+			}
+
 
 			if (tag == "newmtl")
 				break;

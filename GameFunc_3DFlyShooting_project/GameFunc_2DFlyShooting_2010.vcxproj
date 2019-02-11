@@ -383,6 +383,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -392,6 +393,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerAirplane.cpp" />
+    <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -400,6 +402,7 @@
     <ClCompile Include="Stage01.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameObject.h" />
@@ -409,6 +412,7 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PlayerAirplane.h" />
+    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
@@ -456,6 +460,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Bullet.fx" />
     <Text Include="NoMapLighting.fx" />
   </ItemGroup>
   <ItemGroup>

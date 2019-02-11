@@ -37,8 +37,8 @@ void Renderer::Render()
 	{
 		g_device->SetMaterial(&(lpMesh->vMaterial[i]->material));
 
-		if (lpMesh->vMaterial[i]->map)
-			g_device->SetTexture(0, lpMesh->vMaterial[i]->map->lpD3DTexture);
+		if (lpMesh->vMaterial[i]->DiffuseMap)
+			g_device->SetTexture(0, lpMesh->vMaterial[i]->DiffuseMap->lpD3DTexture);
 		
 		lpMesh->lpD3DXMesh->DrawSubset(i);
 	}

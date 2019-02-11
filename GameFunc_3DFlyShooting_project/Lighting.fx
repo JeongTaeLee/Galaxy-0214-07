@@ -23,6 +23,7 @@ float4x4 gProjMatrix;
 float4 gWorldLight = float4(500, 500, 500, 1);
 float4 gWorldCamera;
 float3 gLightingColor = float3(0.5, 0.5, 0.8);
+float gAmbient;
 
 
 VS_OUTPUT vs_main(VS_INPUT Input)
@@ -54,33 +55,41 @@ struct PS_INPUT
 	float3 mViewDir		: TEXCOORD3;
 };
 
-texture gMap;
-sampler gMapSampler = sampler_state
+texture gDiffuseMap;
+sampler gDiffuseMapSampler = sampler_state
 {
-	Texture = (gMap);
+	Texture = (gDiffuseMap);
 };
+
+texture gSpecularMap;
+sampler gSpecularMapSampler = sampler_state
+{
+	Texture = (gSpecularMap);
+};
+
 
 
 float4 ps_main(PS_INPUT Input) : COLOR
 {
-	float3 albedo = tex2D(gMapSampler, Input.mUv);
-	float3 diffuse = albedo.rgb * (saturate(Input.mDiffuse) * gLightingColor);
-	float3 specular = 0;
-	float3 ambient = 0.1;
+	float3 DiffuseAlbedo = tex2D(gDiffuseMapSampler, Input.mUv);
+	float3 SpecularAlbedo = tex2D(gSpecularMapSampler, Input.mUv);
 
-	float3 viewDir = normalize(Input.mViewDir);
-	float3 reflectDir = normalize(Input.mReflect);
+	float3 AmbientLight = DiffuseAlbedo * gAmbient;
+	float3 DiffuseLight = DiffuseAlbedo * saturate(Input.mDiffuse);
+	float3 SpecularLight = 0.0f;
 
-	if (diffuse.x > 0)
+	if (DiffuseLight.x > 0.f)
 	{
-		specular = saturate(dot(reflectDir, -viewDir));
-		specular = pow(specular, 30.f);
+		float3 viewDir = normalize(Input.mViewDir);
+		float3 reflectDir = normalize(Input.mReflect);
 
-		//specular Texture나 diffuse Texture는 꼭 조명계산을 다한후 적용한다 (컬러가있다면 컬러랑같이)
-		specular *= albedo.rgb * gLightingColor;
+		SpecularLight = saturate(dot(reflectDir, -viewDir));
+		SpecularLight = pow(SpecularLight, 20.f);
+
+		SpecularLight *= SpecularAlbedo * gLightingColor;
 	}
 
-	return float4 ((ambient + diffuse + specular), 1);
+	return float4 ((AmbientLight + DiffuseLight + SpecularLight) * 1.5f, 1.f);
 }
 
 technique Color

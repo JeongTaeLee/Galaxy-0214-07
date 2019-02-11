@@ -69,6 +69,12 @@
     <Filter Include="Manager\TimeManager">
       <UniqueIdentifier>{8538c7b0-a10d-4303-a812-766d95a7b49a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Bullet">
+      <UniqueIdentifier>{bec69622-9dbc-420f-9a18-077c657e6948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Bullet\PlayerBullet">
+      <UniqueIdentifier>{c68d202b-2eb9-4bf1-9d51-3cd78879d9bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -191,6 +197,12 @@
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\TimeManager</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>GameObject\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>GameObject\Bullet\PlayerBullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -250,6 +262,12 @@
     <ClInclude Include="TimeManager.h">
       <Filter>Manager\TimeManager</Filter>
     </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>GameObject\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>GameObject\Bullet\PlayerBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -261,6 +279,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="NoMapLighting.fx">
+      <Filter>Shaders</Filter>
+    </Text>
+    <Text Include="Bullet.fx">
       <Filter>Shaders</Filter>
     </Text>
   </ItemGroup>

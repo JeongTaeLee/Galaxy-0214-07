@@ -29,7 +29,7 @@ void SkyBox::Init()
 	lpRenderer->SetEffect(IMAGE.LoadEffect("SkyBox", "SkyBox.fx"));
 
 	lpRenderer->SetRenderBegin([&]() { 
-		lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
+		lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
 
 		g_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_ANISOTROPIC);
 		g_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_ANISOTROPIC);

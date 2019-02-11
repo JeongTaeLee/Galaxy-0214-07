@@ -28,6 +28,7 @@ private:
 
 	float fCameraDistance;
 	float fCameraLookAtDistance;
+
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();

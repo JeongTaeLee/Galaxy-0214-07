@@ -405,7 +405,8 @@ struct Material
 	std::string mtlName;
 
 	D3DMATERIAL9 material;
-	texture* map = nullptr;
+	texture* DiffuseMap = nullptr;
+	texture* specularMap = nullptr;
 
 	float fAlpha;
 	float fIllum;
@@ -428,9 +429,13 @@ struct Mesh
 		return vMaterial[index];
 	}
 
-	texture * GetTexture(int index)
+	texture * GetDiffuseMap(int index)
 	{
-		return vMaterial[index]->map;
+		return vMaterial[index]->DiffuseMap;
+	}
+	texture* GetSpecularMap(int index)
+	{
+		return vMaterial[index]->specularMap;
 	}
 
 	~Mesh()

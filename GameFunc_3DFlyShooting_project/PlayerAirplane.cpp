@@ -11,27 +11,11 @@
 #include "CameraManager.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "ObjectManager.h"
 
-/*
-void QuaternionToEuler(const D3DXQUATERNION & quaternion, Vector3 & euler)
-{
-	double x, y, z, w;
+//Object
+#include "PlayerBullet.h"
 
-	x = quaternion.x;
-	y = quaternion.y;
-	z = quaternion.z;
-	w = quaternion.w;
-
-	double sqx = x * x;
-	double sqy = y * y;
-	double sqz = z * z;
-	double sqw = w * w;
-
-	euler.x = (double)(atan2(2.0 * (y * z + x * w), (-sqx - sqy + sqz + sqw)));
-	euler.y = (double)(asin(-2.0 * (x * z - y * w)));
-	euler.z = (double)(atan2(2.0 * (x * y + z * w), (sqx - sqy - sqz + sqw)));
-}
-*/
 
 PlayerAirplane::PlayerAirplane()
 	:lpRenderer(nullptr), 
@@ -44,6 +28,8 @@ PlayerAirplane::PlayerAirplane()
 	vAxis[E_AXIS_FORWARD] = Vector3(0.f, 0.f, 1.f);
 	vAxis[E_AXIS_UP] = Vector3(0.f, 1.f, 0.f);
 	vAxis[E_AXIS_RIGHT] = Vector3(1.f, 0.f, 0.f);
+
+	transform->scale = Vector3(1, 1, 1);
 }
 
 
@@ -58,13 +44,15 @@ void PlayerAirplane::Init()
 
 #pragma region RendererSetting
 	lpRenderer = AC(ShaderRenderer);
-	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Player_Airplane", "./rs/obj/Player/Player.obj"));
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Player_Airplane", "./rs/obj/Player/PlayerAirPlane.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
 	
 	lpRenderer->SetRenderBegin(
 		[&]() {
 			lpRenderer->SetShaderVector("gWorldCamera", &CAMERA.GetV4Pos());
-			lpRenderer->SetShaderTexture("gMap", lpRenderer->GetMesh()->GetTexture(0));
+			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
+			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
 		});
 #pragma endregion RendererSetting
 
@@ -212,14 +200,31 @@ void PlayerAirplane::InputMouse()
 
 void PlayerAirplane::InputKeyboard()
 {
-	transform->pos += vAxis[E_AXIS_FORWARD] * (800 * Et);
+	transform->pos += vAxis[E_AXIS_FORWARD] * (400 * Et);
 
+	if (KEYDOWN(VK_SPACE))
+	{ 
+		Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
+		Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+
+		D3DXMATRIX matRot = transform->matRot;
+		memcpy(&matRot._41, transform->pos, sizeof(Vector3));
+
+		D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
+		D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+
+		OBJECT.AddObject<PlayerBullet>()
+			->SetBullet(LeftFirePos, transform->matRot, 1500, 1.f);
+		OBJECT.AddObject<PlayerBullet>()
+			->SetBullet(RightFirePos, transform->matRot, 1500.f, 1.f);
+	}
 
 	//카메라 위치 셋팅
 	vCameraPos = transform->pos + (vCameraDir * fCameraDistance);
 	vCameraLookAt = transform->pos + (vCameraLookAtDir * fCameraLookAtDistance);
 
-	CAMERA.SetCameraInfo(vCameraPos, vCameraLookAt, vAxis[E_AXIS_UP], true, 0.5f);
+	CAMERA.SetCameraInfo(vCameraPos, vCameraLookAt, vAxis[E_AXIS_UP], true, 0.9f);
 }
 
 
+// 쿡앤 토런스 cook & torrance
