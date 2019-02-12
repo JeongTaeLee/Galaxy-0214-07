@@ -7,7 +7,7 @@
 
 GameObject::GameObject()
 	:transform(nullptr), lpParent(nullptr),
-	bActive(false), bDestroy(false)
+	bActive(true), bDestroy(false), sTag("None")
 {
 	transform = AC(Transform);
 }
@@ -36,7 +36,10 @@ GameObject::~GameObject()
 void GameObject::ComUpdate()
 {
 	for (auto Iter : liComponents)
-		Iter->Update();
+	{
+		if(Iter->bEnable)
+			Iter->Update();
+	}
 }
 
 void GameObject::DeleteChild(GameObject * lpChild)
@@ -47,9 +50,17 @@ void GameObject::DeleteChild(GameObject * lpChild)
 		{
 			(*Iter)->SetDestroy(true);
 			Iter = liChild.erase(Iter);
-			break;
 		}
 		else
 			++Iter;
+	}
+}
+
+void GameObject::SendCollider(Collider* collider)
+{
+	for (auto Iter : liComponents)
+	{
+		if(Iter->bEnable)
+			Iter->ReceiveCollider(collider);
 	}
 }

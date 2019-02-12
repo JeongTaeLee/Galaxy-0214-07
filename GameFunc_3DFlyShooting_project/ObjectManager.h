@@ -11,7 +11,9 @@ class ObjectManager :
 private:
 	std::list<GameObject*> liGameObjects;
 
-	std::list<Renderer*> liRenderer;
+	std::list<Renderer*> liRenderers;
+	
+	std::list<Collider*> liColliders;
 public:
 	ObjectManager();
 	virtual ~ObjectManager();
@@ -19,10 +21,15 @@ public:
 	void Reset();
 	void Update();
 	void Render();
+	void CollisionProcess();
 
 public:
 	Renderer* RegisterRenderer(Renderer* renderer);
 	void UnRegisterRenderer(Renderer* renderer);
+
+public:
+	Collider* RegisterCollider(Collider* collider);
+	void UnRegisterCollider(Collider * collider);
 public:
 	template<class T>
 	T * AddObject(T * lpObject = nullptr, GameObject * lpParentObject = nullptr);

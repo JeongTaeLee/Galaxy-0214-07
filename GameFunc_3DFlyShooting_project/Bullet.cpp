@@ -11,8 +11,8 @@
 #include "ShaderRenderer.h"
 
 Bullet::Bullet()
-	:lpRenderer(nullptr), v4BulletColor(1.f, 1.f, 1.f, 1.f),
-	vDir(0.f, 0.f, 0.f), vOriginModelDir(0.f, 0.f, 1.f),
+	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f), 
+	vOriginModelDir(0.f, 0.f, 1.f),
 	fDamage(0.f), fSpeed(1000.f), fShine(1.f)
 {
 }
@@ -42,12 +42,14 @@ void Bullet::Update()
 }
 
 
-void Bullet::SetBullet(const Vector3& FirePos, const Matrix& _matRot, float _fSpeed, float _fDamage)
+void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _fSpeed, float _fDamage)
 {	
 	transform->pos = FirePos;
-	transform->matRot = _matRot;
-
-	D3DXVec3TransformCoord(&vDir, &vOriginModelDir, &_matRot);
+	transform->qRot = _qRot;
+	
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &_qRot);
+	D3DXVec3TransformCoord(&vDir, &vOriginModelDir, &matRot);
 	
 	fSpeed = _fSpeed;
 	fDamage = _fDamage;

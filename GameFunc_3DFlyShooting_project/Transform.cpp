@@ -6,7 +6,7 @@
 Transform::Transform()
 	:pos(0.f, 0.f, 0.f), worldPos(0.f, 0.f, 0.f), 
 	rot(0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
-	v4Pos(0.f, 0.f, 0.f, 1.f), bTransformUpdate(true)
+	bTransformUpdate(true)
 {
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixIdentity(&matScale);
@@ -42,18 +42,18 @@ void Transform::UpdateTransform()
 		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
 
 	worldPos	= Vector3(matWorld._41, matWorld._42, matWorld._43);
-	v4Pos		= Vector4(matWorld._41, matWorld._42, matWorld._43, v4Pos.w);
 }
 
 void Transform::UpdateTransform02()
 {
+	D3DXMatrixRotationQuaternion(&matRot, &qRot);
+
 	matWorld = matScale * matRot * matPos;
 
    	if (gameObject->GetParent())
 		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
 
 	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);
-	v4Pos = Vector4(matWorld._41, matWorld._42, matWorld._43, v4Pos.w);
 }
 
 void Transform::SetTransform()

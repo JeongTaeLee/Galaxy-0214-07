@@ -74,7 +74,6 @@ void CameraManager::Update()
 void CameraManager::SetViewMatrix()
 {
 	D3DXMatrixLookAtLH(&matView, &vPos, &vLookAt, &vUp);
-	v4Pos = Vector4(vPos.x, vPos.y, vPos.z, 1.f);
 }
 
 void CameraManager::SetProjMatrix()

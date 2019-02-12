@@ -7,7 +7,6 @@ private:
 	Vector3 vPos;
 	Vector3 vLookAt;
 	Vector3 vUp;
-	Vector4 v4Pos;
 
 	Vector3 vTargetPos;
 	bool	bLerpPos;
@@ -40,7 +39,6 @@ public:
 	Matrix& GetProjMatrix() { return matProj; }
 
 	Vector3& GetPos() { return vPos; }
-	Vector4& GetV4Pos() { return v4Pos; }
 	Vector3& GetLookAt() { return vLookAt; }
 
 	void SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp);

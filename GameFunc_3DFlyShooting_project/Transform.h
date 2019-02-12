@@ -8,14 +8,13 @@ public:
 	Vector3 worldPos;
 	Vector3 rot;
 	Vector3 scale;
-	Vector4 v4Pos;
 	
 	Quaternion qRot;
 
-	Matrix matWorld;
 	Matrix matRot;
 	Matrix matScale;
 	Matrix matPos;
+	Matrix matWorld;
 
 	bool bTransformUpdate;
 public:

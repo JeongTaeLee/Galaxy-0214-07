@@ -89,7 +89,7 @@
 
 #else
 
-#define DEBUG_LOS(s)
+#define DEBUG_LOG(s)
 
 #endif
 

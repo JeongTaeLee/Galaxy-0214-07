@@ -1,12 +1,13 @@
 #pragma once
 class Transform;
 class Component;
+class Collider;
 
 class GameObject
 {
 public:
 	Transform * transform;
-
+	std::string sTag;
 private:
 	std::list<Component*> liComponents;
 	std::list<GameObject*> liChild;
@@ -40,6 +41,10 @@ public:
 
 	GameObject * AddChild(GameObject * lpChild) { liChild.push_back(lpChild); }
 	void DeleteChild(GameObject * lpChild);
+
+public:
+	void SendCollider(Collider * collider);
+	virtual void ReceiveCollider(Collider* collider) {};
 public:
 	template<class T>
 	T * AddComponent();

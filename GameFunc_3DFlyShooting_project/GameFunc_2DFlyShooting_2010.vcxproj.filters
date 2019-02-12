@@ -78,6 +78,15 @@
     <Filter Include="GameObject\AirPlane">
       <UniqueIdentifier>{9d58acd8-0791-46d5-a492-d9d9b35befe4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Collider">
+      <UniqueIdentifier>{46cb3de1-476c-448c-9075-44e5af406530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\SphereCollider">
+      <UniqueIdentifier>{c1b71f9d-7d23-4ff0-a289-769af7d36288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Collider\DebugMesh">
+      <UniqueIdentifier>{a8c890b8-23f2-4e7d-926d-913690434b84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -209,6 +218,15 @@
     <ClCompile Include="AirPlane.cpp">
       <Filter>GameObject\AirPlane</Filter>
     </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>Component\Collider\SphereCollider</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugMesh.cpp">
+      <Filter>Component\Collider\DebugMesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -276,6 +294,15 @@
     </ClInclude>
     <ClInclude Include="AirPlane.h">
       <Filter>GameObject\AirPlane</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>Component\Collider\SphereCollider</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugMesh.h">
+      <Filter>Component\Collider\DebugMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

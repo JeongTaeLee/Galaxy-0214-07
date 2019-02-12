@@ -16,12 +16,11 @@ PlayerBullet::~PlayerBullet()
 void PlayerBullet::Init()
 {
 	Bullet::Init();
-	v4BulletColor = Vector4(1.f, 0.f, 0.f, 0.f);
 	fShine = 1.f;
 
 	lpRenderer->SetRenderBegin(
 		[&]() {
-			lpRenderer->SetShaderVector("gBulletColor", &v4BulletColor);
+			lpRenderer->SetShaderVector("gBulletColor", &Vector4(1.f, 0.f, 0.f, 1.f));
 			lpRenderer->SetShaderFloat("gShine", fShine);
 		});
 }

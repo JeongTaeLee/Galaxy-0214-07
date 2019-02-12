@@ -2,13 +2,15 @@
 
 class GameObject;
 class Transform;
+class Collider;
 
 class Component
 {
 public:
 	GameObject * gameObject;
 	Transform * transform;
-private:
+
+	bool bEnable;
 public:
 	Component();
 	virtual ~Component();
@@ -17,6 +19,9 @@ public:
 	virtual void Release() {}
 	virtual void Update() {}
 	virtual void Render() {}
+
+public:
+	virtual void ReceiveCollider(Collider * collider);
 
 public:
 	void SetInfo(GameObject * _gameObject, Transform * _transform);

@@ -5,13 +5,18 @@
 #include "Transform.h"
 
 Component::Component()
-	:transform(nullptr), gameObject(nullptr)
+	:transform(nullptr), gameObject(nullptr), bEnable(true)
 {
 }
 
 
 Component::~Component()
 {
+}
+
+void Component::ReceiveCollider(Collider* collider)
+{
+
 }
 
 void Component::SetInfo(GameObject * _gameObject, Transform * _transform)
