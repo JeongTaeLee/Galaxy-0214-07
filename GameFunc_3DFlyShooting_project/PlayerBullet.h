@@ -3,6 +3,8 @@
 class PlayerBullet :
 	public Bullet
 {
+private:	
+
 public:
 	PlayerBullet();
 	virtual ~PlayerBullet();

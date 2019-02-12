@@ -10,6 +10,8 @@ public:
 	Vector3 scale;
 	Vector4 v4Pos;
 	
+	Quaternion qRot;
+
 	Matrix matWorld;
 	Matrix matRot;
 	Matrix matScale;

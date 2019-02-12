@@ -378,6 +378,7 @@ using Vector2 = D3DXVECTOR2;
 using Vector3 = D3DXVECTOR3;
 using Vector4 = D3DXVECTOR4;
 using Matrix = D3DXMATRIX;
+using Quaternion = D3DXQUATERNION;
 
 #define DEBUG_VEC(vec) std::cout << vec.x << " / " << vec.y << " / " << vec.z << std::endl
 #define normalize(vec) D3DXVec3Normalize(&vec, &vec)

@@ -9,10 +9,11 @@ Transform::Transform()
 	v4Pos(0.f, 0.f, 0.f, 1.f), bTransformUpdate(true)
 {
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixIdentity(&matRot);
 	D3DXMatrixIdentity(&matScale);
 	D3DXMatrixIdentity(&matPos);
 
+	D3DXQuaternionRotationYawPitchRoll(&qRot, rot.y, rot.x, rot.z);
+	D3DXMatrixRotationQuaternion(&matRot, &qRot);
 }
 
 
@@ -30,16 +31,8 @@ void Transform::UpdateTransform()
 
 	D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
 
-	Matrix matRotX;
-	D3DXMatrixRotationX(&matRotX, rot.x);
-
-	Matrix matRotY;
-	D3DXMatrixRotationY(&matRotY, rot.y);
-
-	Matrix matRotZ;
-	D3DXMatrixRotationZ(&matRotZ, rot.z);
-
-	matRot = matRotX * matRotY * matRotZ;
+	D3DXQuaternionRotationYawPitchRoll(&qRot, rot.y, rot.x, rot.z);
+	D3DXMatrixRotationQuaternion(&matRot, &qRot);
 
 	D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);
 	
@@ -56,7 +49,7 @@ void Transform::UpdateTransform02()
 {
 	matWorld = matScale * matRot * matPos;
 
-	if (gameObject->GetParent())
+   	if (gameObject->GetParent())
 		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
 
 	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);

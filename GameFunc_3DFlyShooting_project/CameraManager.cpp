@@ -3,9 +3,11 @@
 
 
 CameraManager::CameraManager()
-	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), 
-	vUp(0.f, 1, 0), vTargetPos(0.f, 0.f, 0.f),
-	bTargeting(false), bTargetS(0.f)
+	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), vUp(0.f, 1, 0),
+	vTargetPos(0.f, 0.f, 0.f), vTargetLookAt(0.f, 0.f, 0.f), vTargetUp(0.f, 0.f, 0.f),
+	bLerpPos(false), bLerpLookAt(false), bLerpUp(false),
+	fLerpPos(0.f), fLerpLookAt(0.f), fLerpUp(0.f)
+
 {
 	SetProjMatrix();
 	SetViewMatrix();
@@ -21,20 +23,49 @@ CameraManager::~CameraManager()
 
 void CameraManager::Update()
 {
-	if (bTargeting)
+	if (bLerpPos)
 	{
-		D3DXVec3Lerp(&vPos, &vPos, &vTargetPos, bTargetS);
-
 		Vector3 vLength = vTargetPos - vPos;
-		float	fLength = D3DXVec3Length(&vLength);
+		float fLength	= D3DXVec3Length(&vLength);
 
-		if (fLength < 0.1f)
+		if (0.1f > fLength)
 		{
+			bLerpPos = false;
 			vPos = vTargetPos;
 			vTargetPos = Vector3(0.f, 0.f, 0.f);
-			
-			bTargeting = false;
 		}
+		else
+			D3DXVec3Lerp(&vPos, &vPos, &vTargetPos, fLerpPos);
+	}
+	if (bLerpLookAt)
+	{
+		Vector3 vLength = vTargetLookAt - vLookAt;
+		float fLength = D3DXVec3Length(&vLength);
+
+		if (0.1f > fLength)
+		{
+			bLerpLookAt = false;
+			vLookAt = vTargetLookAt;
+			vTargetLookAt = Vector3(0.f, 0.f, 0.f);
+		}
+		else
+		{
+			D3DXVec3Lerp(&vLookAt, &vLookAt, &vTargetLookAt, fLerpLookAt);
+		}
+	}
+	if (bLerpUp)
+	{
+		Vector3 vLength = vTargetUp - vUp;
+		float fLength = D3DXVec3Length(&vLength);
+
+		if (0.1f > fLength)
+		{
+			bLerpUp = false;
+			vUp = vTargetUp;
+			vTargetUp = Vector3(0.f, 0.f, 0.f);
+		}
+		else
+			D3DXVec3Lerp(&vUp, &vUp, &vTargetUp, fLerpUp);
 	}
 
 	SetViewMatrix();
@@ -61,21 +92,48 @@ void CameraManager::SetProjectionTransform()
 	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
-void CameraManager::SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp, bool _bTargeting, float _bTargetS)
+void CameraManager::SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp)
 {
 	if (vPos == _vPos)
-		bTargeting = false;
-	else
-		bTargeting = _bTargeting;
+		return;
 
-	if (bTargeting)
-	{
+	fLerpPos = _fLerp;
+
+	bLerpPos = _bLerpPos;
+
+	if (bLerpPos)
 		vTargetPos = _vPos;
-		bTargetS = _bTargetS;
-	}
 	else
 		vPos = _vPos;
-		
-	vLookAt = _vLook;
-	vUp = _vUp;	
 }
+
+void CameraManager::SetCameraLookAt(const Vector3& _vLookAt, bool _bLerpLookAt, float _fLerp)
+{
+	if (vLookAt == _vLookAt)
+		return;
+
+	fLerpLookAt = _fLerp;
+
+	bLerpLookAt = _bLerpLookAt;
+
+	if (bLerpLookAt)
+		vTargetLookAt = _vLookAt;
+	else
+		vLookAt = _vLookAt;
+}
+
+void CameraManager::SetCameraUp(const Vector3& _vUp, bool _bLerpUp, float _fLerp)
+{
+	if (vUp == _vUp)
+		return;
+	
+	fLerpUp = _fLerp;
+
+	bLerpUp = _bLerpUp;
+
+	if (bLerpUp)
+		vTargetUp = _vUp;
+	else
+		vUp = _vUp;
+}
+

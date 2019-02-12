@@ -1,25 +1,11 @@
 #pragma once
-#include "GameObject.h"
+#include "AirPlane.h"
 
-enum vAxis
-{
-	E_AXIS_UP,
-	E_AXIS_RIGHT,
-	E_AXIS_FORWARD,
-	E_AXIS,
-};
-
-class Renderer;
-class ShaderRenderer;
 
 class PlayerAirplane :
-	public GameObject
+	public AirPlane
 {
 private:
-	ShaderRenderer * lpRenderer;
-
-	Vector3 vAxis[E_AXIS];
-
 	Vector3 vCameraDir;	
 	Vector3 vCameraLookAtDir;
 
@@ -28,7 +14,6 @@ private:
 
 	float fCameraDistance;
 	float fCameraLookAtDistance;
-
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();

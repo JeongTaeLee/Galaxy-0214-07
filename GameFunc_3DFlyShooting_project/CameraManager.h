@@ -10,9 +10,17 @@ private:
 	Vector4 v4Pos;
 
 	Vector3 vTargetPos;
+	bool	bLerpPos;
+	float	fLerpPos;
 
-	bool	bTargeting;
-	float	bTargetS;
+	Vector3 vTargetLookAt;
+	bool	bLerpLookAt;
+	float	fLerpLookAt;
+
+	Vector3 vTargetUp;
+	bool	bLerpUp;
+	float	fLerpUp;
+
 
 	Matrix matView;
 	Matrix matProj;
@@ -28,14 +36,17 @@ public:
 	void SetCameraTransform();
 	void SetProjectionTransform();
 
-	Matrix & GetViewMatrix() { return matView; }
-	Matrix & GetProjMatrix() { return matProj; }
-	
-	Vector3 & GetPos() { return vPos; }
-	Vector4 & GetV4Pos() { return v4Pos; }
+	Matrix& GetViewMatrix() { return matView; }
+	Matrix& GetProjMatrix() { return matProj; }
+
+	Vector3& GetPos() { return vPos; }
+	Vector4& GetV4Pos() { return v4Pos; }
 	Vector3& GetLookAt() { return vLookAt; }
 
-	void SetCameraInfo(const Vector3& _vPos, const Vector3& _vLook, const Vector3& _vUp, bool _bTargeting = false, float bTargetS = 0.f);
+	void SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp);
+	void SetCameraLookAt(const Vector3& _vLookAt, bool _bLerpPos, float _fLerp = 0.3f);
+	void SetCameraUp(const Vector3& _vUp, bool _bLerpUp, float _fLerp = 0.3f);
+
 };
 
 #define CAMERA CameraManager::GetInst()

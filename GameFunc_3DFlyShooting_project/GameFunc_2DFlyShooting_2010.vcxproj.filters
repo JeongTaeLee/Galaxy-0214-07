@@ -75,6 +75,9 @@
     <Filter Include="GameObject\Bullet\PlayerBullet">
       <UniqueIdentifier>{c68d202b-2eb9-4bf1-9d51-3cd78879d9bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\AirPlane">
+      <UniqueIdentifier>{9d58acd8-0791-46d5-a492-d9d9b35befe4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -203,6 +206,9 @@
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>GameObject\Bullet\PlayerBullet</Filter>
     </ClCompile>
+    <ClCompile Include="AirPlane.cpp">
+      <Filter>GameObject\AirPlane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -267,6 +273,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBullet.h">
       <Filter>GameObject\Bullet\PlayerBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="AirPlane.h">
+      <Filter>GameObject\AirPlane</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
