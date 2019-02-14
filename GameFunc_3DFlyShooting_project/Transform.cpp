@@ -4,9 +4,8 @@
 
 
 Transform::Transform()
-	:pos(0.f, 0.f, 0.f), worldPos(0.f, 0.f, 0.f), 
-	rot(0.f, 0.f, 0.f), scale(1.f, 1.f, 1.f),
-	bTransformUpdate(true)
+	:pos(0.f, 0.f, 0.f),	rot(0.f, 0.f, 0.f), 
+	scale(1.f, 1.f, 1.f), bNoneRotationUpdate(true)
 {
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixIdentity(&matScale);
@@ -23,7 +22,7 @@ Transform::~Transform()
 
 void Transform::UpdateTransform()
 {
-	if (!bTransformUpdate)
+	if (!bNoneRotationUpdate)
 	{
 		UpdateTransform02();
 		return;
@@ -41,16 +40,22 @@ void Transform::UpdateTransform()
 	if (gameObject->GetParent())
 		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
 
-	worldPos	= Vector3(matWorld._41, matWorld._42, matWorld._43);
+
+	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);
+
 }
 
 void Transform::UpdateTransform02()
 {
+	D3DXMatrixTranslation(&matPos, pos.x, pos.y, pos.z);
+
 	D3DXMatrixRotationQuaternion(&matRot, &qRot);
 
-	matWorld = matScale * matRot * matPos;
+	D3DXMatrixScaling(&matScale, scale.x, scale.y, scale.z);
+	
+	matWorld	= matScale * matRot * matPos;
 
-   	if (gameObject->GetParent())
+	if (gameObject->GetParent())
 		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
 
 	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);

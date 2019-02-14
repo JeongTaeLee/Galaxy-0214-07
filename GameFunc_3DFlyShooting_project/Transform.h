@@ -5,9 +5,9 @@ class Transform :
 {
 public:
 	Vector3 pos;
-	Vector3 worldPos;
 	Vector3 rot;
 	Vector3 scale;
+	Vector3 worldPos;
 	
 	Quaternion qRot;
 
@@ -16,7 +16,7 @@ public:
 	Matrix matPos;
 	Matrix matWorld;
 
-	bool bTransformUpdate;
+	bool bNoneRotationUpdate;
 public:
 	Transform();
 	virtual ~Transform();
@@ -24,5 +24,6 @@ public:
 	void UpdateTransform();
 	void UpdateTransform02();
 	void SetTransform();
+
 };
 

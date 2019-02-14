@@ -25,7 +25,7 @@ void SphereCollider::InitSphere(Vector3 _vSpherePos, float _fRadius)
 	fRadius = _fRadius;
 	SetColliderInfo(ColliderType::ColliderType_Sphere, _vSpherePos);
 
-#ifdef DEBUG
+#ifdef DebugColliderRender
 	lpDebugMesh = gameObject->AC(DebugMesh);
 	lpDebugMesh->SetDebugMesh(this);
 #endif
@@ -40,14 +40,14 @@ bool SphereCollider::CheckCollision(Collider* lpOther)
 		SphereCollider* Ohter = static_cast<SphereCollider*>(lpOther);
 		
 		Vector3 vPos = vColliderPos;
-		Vector3 vOtherPos = Ohter->GetColliderPos();
-		
-		float fMaxLength = pow(fRadius, 2.f) + pow(Ohter->GetRadius(), 2.f);
+		Vector3 vOtherPos = Ohter->GetColliderPos();	
+
+ 		float fMaxLength = pow(fRadius + Ohter->GetRadius(), 2.f);
 		float fLength = pow(vOtherPos.x - vPos.x, 2.f) + pow(vOtherPos.y - vPos.y, 2.f) + pow(vOtherPos.z - vPos.z, 2.f);
 		
 		if (fLength < fMaxLength)
 		{
-			SendCollision(lpOther);
+			SendCollision(Ohter);
 			return true;
 		}
 		

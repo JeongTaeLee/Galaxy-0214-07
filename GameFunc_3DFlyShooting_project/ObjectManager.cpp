@@ -44,6 +44,7 @@ void ObjectManager::Update()
 
 			(*Iter)->Update();
 			(*Iter)->ComUpdate();
+
 			(*Iter)->transform->UpdateTransform();
 			++Iter;
 		}
@@ -79,6 +80,9 @@ void ObjectManager::CollisionProcess()
 
 		for (auto Iter02 : liColliders)
 		{
+			if (Iter->gameObject == Iter02->gameObject)
+				continue;
+
 			if (Iter == Iter02)
 				continue;
 
@@ -90,6 +94,9 @@ void ObjectManager::CollisionProcess()
 
 			if (!(Iter02->bEnable))
 				continue;
+
+			Iter->ColliderUpdate();
+			Iter02->ColliderUpdate();
 
 			if (Iter->CheckCollision(Iter02))
 				Iter02->SendCollision(Iter);

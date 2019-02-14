@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+//#define DebugColliderRender
+
 enum ColliderType
 {
 	ColliderType_Sphere,
@@ -17,7 +19,7 @@ protected:
 	Vector3 vOriginColliderPos;
 	Vector3 vColliderPos;
 	
-#ifdef DEBUG
+#ifdef DebugColliderRender
 	DebugMesh* lpDebugMesh;
 #endif
 
@@ -27,7 +29,8 @@ public:
 
 	virtual void Init()	override;
 	virtual void Release() override;
-	virtual void Update()	override;
+	
+	void ColliderUpdate();
 
 	void SetColliderInfo(ColliderType _eColliderType, const Vector3& _vColliderPos);
 

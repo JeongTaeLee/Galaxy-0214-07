@@ -14,7 +14,7 @@
 Collider::Collider()
 	:vColliderPos(0.f, 0.f, 0.f), vOriginColliderPos(0.f, 0.f,0.f), eColliderType(ColliderType_Sphere)
 {
-#ifdef DEBUG
+#ifdef DebugCollideRender
 	lpDebugMesh = nullptr;
 #endif
 }
@@ -33,13 +33,13 @@ void Collider::Release()
 {
 	OBJECT.UnRegisterCollider(this);
 
-#ifdef DEBUG
+#ifdef DebugColliderRender
 	if(lpDebugMesh)
 		lpDebugMesh->bEnable = false;
 #endif // DEBUG
 }
 
-void Collider::Update()
+void Collider::ColliderUpdate()
 {
 	D3DXMATRIX matObjectRot;
 	D3DXMatrixRotationQuaternion(&matObjectRot, &transform->qRot);
@@ -50,8 +50,11 @@ void Collider::Update()
 
 void Collider::SetColliderInfo(ColliderType _eColliderType, const Vector3& _vColliderPos)
 {
+	transform->UpdateTransform();
+
 	vOriginColliderPos = _vColliderPos;
 	vColliderPos = vOriginColliderPos;
+	Update();
 }
 
 void Collider::SendCollision(Collider* lpOther)

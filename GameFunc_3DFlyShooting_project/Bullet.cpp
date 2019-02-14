@@ -9,12 +9,14 @@
 //Component
 #include "Transform.h"
 #include "ShaderRenderer.h"
+#include "SphereCollider.h"
 
 Bullet::Bullet()
 	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f), 
 	vOriginModelDir(0.f, 0.f, 1.f),
 	fDamage(0.f), fSpeed(1000.f), fShine(1.f)
 {
+	sTag = "Bullet";
 }
 
 
@@ -24,13 +26,13 @@ Bullet::~Bullet()
 
 void Bullet::Init()
 {
-	transform->bTransformUpdate= false;
+	transform->bNoneRotationUpdate= false;
 
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Bullet", "./rs/obj/Bullet/Bullet.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Bullet", "Bullet.fx"));
 
-	transform->scale = Vector3(0.01f, 0.01f, 0.02f);
+	transform->scale = Vector3(0.01f, 0.01f, 0.01f);
 }
 
 void Bullet::Update()
@@ -53,6 +55,8 @@ void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _
 	
 	fSpeed = _fSpeed;
 	fDamage = _fDamage;
+
+	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 50.f), 3);
 }
 
 

@@ -9,7 +9,6 @@ class Bullet :
 protected:
 	ShaderRenderer* lpRenderer;
 
-
 	Vector3 vDir;
 	Vector3 vOriginModelDir;
 	

@@ -22,6 +22,8 @@ PlayerAirplane::PlayerAirplane()
 	fCameraDistance(0.f), fCameraLookAtDistance(0.f),
 	bCameraBack(false), fMaxSpeed(0.f)
 {
+	sTag = "PlayerAirPlane";
+
 	D3DXQuaternionIdentity(&qCameraRot);
 }
 
@@ -33,7 +35,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 
-	transform->bTransformUpdate = false;
+	transform->bNoneRotationUpdate = false;
 	INPUT.SetMouseClip(true);
 
 #pragma region RendererSetting

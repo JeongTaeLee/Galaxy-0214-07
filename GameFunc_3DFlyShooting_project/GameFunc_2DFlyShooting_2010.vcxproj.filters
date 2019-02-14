@@ -87,6 +87,9 @@
     <Filter Include="Component\Collider\DebugMesh">
       <UniqueIdentifier>{a8c890b8-23f2-4e7d-926d-913690434b84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Monster">
+      <UniqueIdentifier>{307229e8-3694-49d4-bdc5-fe2674f17594}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -227,6 +230,9 @@
     <ClCompile Include="DebugMesh.cpp">
       <Filter>Component\Collider\DebugMesh</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterAirPlane.cpp">
+      <Filter>GameObject\Monster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -303,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="DebugMesh.h">
       <Filter>Component\Collider\DebugMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterAirPlane.h">
+      <Filter>GameObject\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
