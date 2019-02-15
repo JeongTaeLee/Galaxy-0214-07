@@ -20,7 +20,7 @@ SphereCollider::~SphereCollider()
 {
 }
 
-void SphereCollider::InitSphere(Vector3 _vSpherePos, float _fRadius)
+void SphereCollider::InitSphere(const Vector3 & _vSpherePos, float _fRadius)
 {
 	fRadius = _fRadius;
 	SetColliderInfo(ColliderType::ColliderType_Sphere, _vSpherePos);
@@ -47,6 +47,7 @@ bool SphereCollider::CheckCollision(Collider* lpOther)
 		
 		if (fLength < fMaxLength)
 		{
+			gameObject->ReceiveCollider(lpOther);
 			SendCollision(Ohter);
 			return true;
 		}

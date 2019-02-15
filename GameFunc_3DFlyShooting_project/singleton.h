@@ -9,7 +9,7 @@ public:
 	singleton() {}
 	virtual ~singleton() {}
 
-	static T & GetInst() {
+ 	static T & GetInst() {
 		if (!inst)
 			inst = new T;
 

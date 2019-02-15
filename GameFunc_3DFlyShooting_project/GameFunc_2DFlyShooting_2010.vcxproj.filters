@@ -90,6 +90,12 @@
     <Filter Include="GameObject\Monster">
       <UniqueIdentifier>{307229e8-3694-49d4-bdc5-fe2674f17594}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Monster\Monster01">
+      <UniqueIdentifier>{d59210f6-17aa-4198-83df-0c3e9d53dd38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Func">
+      <UniqueIdentifier>{37c99fa3-340d-4cff-aae8-6c899a6d9685}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -233,6 +239,12 @@
     <ClCompile Include="MonsterAirPlane.cpp">
       <Filter>GameObject\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterA.cpp">
+      <Filter>GameObject\Monster\Monster01</Filter>
+    </ClCompile>
+    <ClCompile Include="Func.cpp">
+      <Filter>Func</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -312,6 +324,12 @@
     </ClInclude>
     <ClInclude Include="MonsterAirPlane.h">
       <Filter>GameObject\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterA.h">
+      <Filter>GameObject\Monster\Monster01</Filter>
+    </ClInclude>
+    <ClInclude Include="Func.h">
+      <Filter>Func</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,6 +34,7 @@ void ObjectManager::Update()
 	{
 		if ((*Iter)->GetDestroy())
 		{
+			(*Iter)->Release();
 			SAFE_DELETE(*Iter);
 			Iter = liGameObjects.erase(Iter);
 		}
@@ -114,11 +115,11 @@ void ObjectManager::UnRegisterRenderer(Renderer* renderer)
 {
 	liRenderers.remove(renderer);
 	/*
-	for (auto Iter = liRenderer.begin(); Iter != liRenderer.end();)
+	for (auto Iter = liRenderers.begin(); Iter != liRenderers.end();)
 	{
 		if ((*Iter) == renderer)
 		{
-			Iter = liRenderer.erase(Iter);
+			Iter = liRenderers.erase(Iter);
 			break;
 		}
 		else
@@ -129,17 +130,21 @@ void ObjectManager::UnRegisterRenderer(Renderer* renderer)
 
 Collider* ObjectManager::RegisterCollider(Collider* collider)
 {
-	if (!collider)
-		return nullptr;
-
 	liColliders.push_back(collider);
 	return collider;
 }
 
 void ObjectManager::UnRegisterCollider(Collider* collider)
 {
-	if (!collider)
-		return;
-
 	liColliders.remove(collider);
+}
+
+GameObject* ObjectManager::FindWithTag(const std::string& key)
+{
+	for (auto find : liGameObjects)
+	{
+		if (find->sTag == key)
+			return find;
+	}
+	return nullptr;
 }

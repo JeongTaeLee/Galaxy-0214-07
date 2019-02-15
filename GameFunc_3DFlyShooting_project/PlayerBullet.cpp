@@ -34,5 +34,6 @@ void PlayerBullet::ReceiveCollider(Collider* Other)
 	if (Other->gameObject->sTag != "PlayerAirPlane")
 	{
 		Other->gameObject->SetDestroy(true);
+		//SetDestroy(true);
 	}
 }

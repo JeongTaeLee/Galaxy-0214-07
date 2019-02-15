@@ -12,7 +12,7 @@ private:
 	std::list<GameObject*> liGameObjects;
 
 	std::list<Renderer*> liRenderers;
-	
+
 	std::list<Collider*> liColliders;
 public:
 	ObjectManager();
@@ -22,7 +22,6 @@ public:
 	void Update();
 	void Render();
 	void CollisionProcess();
-
 public:
 	Renderer* RegisterRenderer(Renderer* renderer);
 	void UnRegisterRenderer(Renderer* renderer);
@@ -34,6 +33,7 @@ public:
 	template<class T>
 	T * AddObject(T * lpObject = nullptr, GameObject * lpParentObject = nullptr);
 
+	GameObject* FindWithTag(const std::string& key);
 };
 
 template<class T>

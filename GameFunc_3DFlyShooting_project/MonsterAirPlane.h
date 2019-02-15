@@ -3,12 +3,12 @@
 
 class ShaderRenderer;
 class SphereCollider;
-
+class PlayerAirPlane;
 class MonsterAirPlane :
 	public AirPlane
 {
-private:
-	ShaderRenderer* lpRenderer;
+protected:
+	GameObject * lpPlayer;
 	SphereCollider* lpCollider;
 
 	float fHp;
@@ -17,5 +17,7 @@ public:
 	virtual ~MonsterAirPlane();
 
 	virtual void Init()	override;
+
+	void LookAtPlayer();
 };
 

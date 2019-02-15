@@ -34,7 +34,8 @@ PlayerAirplane::~PlayerAirplane()
 
 void PlayerAirplane::Init()
 {
-
+	transform->pos = Vector3(0.f, 0.f, -150.f);
+	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 	transform->bNoneRotationUpdate = false;
 	INPUT.SetMouseClip(true);
 
@@ -54,16 +55,16 @@ void PlayerAirplane::Init()
 
 #pragma region CameraSetting
 	fCameraAngle = D3DXToRadian(20.f);
-	fCameraDistance = 150.f;
+	fCameraDistance = 100.f;
 
 	CamreaSetting();
 #pragma endregion CameraSetting 
 
 #pragma region Collider
-	AC(SphereCollider)->InitSphere(Vector3(40.f, 0.f, -20.f), 20);
-	AC(SphereCollider)->InitSphere(Vector3(-40.f, 0.f, -20.f), 20);
-	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 20.f), 20);
-	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -20.f), 20);
+	AC(SphereCollider)->InitSphere(Vector3(20.f, 0.f, -10.f), 8);
+	AC(SphereCollider)->InitSphere(Vector3(-20.f, 0.f, -10.f), 8);
+	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 5.f), 8);
+	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
 }
 
@@ -93,8 +94,8 @@ void PlayerAirplane::Update()
 
 		OBJECT.AddObject<PlayerBullet>()
 			->SetBullet(LeftFirePos, transform->qRot, 2000.f, 1.f);
-		OBJECT.AddObject<PlayerBullet>()
-			->SetBullet(RightFirePos, transform->qRot, 2000.f, 1.f);
+		//OBJECT.AddObject<PlayerBullet>()
+		//	->SetBullet(RightFirePos, transform->qRot, 2000.f, 1.f);
 	}
 
 	CamreaSetting();

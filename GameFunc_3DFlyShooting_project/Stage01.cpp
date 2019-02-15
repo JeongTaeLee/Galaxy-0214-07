@@ -7,7 +7,7 @@
 //GameObject
 #include "PlayerAirplane.h"
 #include "SkyBox.h"
-#include "Map.h"
+#include "MonsterA.h"
 
 Stage01::Stage01()
 {
@@ -21,8 +21,9 @@ Stage01::~Stage01()
 void Stage01::Init()
 {
 	OBJECT.AddObject<SkyBox>();
-	OBJECT.AddObject<Map>();
 	OBJECT.AddObject<PlayerAirplane>();
+
+	OBJECT.AddObject<MonsterA>();
 }
 
 void Stage01::Release()
