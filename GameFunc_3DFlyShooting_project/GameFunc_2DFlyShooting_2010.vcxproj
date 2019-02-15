@@ -411,6 +411,7 @@
     <ClCompile Include="Stage01.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIRenderer.cpp" />
     <ClInclude Include="AirPlane.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
@@ -438,6 +439,7 @@
     <ClInclude Include="Stage01.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIRenderer.h" />
     <None Include="DXUT\Optional\directx.ico" />
     <ClInclude Include="DXUT\Core\DXUT.h" />
     <ClInclude Include="DXUT\Core\DXUTenum.h" />

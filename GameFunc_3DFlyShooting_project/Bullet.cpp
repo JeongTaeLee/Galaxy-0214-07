@@ -14,7 +14,8 @@
 Bullet::Bullet()
 	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f), 
 	vOriginModelDir(0.f, 0.f, 1.f),
-	fDamage(0.f), fSpeed(1000.f), fShine(1.f)
+	fDamage(0.f), fSpeed(1000.f), fShine(1.f),
+	fDestroyDelay(3.f), fDestroyAccrue(0.f)
 {
 	sTag = "Bullet";
 }
@@ -39,8 +40,18 @@ void Bullet::Update()
 {
 	transform->pos += vDir * (fSpeed * Et);
 
-	D3DXMatrixTranslation(&transform->matPos, transform->pos.x, transform->pos.y, transform->pos.z);
-	D3DXMatrixScaling(&transform->matScale, transform->scale.x, transform->scale.y, transform->scale.z);
+	DestroyProcess();
+}
+
+void Bullet::DestroyProcess()
+{
+	fDestroyAccrue += Et;
+
+	if (fDestroyAccrue >= fDestroyDelay)
+	{
+		SetDestroy(true);
+		DEBUG_LOG("Destroy");
+	}
 }
 
 

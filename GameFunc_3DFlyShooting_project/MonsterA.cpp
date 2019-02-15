@@ -36,7 +36,7 @@ void MonsterA::Init()
 
 	lpCollider->InitSphere(Vector3(0.f, 0.f, 40.f), 30);
 
-	fHp = 100.f;
+	fHp = 10.f;
 }
 
 void MonsterA::Update()

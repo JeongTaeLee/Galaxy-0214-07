@@ -15,6 +15,9 @@ protected:
 	float fDamage;
 	float fSpeed;
 	float fShine;
+
+	float fDestroyDelay;
+	float fDestroyAccrue;
 public:
 	Bullet();
 	virtual ~Bullet();
@@ -22,6 +25,12 @@ public:
 	virtual void Init()		override;
 	virtual void Update()	override;
 
+public:
+	void DestroyProcess();
+
+public:
 	void SetBullet(const Vector3 & FirePos, const Quaternion& _qRot, float _fSpeed, float _fDamage);
+
+	float GetDamage() { return fDamage; }
 };
 

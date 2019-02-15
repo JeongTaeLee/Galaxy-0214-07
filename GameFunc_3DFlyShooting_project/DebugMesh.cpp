@@ -16,6 +16,7 @@ DebugMesh::~DebugMesh()
 
 void DebugMesh::Release()
 {
+	Renderer::Release();
 	SAFE_RELEASE(lpDebugMesh);
 }
 

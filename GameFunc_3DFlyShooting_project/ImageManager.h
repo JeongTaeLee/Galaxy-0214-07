@@ -11,6 +11,7 @@ class ImageManager :
 {
 private:
 	std::map<std::string, texture*> mTextures;
+
 	std::map<std::string, Mesh*>	mMeshs;
 	std::map<std::string, LPD3DXEFFECT> mEffects;
 

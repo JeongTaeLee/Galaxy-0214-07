@@ -9,6 +9,10 @@
 //Component
 #include "ShaderRenderer.h"
 #include "SphereCollider.h"
+#include "SphereCollider.h"
+
+//Object
+#include "PlayerBullet.h"
 MonsterAirPlane::MonsterAirPlane()
 	:lpPlayer(nullptr), lpCollider(nullptr), fHp(0.f)
 {
@@ -43,4 +47,17 @@ void MonsterAirPlane::LookAtPlayer()
 	D3DXQUATERNION currQ;
 	D3DXQuaternionRotationMatrix(&currQ, &matRot);
 	D3DXQuaternionSlerp(&transform->qRot, &transform->qRot, &currQ, 0.25f);
+}
+
+void MonsterAirPlane::ReceiveCollider(Collider* lpCollider)
+{
+	if (lpCollider->gameObject->sTag == "PlayerBullet")
+	{
+		PlayerBullet* object = static_cast<PlayerBullet*>(lpCollider->gameObject);
+
+		fHp -= object->GetDamage();
+
+		if (fHp <= 0)
+			SetDestroy(true);
+	}
 }

@@ -12,7 +12,7 @@
 #include"GameObject.h"
 
 Collider::Collider()
-	:vColliderPos(0.f, 0.f, 0.f), vOriginColliderPos(0.f, 0.f,0.f), eColliderType(ColliderType_Sphere), lpDebugMesh(nullptr)
+	:vColliderPos(0.f, 0.f, 0.f), vOriginColliderPos(0.f, 0.f,0.f), eColliderType(ColliderType_Sphere)
 {
 #ifdef DebugCollideRender
 	lpDebugMesh = nullptr;

@@ -35,7 +35,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	transform->pos = Vector3(0.f, 0.f, -150.f);
-	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
+	transform->scale = Vector3(1.f, 1.f, 1.f);
 	transform->bNoneRotationUpdate = false;
 	INPUT.SetMouseClip(true);
 
@@ -54,8 +54,8 @@ void PlayerAirplane::Init()
 #pragma endregion RendererSetting
 
 #pragma region CameraSetting
-	fCameraAngle = D3DXToRadian(20.f);
-	fCameraDistance = 100.f;
+	fCameraAngle = D3DXToRadian(13.f);
+	fCameraDistance = 130.f;
 
 	CamreaSetting();
 #pragma endregion CameraSetting 
@@ -80,7 +80,7 @@ void PlayerAirplane::Update()
 
 	AirPlane::SetAirPlaneMatrix();
 
-	if (KEYDOWN(VK_SPACE))
+	if (KEYDOWN(VK_SPACE) || KEYDOWN(VK_LBUTTON))
 	{
 		Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
 		Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
@@ -94,8 +94,8 @@ void PlayerAirplane::Update()
 
 		OBJECT.AddObject<PlayerBullet>()
 			->SetBullet(LeftFirePos, transform->qRot, 2000.f, 1.f);
-		//OBJECT.AddObject<PlayerBullet>()
-		//	->SetBullet(RightFirePos, transform->qRot, 2000.f, 1.f);
+		OBJECT.AddObject<PlayerBullet>()
+			->SetBullet(RightFirePos, transform->qRot, 2000.f, 1.f);
 	}
 
 	CamreaSetting();
@@ -105,8 +105,8 @@ void PlayerAirplane::InputMouse()
 {
 	Vector2 vGap(INPUT.GetMouseGap());
 
-	float XGap = D3DXToRadian(vGap.x) * 0.05f;
-	float YGap = D3DXToRadian(vGap.y) * 0.05f;
+	float XGap = D3DXToRadian(vGap.x) * 0.1f;
+	float YGap = (D3DXToRadian(vGap.y) * 0.1f);
 
 	if (XGap)
 		fRollAngle = (XGap * -1);
@@ -179,7 +179,7 @@ void PlayerAirplane::CamreaSetting()
 	D3DXVec3TransformNormal(&vCameraUp, &vCameraUp, &matCamreaRot);
 
 	//LookAt
-	vCameraLookAt = Vector3(0.f, 50.f, 0.f);
+	vCameraLookAt = Vector3(0.f, 30.f, 0.f);
 	memcpy(&matCamreaRot._41, &transform->pos, sizeof(Vector3));
 	
 	D3DXVec3TransformCoord(&vCameraLookAt, &vCameraLookAt, &matCamreaRot);

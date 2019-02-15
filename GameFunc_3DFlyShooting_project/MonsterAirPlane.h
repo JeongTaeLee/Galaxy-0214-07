@@ -4,6 +4,8 @@
 class ShaderRenderer;
 class SphereCollider;
 class PlayerAirPlane;
+class Collider;
+
 class MonsterAirPlane :
 	public AirPlane
 {
@@ -19,5 +21,8 @@ public:
 	virtual void Init()	override;
 
 	void LookAtPlayer();
+
+public:
+	virtual void ReceiveCollider(Collider* lpCollider) override;
 };
 

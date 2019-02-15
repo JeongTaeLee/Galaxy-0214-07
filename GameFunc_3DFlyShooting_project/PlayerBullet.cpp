@@ -10,6 +10,7 @@
 
 PlayerBullet::PlayerBullet()
 {
+	sTag = "PlayerBullet";
 }
 
 
@@ -21,6 +22,7 @@ void PlayerBullet::Init()
 {
 	Bullet::Init();
 	fShine = 1.f;
+	fDamage = 10.f;
 
 	lpRenderer->SetRenderBegin(
 		[&]() {
@@ -32,8 +34,5 @@ void PlayerBullet::Init()
 void PlayerBullet::ReceiveCollider(Collider* Other)
 {
 	if (Other->gameObject->sTag != "PlayerAirPlane")
-	{
-		Other->gameObject->SetDestroy(true);
-		//SetDestroy(true);
-	}
+		SetDestroy(true);
 }

@@ -12,6 +12,7 @@ private:
 	std::list<GameObject*> liGameObjects;
 
 	std::list<Renderer*> liRenderers;
+	std::list<GameObject*> liUiRenderers;
 
 	std::list<Collider*> liColliders;
 public:
@@ -25,6 +26,8 @@ public:
 public:
 	Renderer* RegisterRenderer(Renderer* renderer);
 	void UnRegisterRenderer(Renderer* renderer);
+
+	
 
 public:
 	Collider* RegisterCollider(Collider* collider);

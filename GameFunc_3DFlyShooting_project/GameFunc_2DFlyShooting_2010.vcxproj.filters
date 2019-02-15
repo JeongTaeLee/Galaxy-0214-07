@@ -93,8 +93,14 @@
     <Filter Include="GameObject\Monster\Monster01">
       <UniqueIdentifier>{d59210f6-17aa-4198-83df-0c3e9d53dd38}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Func">
+    <Filter Include="DXUT\Func">
       <UniqueIdentifier>{37c99fa3-340d-4cff-aae8-6c899a6d9685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Aim">
+      <UniqueIdentifier>{071e353d-f6a8-410a-9bb5-d702a5596cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\UIRenderer">
+      <UniqueIdentifier>{55264891-a20f-471a-8470-e8f9280e7d7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -243,7 +249,10 @@
       <Filter>GameObject\Monster\Monster01</Filter>
     </ClCompile>
     <ClCompile Include="Func.cpp">
-      <Filter>Func</Filter>
+      <Filter>DXUT\Func</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRenderer.cpp">
+      <Filter>Component\UIRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +338,10 @@
       <Filter>GameObject\Monster\Monster01</Filter>
     </ClInclude>
     <ClInclude Include="Func.h">
-      <Filter>Func</Filter>
+      <Filter>DXUT\Func</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRenderer.h">
+      <Filter>Component\UIRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
