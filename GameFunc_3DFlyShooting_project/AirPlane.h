@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-enum vAxis
+enum AirPlaneAxis
 {
 	E_AXIS_UP,
 	E_AXIS_RIGHT,
@@ -9,11 +9,14 @@ enum vAxis
 };
 
 class ShaderRenderer;
+class MonsterDirector;
 
 class AirPlane :
 	public GameObject
 {
 protected:
+	MonsterDirector* lpMonsterDirector;
+
 	ShaderRenderer* lpRenderer;
 
 	Vector3 vAxis[E_AXIS];
@@ -32,5 +35,12 @@ public:
 	void PitchRotation(float fAngle);
 
 	void SetAirPlaneMatrix();
+
+	void SetMonsterDirector(MonsterDirector* _director)
+	{
+		lpMonsterDirector = _director;
+	};
+
+	const Vector3& GetAxis(AirPlaneAxis axis) {	return vAxis[axis]; }
 };
 

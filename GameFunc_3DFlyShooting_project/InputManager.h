@@ -13,6 +13,7 @@ private:
 	Vector2 vMouseGap;
 
 	bool bMouseClip;
+	bool bMouseShow;
 public:
 	InputManager();
 	~InputManager();
@@ -24,6 +25,10 @@ public:
 	const Vector2 & GetMouseGap() { return vMouseGap; }
 
 	void SetMouseClip(bool _bMouseClip);
+	void SetShowMouse(bool _bMouseShow);
+	
+	void SwitchShowMouse();
+	void SwitchClipMouse();
 
 	bool GetUpKey(int i) { return (!bNowKey[i] && bOldKey[i]); }
 	bool GetDownKey(int i) { return (bNowKey[i] && !bOldKey[i]); }

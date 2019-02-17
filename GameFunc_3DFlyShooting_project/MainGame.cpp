@@ -25,12 +25,18 @@ MainGame::~MainGame()
 
 void MainGame::Init()
 {
+	g_device->SetRenderState(D3DRS_LIGHTING, false);
+
+	INPUT.SetMouseClip(true);
+	INPUT.SetShowMouse(false);
+
 	SCENE.AddScene("Stage01", new Stage01);
 	SCENE.ChangeScene("Stage01");
 }
 
 void MainGame::Release()
 {
+
 	SceneManager::ReleaseInst();
 	ObjectManager::ReleaseInst();
 	ImageManager::ReleaseInst();
@@ -50,7 +56,6 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
-	CAMERA.SetCameraTransform();
 	OBJECT.Render();
 }
 

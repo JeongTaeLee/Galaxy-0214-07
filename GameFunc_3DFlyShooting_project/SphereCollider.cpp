@@ -46,11 +46,7 @@ bool SphereCollider::CheckCollision(Collider* lpOther)
 		float fLength = pow(vOtherPos.x - vPos.x, 2.f) + pow(vOtherPos.y - vPos.y, 2.f) + pow(vOtherPos.z - vPos.z, 2.f);
 		
 		if (fLength < fMaxLength)
-		{
-			gameObject->ReceiveCollider(lpOther);
-			SendCollision(Ohter);
 			return true;
-		}
 		
 		break;
 	}

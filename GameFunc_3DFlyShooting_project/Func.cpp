@@ -1,6 +1,8 @@
 #include "DXUT.h"
 #include "Func.h"
 
+#include "CameraManager.h"
+
 Vector3 GetDirectionVector(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 vDir = v2 - v1;
@@ -28,4 +30,60 @@ Vector3 GetDirectionVector(const Vector3& v1, const Vector3& v2)
 	*/
 
 	return vRot;
+}
+
+void GetBillBoardMatrix(Matrix& mat, const Vector3& pos, const Vector3& scal)
+{
+	D3DXMATRIX matView;
+	D3DXMatrixIdentity(&matView);
+	matView = CAMERA.GetViewMatrix();
+
+	memset(&matView._41, 0, sizeof(D3DXVECTOR3));
+	D3DXMatrixInverse(&matView, 0, &matView);
+
+	float fScale[3];
+
+	fScale[0] = scal.x;
+	fScale[1] = scal.y;
+	fScale[2] = scal.z;
+
+	D3DXVECTOR3 BillPos = pos;
+	memcpy(&matView._41, &BillPos, sizeof(D3DXVECTOR3));
+
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+			matView(i, j) *= fScale[i];
+	}
+
+	mat = matView;
+}
+
+void SpaceToClient(Vector3& result, const Vector3& vPos)
+{
+	//. 변환할 공간 좌표가 있는 viewport 얻음.    
+	D3DVIEWPORT9 vp;
+	g_device->GetViewport(&vp);
+	//. View 변환 행렬과 Projection 변환 행렬의 곱.    
+	Matrix	matViewProj = CAMERA.GetViewMatrix() * CAMERA.GetProjMatrix();;
+	Vector3 vSpaceToClient;    //. 좌표 변환.      
+	D3DXVec3TransformCoord(&vSpaceToClient, &vPos, &matViewProj);
+	//. 최종 변환된 좌표 ( x, y, z = 0 )    
+	result = Vector3(vp.Width * (vSpaceToClient.x + 1.0f) / 2.0f + vp.X,
+		vp.Height * (2.0f - (vSpaceToClient.y + 1.0f)) / 2.0f + vp.Y, 0.0f);
+}
+
+void GetLookAt(const Vector3& v1, const Vector3& v2, Quaternion& nowQuater, float fS)
+{
+	Vector3 vDir = v1 - v2;
+	normalize(vDir);
+
+	Matrix matRot;
+	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &vDir,
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixTranspose(&matRot, &matRot); //
+
+	D3DXQUATERNION currQ;
+	D3DXQuaternionRotationMatrix(&currQ, &matRot);
+	D3DXQuaternionSlerp(&nowQuater, &nowQuater, &currQ, fS);
 }

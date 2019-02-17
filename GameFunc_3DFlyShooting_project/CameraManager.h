@@ -3,11 +3,12 @@
 class CameraManager :
 	public singleton<CameraManager>
 {
-private:
+public:
 	Vector3 vPos;
 	Vector3 vLookAt;
 	Vector3 vUp;
 
+private:
 	Vector3 vTargetPos;
 	bool	bLerpPos;
 	float	fLerpPos;
@@ -20,8 +21,8 @@ private:
 	bool	bLerpUp;
 	float	fLerpUp;
 
-
 	Matrix matView;
+	Matrix matOrthoProj;
 	Matrix matProj;
 public:
 	CameraManager();
@@ -34,6 +35,7 @@ public:
 
 	void SetCameraTransform();
 	void SetProjectionTransform();
+	void SetOrthoProjectionTransform();
 
 	Matrix& GetViewMatrix() { return matView; }
 	Matrix& GetProjMatrix() { return matProj; }

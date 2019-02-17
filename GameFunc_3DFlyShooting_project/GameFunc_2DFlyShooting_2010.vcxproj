@@ -386,11 +386,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AirPlane.cpp" />
+    <ClCompile Include="BBRenderer.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugMesh.cpp" />
+    <ClCompile Include="EnemyCircle.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImageManager.cpp" />
@@ -400,8 +402,10 @@
     <ClCompile Include="MonsterA.cpp" />
     <ClCompile Include="MonsterAirPlane.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="PlayerAim.cpp" />
     <ClCompile Include="PlayerAirplane.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="MonsterDirector.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -413,11 +417,13 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UIRenderer.cpp" />
     <ClInclude Include="AirPlane.h" />
+    <ClInclude Include="BBRenderer.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugMesh.h" />
+    <ClInclude Include="EnemyCircle.h" />
     <ClInclude Include="Func.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
@@ -427,8 +433,10 @@
     <ClInclude Include="MonsterAirPlane.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="PlayerAim.h" />
     <ClInclude Include="PlayerAirplane.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="MonsterDirector.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

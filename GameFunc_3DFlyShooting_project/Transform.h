@@ -1,5 +1,13 @@
 #pragma once
 #include "Component.h"
+
+enum TransformUpdateType
+{
+	E_UPDATE_01 = 0,
+	E_UPDATE_02,
+	E_UPDATE_UI,
+};
+
 class Transform :
 	public Component
 {
@@ -16,13 +24,17 @@ public:
 	Matrix matPos;
 	Matrix matWorld;
 
-	bool bNoneRotationUpdate;
+	TransformUpdateType eUpdateType;
 public:
 	Transform();
 	virtual ~Transform();
 
 	void UpdateTransform();
+
+	void UpdateTransform01();
 	void UpdateTransform02();
+	void UpdateTrasformUI();
+
 	void SetTransform();
 
 };

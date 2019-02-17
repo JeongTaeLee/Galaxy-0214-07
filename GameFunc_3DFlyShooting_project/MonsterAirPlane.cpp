@@ -5,6 +5,7 @@
 //Manager
 #include "ImageManager.h"
 #include "ObjectManager.h"
+#include "CameraManager.h"
 
 //Component
 #include "ShaderRenderer.h"
@@ -13,8 +14,11 @@
 
 //Object
 #include "PlayerBullet.h"
+#include "EnemyCircle.h"
+#include "MonsterDirector.h"
 MonsterAirPlane::MonsterAirPlane()
-	:lpPlayer(nullptr), lpCollider(nullptr), fHp(0.f)
+	:lpPlayer(nullptr), lpCollider(nullptr), 
+	fHp(0.f)
 {
 }
 
@@ -25,13 +29,35 @@ MonsterAirPlane::~MonsterAirPlane()
 
 void MonsterAirPlane::Init()
 {
-	transform->bNoneRotationUpdate = false; 
+	transform->eUpdateType = E_UPDATE_02;
 
 	lpPlayer = OBJECT.FindWithTag("PlayerAirPlane");
 
 	lpRenderer = AC(ShaderRenderer);
 	lpCollider = AC(SphereCollider);
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
+
+	lpRenderer->SetRenderBegin(
+		[&]() {
+			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
+			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
+			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
+		});
+
+	lpEnemyCircle = OBJECT.AddObject<EnemyCircle>();
+	lpEnemyCircle->SetMonster(this);
+}
+
+void MonsterAirPlane::Update()
+{
+	SendPMLength();
+	LookAtPlayer();
+}
+
+void MonsterAirPlane::Release()
+{
+	lpEnemyCircle->SetDestroy(true);
 }
 
 void MonsterAirPlane::LookAtPlayer()
@@ -49,15 +75,23 @@ void MonsterAirPlane::LookAtPlayer()
 	D3DXQuaternionSlerp(&transform->qRot, &transform->qRot, &currQ, 0.25f);
 }
 
-void MonsterAirPlane::ReceiveCollider(Collider* lpCollider)
+void MonsterAirPlane::SendPMLength()
 {
-	if (lpCollider->gameObject->sTag == "PlayerBullet")
+	Vector3 vLength = transform->worldPos - lpPlayer->transform->worldPos;
+	float fLength = D3DXVec3Length(&vLength);
+
+	lpMonsterDirector->ReceviePMLength(transform->pos, fLength);
+}
+
+void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
+{
+	if (lpOther->gameObject->sTag == "PlayerBullet")
 	{
-		PlayerBullet* object = static_cast<PlayerBullet*>(lpCollider->gameObject);
+		PlayerBullet* object = static_cast<PlayerBullet*>(lpOther->gameObject);
 
 		fHp -= object->GetDamage();
 
-		if (fHp <= 0)
+ 		if (fHp <= 0)
 			SetDestroy(true);
 	}
 }

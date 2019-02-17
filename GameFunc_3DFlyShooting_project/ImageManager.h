@@ -17,8 +17,11 @@ private:
 
 	LPD3DXSPRITE lpD3DSprite;
 
+
 	OBJLoader * lpObjLoader;
 public:
+	LPD3DXMESH lpBillBoardMesh;
+	
 	ImageManager();
 	virtual ~ImageManager();
 

@@ -8,11 +8,59 @@ ImageManager::ImageManager()
 {
 	D3DXCreateSprite(g_device , &lpD3DSprite);
 	lpObjLoader = new OBJLoader;
+
+	D3DXCreateMeshFVF(
+		2,
+		4,
+		D3DXMESH_MANAGED | D3DXMESH_32BIT,
+		VERTEXFVF,
+		g_device,
+		&lpBillBoardMesh);  
+
+	void* Vertices = nullptr;
+	VERTEX* vt;
+	lpBillBoardMesh->LockVertexBuffer(0, &Vertices);
+	vt = (VERTEX*)Vertices;
+
+	vt[0].pos = Vector3(-1.f, 1.f, 0.f);
+	vt[0].normal = Vector3(0.f, 0.f, 0.f);
+	vt[0].tex = Vector2(0.f, 0.f);
+
+	vt[1].pos = Vector3(1.f, 1.f, 0.f);
+	vt[1].normal = Vector3(0.f, 0.f, 0.f);
+	vt[1].tex = Vector2(1.f, 0.f);
+
+	vt[2].pos = Vector3(1.f, -1.f, 0.f);
+	vt[2].normal = Vector3(0.f, 0.f, 0.f);
+	vt[2].tex = Vector2(1.f, 1.f);
+
+	vt[3].pos = Vector3(-1.f, -1.f, 0.f);
+	vt[3].normal = Vector3(0.f, 0.f, 0.f);
+	vt[3].tex = Vector2(0.f, 1.f);
+
+	lpBillBoardMesh->UnlockVertexBuffer();
+
+	void* Indices = nullptr;
+	lpBillBoardMesh->LockIndexBuffer(0, &Indices);
+	DWORD* id = (DWORD*)Indices;
+
+	id[0] = 0; id[1] = 1; id[2] = 3;
+	id[3] = 1; id[4] = 2; id[5] = 3;
+
+	lpBillBoardMesh->UnlockIndexBuffer();
+
+
+	DWORD* Attribute = nullptr;
+	lpBillBoardMesh->LockAttributeBuffer(0, &Attribute);
+
+
+	lpBillBoardMesh->UnlockAttributeBuffer();
 }
 
 
 ImageManager::~ImageManager()
 {
+	SAFE_RELEASE(lpBillBoardMesh);
 	SAFE_RELEASE(lpD3DSprite);
 	SAFE_DELETE(lpObjLoader);
 

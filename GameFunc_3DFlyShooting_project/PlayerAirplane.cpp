@@ -15,12 +15,15 @@
 
 //Object
 #include "PlayerBullet.h"
+#include "PlayerAim.h"
+#include "MonsterDirector.h"
 
 
 PlayerAirplane::PlayerAirplane()
-	:vCameraPos(0.f, 0.f, 0.f), vCameraLookAt(0.f, 0.f, 0.f), 
+	:vCameraPos(0.f, 0.f, 0.f), vCameraLookAt(0.f, 0.f, 0.f),
 	fCameraDistance(0.f), fCameraLookAtDistance(0.f),
-	bCameraBack(false), fMaxSpeed(0.f)
+	bCameraBack(false), fMaxSpeed(0.f),
+	fAttackDelay(0.2f), fAttackAccrue(0.5f)
 {
 	sTag = "PlayerAirPlane";
 
@@ -34,10 +37,12 @@ PlayerAirplane::~PlayerAirplane()
 
 void PlayerAirplane::Init()
 {
+	transform->eUpdateType = E_UPDATE_02;
+	
+	aim = OBJECT.AddObject<PlayerAim>();
+
 	transform->pos = Vector3(0.f, 0.f, -150.f);
-	transform->scale = Vector3(1.f, 1.f, 1.f);
-	transform->bNoneRotationUpdate = false;
-	INPUT.SetMouseClip(true);
+	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 
 #pragma region RendererSetting
 	lpRenderer = AC(ShaderRenderer);
@@ -55,7 +60,7 @@ void PlayerAirplane::Init()
 
 #pragma region CameraSetting
 	fCameraAngle = D3DXToRadian(13.f);
-	fCameraDistance = 130.f;
+	fCameraDistance = 70.f;
 
 	CamreaSetting();
 #pragma endregion CameraSetting 
@@ -66,6 +71,8 @@ void PlayerAirplane::Init()
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 5.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
+
+
 }
 
 void PlayerAirplane::Update()
@@ -80,23 +87,33 @@ void PlayerAirplane::Update()
 
 	AirPlane::SetAirPlaneMatrix();
 
-	if (KEYDOWN(VK_SPACE) || KEYDOWN(VK_LBUTTON))
+#pragma region ATTACK
+	if (fAttackAccrue >= fAttackDelay)
 	{
-		Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
-		Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+		if (KEYPRESS(VK_SPACE) || KEYPRESS(VK_LBUTTON))
+		{
+			fAttackAccrue = 0.f;
+			
+			Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
+			Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
 
-		D3DXMATRIX matRot;
-		D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-		memcpy(&matRot._41, transform->pos, sizeof(Vector3));
+			D3DXMATRIX matRot;
+			D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+			memcpy(&matRot._41, transform->pos, sizeof(Vector3));
 
-		D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
-		D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+			D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
+			D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
 
-		OBJECT.AddObject<PlayerBullet>()
-			->SetBullet(LeftFirePos, transform->qRot, 2000.f, 1.f);
-		OBJECT.AddObject<PlayerBullet>()
-			->SetBullet(RightFirePos, transform->qRot, 2000.f, 1.f);
+			OBJECT.AddObject<PlayerBullet>()
+				->SetBullet(LeftFirePos, transform->qRot, 2000.f, 5.f);
+			OBJECT.AddObject<PlayerBullet>()
+				->SetBullet(RightFirePos, transform->qRot, 2000.f, 5.f);
+		}
 	}
+	else
+		fAttackAccrue += Et;
+#pragma endregion ATTACK
+	
 
 	CamreaSetting();
 }
@@ -179,11 +196,10 @@ void PlayerAirplane::CamreaSetting()
 	D3DXVec3TransformNormal(&vCameraUp, &vCameraUp, &matCamreaRot);
 
 	//LookAt
-	vCameraLookAt = Vector3(0.f, 30.f, 0.f);
+	vCameraLookAt = Vector3(0.f, 15.f, 0.f);
 	memcpy(&matCamreaRot._41, &transform->pos, sizeof(Vector3));
 	
 	D3DXVec3TransformCoord(&vCameraLookAt, &vCameraLookAt, &matCamreaRot);
-	
 
 	CAMERA.SetCameraPos(vCameraPos, false, 0.f);
 	CAMERA.SetCameraLookAt(vCameraLookAt, false, 0.f);

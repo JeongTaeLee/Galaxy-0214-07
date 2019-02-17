@@ -6,6 +6,7 @@
 #include "ObjectManager.h"
 
 ShaderRenderer::ShaderRenderer()
+	:lpEffect(nullptr)
 {
 }
 

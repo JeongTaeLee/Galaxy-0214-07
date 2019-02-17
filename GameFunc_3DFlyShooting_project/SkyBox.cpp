@@ -22,7 +22,7 @@ SkyBox::~SkyBox()
 
 void SkyBox::Init()
 {
-	transform->scale = Vector3(300, 300, 300);
+	transform->scale = Vector3(100, 100, 100);
 
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("SkyBopx", "./rs/obj/Stage/Stage.obj"));

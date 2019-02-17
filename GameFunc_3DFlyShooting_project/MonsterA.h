@@ -10,6 +10,5 @@ public:
 	virtual ~MonsterA();
 
 	virtual void Init()	override;
-	virtual void Update()	override;
 };
 

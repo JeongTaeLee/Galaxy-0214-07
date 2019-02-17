@@ -4,11 +4,17 @@
 //GameObject
 #include "GameObject.h"
 
+//Manager
+#include "ImageManager.h"
+#include "CameraManager.h"
+
 //Component
 #include "Transform.h"
 #include "Renderer.h"
 #include "ShaderRenderer.h"
 #include "Collider.h"
+#include "UIRenderer.h"
+#include "BBRenderer.h"
 
 ObjectManager::ObjectManager()
 {
@@ -56,6 +62,9 @@ void ObjectManager::Update()
 
 void ObjectManager::Render()
 {
+	CAMERA.SetCameraTransform();
+
+	CAMERA.SetProjectionTransform();
 	for (auto Iter : liRenderers)
 	{
 		if (!(Iter->gameObject->GetActive()))
@@ -64,23 +73,43 @@ void ObjectManager::Render()
 		if(Iter->bEnable)
 			Iter->Render();
 	}
+
+	IMAGE.GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
+
+	for (auto Iter : liUiRenderers)
+	{
+		if (!(Iter->gameObject->GetActive()))
+			continue;
+
+		if (Iter->bEnable)
+			Iter->Render();
+	}
+
+	IMAGE.GetSprite()->End();
 }
 
 void ObjectManager::CollisionProcess()
 {
 	for (auto Iter : liColliders)
+		Iter->ColliderUpdate();
+
+	for (auto Iter : liColliders)
 	{
+		if (!Iter->bEnable)
+			continue;
+
 		if (Iter->gameObject->GetDestroy())
 			continue;
 
 		if (!(Iter->gameObject->GetActive()))
 			continue;
 
-		if (!(Iter->bEnable))
-			continue;
 
 		for (auto Iter02 : liColliders)
 		{
+			if (!Iter02->bEnable)
+				continue;
+
 			if (Iter->gameObject == Iter02->gameObject)
 				continue;
 
@@ -93,14 +122,11 @@ void ObjectManager::CollisionProcess()
 			if (!(Iter02->gameObject->GetActive()))
 				continue;
 
-			if (!(Iter02->bEnable))
-				continue;
-
-			Iter->ColliderUpdate();
-			Iter02->ColliderUpdate();
-
 			if (Iter->CheckCollision(Iter02))
+			{
+				Iter->SendCollision(Iter02);
 				Iter02->SendCollision(Iter);
+			}
 		}
 	}
 }
@@ -114,20 +140,19 @@ Renderer* ObjectManager::RegisterRenderer(Renderer* renderer)
 void ObjectManager::UnRegisterRenderer(Renderer* renderer)
 {
 	liRenderers.remove(renderer);
-	/*
-	for (auto Iter = liRenderers.begin(); Iter != liRenderers.end();)
-	{
-		if ((*Iter) == renderer)
-		{
-			Iter = liRenderers.erase(Iter);
-			break;
-		}
-		else
-			++Iter;
-	}
-	*/
+
 }
 
+UIRenderer* ObjectManager::RegisterUIRenderer(UIRenderer* lpUIRenderer)
+{
+	liUiRenderers.push_back(lpUIRenderer);
+	return lpUIRenderer;
+}
+
+void ObjectManager::UnRegisterUIRenderer(UIRenderer* lpUIRenderer)
+{
+	liUiRenderers.remove(lpUIRenderer);
+}
 Collider* ObjectManager::RegisterCollider(Collider* collider)
 {
 	liColliders.push_back(collider);

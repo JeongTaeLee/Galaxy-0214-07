@@ -11,7 +11,7 @@ public:
 private:
 	std::list<Component*> liComponents;
 	std::list<GameObject*> liChild;
-private:
+protected:
 	GameObject * lpParent;	
 
 private:
@@ -39,7 +39,7 @@ public:
 	GameObject * GetParent()				{ return lpParent; }
 	void SetParent(GameObject * _lpParent)	{ lpParent = _lpParent; }
 
-	GameObject * AddChild(GameObject * lpChild) { liChild.push_back(lpChild); }
+	void AddChild(GameObject * lpChild) { liChild.push_back(lpChild); }
 	void DeleteChild(GameObject * lpChild);
 
 public:

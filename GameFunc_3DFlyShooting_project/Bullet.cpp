@@ -27,13 +27,13 @@ Bullet::~Bullet()
 
 void Bullet::Init()
 {
-	transform->bNoneRotationUpdate= false;
-
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Bullet", "./rs/obj/Bullet/Bullet.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Bullet", "Bullet.fx"));
 
 	transform->scale = Vector3(0.01f, 0.01f, 0.01f);
+
+	transform->eUpdateType = E_UPDATE_02;
 }
 
 void Bullet::Update()
@@ -50,7 +50,6 @@ void Bullet::DestroyProcess()
 	if (fDestroyAccrue >= fDestroyDelay)
 	{
 		SetDestroy(true);
-		DEBUG_LOG("Destroy");
 	}
 }
 

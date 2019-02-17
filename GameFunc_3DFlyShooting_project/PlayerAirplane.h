@@ -9,10 +9,14 @@
 #define PlayerAccel 5.f
 #define PlayerUnAccel 10.f
 
+class PlayerAim;
+
 class PlayerAirplane :
 	public AirPlane
 {
 private:
+	PlayerAim* aim;
+
 	Vector3 vCameraPos;
 	Vector3 vCameraLookAt;
 	Vector3 vCameraUp;
@@ -20,12 +24,13 @@ private:
 
 	float fCameraDistance;
 	float fCameraLookAtDistance;
-
 	float fCameraAngle;
+	bool bCameraBack;
 
 	float fMaxSpeed;
 
-	bool bCameraBack;
+	float fAttackDelay;
+	float fAttackAccrue;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();

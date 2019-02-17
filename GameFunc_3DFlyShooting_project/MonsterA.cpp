@@ -20,26 +20,13 @@ MonsterA::~MonsterA()
 
 void MonsterA::Init()
 {
-	transform->scale = Vector3(4.f, 4.f, 4.f);
+	transform->scale = Vector3(3.0f, 3.0f, 3.0f);
 
 	MonsterAirPlane::Init();
 
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj"));
 
-	lpRenderer->SetRenderBegin(
-		[&]() {
-			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
-			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
-			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
-			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
-		});
-
-	lpCollider->InitSphere(Vector3(0.f, 0.f, 40.f), 30);
+	lpCollider->InitSphere(Vector3(0.f, 10.f, 40.f), 50);
 
 	fHp = 10.f;
-}
-
-void MonsterA::Update()
-{
-	LookAtPlayer();
 }

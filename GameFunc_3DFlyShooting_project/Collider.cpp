@@ -50,8 +50,6 @@ void Collider::ColliderUpdate()
 
 void Collider::SetColliderInfo(ColliderType _eColliderType, const Vector3& _vColliderPos)
 {
-	transform->UpdateTransform();
-
 	vOriginColliderPos = _vColliderPos;
 	vColliderPos = vOriginColliderPos;
 	Update();

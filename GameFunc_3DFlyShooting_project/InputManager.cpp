@@ -4,7 +4,7 @@
 
 InputManager::InputManager()
 	:vOldMousePos(0.f,0.f), vNowMousePos(0.f,0.f), 
-	vMouseGap(0.f, 0.f), bMouseClip(false)
+	vMouseGap(0.f, 0.f), bMouseClip(false),  bMouseShow(true)
 {
 	memset(bNowKey, false, sizeof(bool) * 256);
 	memset(bOldKey, false, sizeof(bool) * 256);
@@ -17,6 +17,12 @@ InputManager::~InputManager()
 
 void InputManager::Update()
 {
+	if (KEYDOWN(VK_ESCAPE))
+	{
+		SwitchClipMouse();
+		SwitchShowMouse();
+	}
+
 	memcpy(bOldKey, bNowKey, sizeof(bool) * 256);
 	memset(bNowKey, false, sizeof(bool) * 256);
 
@@ -70,4 +76,22 @@ void InputManager::SetMouseClip(bool _bMouseClip)
 	}
 	else
 		bMouseClip = _bMouseClip;
+}
+
+void InputManager::SetShowMouse(bool _bMouseShow)
+{
+	::ShowCursor((bMouseShow = _bMouseShow));
+}
+
+void InputManager::SwitchShowMouse()
+{
+	bMouseShow = !bMouseShow;
+	SetShowMouse(bMouseShow);
+}
+
+void InputManager::SwitchClipMouse()
+{
+	bMouseClip = !bMouseClip;
+
+	SetMouseClip(bMouseClip);
 }

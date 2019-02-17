@@ -22,7 +22,6 @@ void PlayerBullet::Init()
 {
 	Bullet::Init();
 	fShine = 1.f;
-	fDamage = 10.f;
 
 	lpRenderer->SetRenderBegin(
 		[&]() {

@@ -79,6 +79,7 @@ void CameraManager::SetViewMatrix()
 void CameraManager::SetProjMatrix()
 {
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(90), 16.f / 9.f, 1.f, 50000.f);
+	D3DXMatrixOrthoLH(&matOrthoProj, (float)WINSIZEX, (float)WINSIZEY, 1.f, 50000.f);
 }
 
 void CameraManager::SetCameraTransform()
@@ -89,6 +90,11 @@ void CameraManager::SetCameraTransform()
 void CameraManager::SetProjectionTransform()
 {
 	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
+}
+
+void CameraManager::SetOrthoProjectionTransform()
+{
+	g_device->SetTransform(D3DTS_PROJECTION, &matOrthoProj);
 }
 
 void CameraManager::SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp)
