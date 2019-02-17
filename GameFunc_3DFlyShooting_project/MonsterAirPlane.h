@@ -17,6 +17,9 @@ protected:
 	SphereCollider* lpCollider;
 
 	float fHp;
+
+	float fAttackDelay;
+	float fAttackAccrue;
 public:
 	MonsterAirPlane();
 	virtual ~MonsterAirPlane();
@@ -27,6 +30,9 @@ public:
 
 	void LookAtPlayer();
 	void SendPMLength();
+
+public:
+	virtual void Attack() PURE;
 
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;

@@ -18,8 +18,9 @@
 #include "MonsterDirector.h"
 MonsterAirPlane::MonsterAirPlane()
 	:lpPlayer(nullptr), lpCollider(nullptr), 
-	fHp(0.f)
+	fHp(0.f), fAttackDelay(0.f), fAttackAccrue(0.f)
 {
+	sTag = "Monster";
 }
 
 
@@ -53,6 +54,8 @@ void MonsterAirPlane::Update()
 {
 	SendPMLength();
 	LookAtPlayer();
+
+	Attack();
 }
 
 void MonsterAirPlane::Release()

@@ -31,7 +31,7 @@ void Stage01::Init()
 	
 	MonsterAirPlane* monster = OBJECT.AddObject<MonsterA>();
 	monster->SetMonsterDirector(director);
-	monster->transform->pos = Vector3(100.f, 100.f, 500.f);
+	monster->transform->pos = Vector3(0.f, 0.f, 500.f);
 }
 
 void Stage01::Release()

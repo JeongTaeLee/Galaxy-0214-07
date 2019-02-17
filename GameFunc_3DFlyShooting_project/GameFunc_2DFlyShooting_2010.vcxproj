@@ -401,6 +401,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MonsterA.cpp" />
     <ClCompile Include="MonsterAirPlane.cpp" />
+    <ClCompile Include="MonsterBullet.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerAim.cpp" />
     <ClCompile Include="PlayerAirplane.cpp" />
@@ -431,6 +432,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MonsterA.h" />
     <ClInclude Include="MonsterAirPlane.h" />
+    <ClInclude Include="MonsterBullet.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PlayerAim.h" />
