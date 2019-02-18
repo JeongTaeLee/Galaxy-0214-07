@@ -2,8 +2,8 @@
 #include "AirPlane.h"
 
 
-#define PlayerRollAngle D3DXToRadian(1.5)
-#define PlayerPitchAngle D3DXToRadian(1.5)
+#define PlayerRollAngle D3DXToRadian(1.0)
+#define PlayerPitchAngle D3DXToRadian(1.0)
 #define PlayerYawAngle D3DXToRadian(1.0f)
 
 #define PlayerAccel 5.f

@@ -19,6 +19,9 @@ T GetRandomNumber(T mn, T mx);
 template< >
 float GetRandomNumber < float >(float mn, float mx);
 
+template< >
+Vector3 GetRandomNumber < Vector3 >(Vector3 mn, Vector3 mx);
+
 template<typename T>
 inline T GetRandomNumber(T mn, T mx)
 {
@@ -45,4 +48,34 @@ inline float GetRandomNumber(float mn, float mx)
 	std::uniform_real_distribution<float> range(mn, mx);
 
 	return range(rnd);
+}
+
+template<>
+inline Vector3 GetRandomNumber(Vector3 mn, Vector3 mx)
+{
+	std::random_device rn;
+	std::mt19937_64 rnd(rn());
+	
+	Vector3 result = Vector3(0.f, 0.f, 0.f);
+	
+	if (mn.x < mx.x)
+	{
+		std::uniform_real_distribution<float> range(mn.x, mx.x);
+	
+		result.x = range(rnd);
+	}
+	if (mn.y < mx.y)
+	{
+		std::uniform_real_distribution<float> range(mn.y, mx.y);
+	
+		result.y = range(rnd);
+	}
+	if (mn.z < mx.z)
+	{
+		std::uniform_real_distribution<float> range(mn.z, mx.z);
+	
+		result.z = range(rnd);
+	}
+
+	return result;
 }

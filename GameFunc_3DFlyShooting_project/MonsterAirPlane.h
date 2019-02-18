@@ -1,6 +1,13 @@
 #pragma once
 #include "AirPlane.h"
 
+enum MosnterState
+{
+	E_MONSTERSTATE_IDLE,
+	E_MONSTERSTATE_DIE,
+};
+
+
 class ShaderRenderer;
 class SphereCollider;
 class PlayerAirPlane;
@@ -15,11 +22,19 @@ protected:
 
 	GameObject * lpPlayer;
 	SphereCollider* lpCollider;
+	
+	MosnterState eState;
 
 	float fHp;
 
 	float fAttackDelay;
 	float fAttackAccrue;
+	
+	float fDieEffectDelay;
+	float fDieEffectAccrue;
+
+	int iDieEffectCount;
+	int iDieEffectAmount;
 
 	float fMoveLength;
 	float fAttackLength;
@@ -34,13 +49,15 @@ public:
 	virtual void Update()	override;
 	virtual void Release()	override;
 
-
-	void LookAtPlayer();
-	void SendPMLength();
+public:
+	virtual void IdleBehavior();
+	virtual void DieBehavior(); 
 
 public:
 	virtual void Attack() PURE;
 	virtual void Move();
+	void LookAtPlayer();
+	void SendPMLength();
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

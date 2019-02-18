@@ -17,6 +17,7 @@ MonsterA::MonsterA()
 {
 	fAttackDelay = 1.0f;
 	fSpeed = 200.f;
+	fHp = 10.f;
 }
 
 
@@ -33,8 +34,6 @@ void MonsterA::Init()
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj"));
 
 	lpCollider->InitSphere(Vector3(0.f, 10.f, 40.f), 50);
-
-	fHp = 10.f;
 }
 
 void MonsterA::Attack()

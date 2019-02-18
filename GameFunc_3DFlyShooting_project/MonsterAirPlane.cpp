@@ -17,10 +17,18 @@
 #include "PlayerBullet.h"
 #include "EnemyCircle.h"
 #include "MonsterDirector.h"
+
+#include "Func.h"
 MonsterAirPlane::MonsterAirPlane()
-	:lpPlayer(nullptr), lpCollider(nullptr),
-	fHp(0.f), fAttackDelay(0.f), fAttackAccrue(0.f),
-	fMoveLength(500.f), fAttackLength(1500.f),
+	:lpEnemyCircle(nullptr),
+	lpPlayer(nullptr),
+	lpCollider(nullptr), 
+	eState(E_MONSTERSTATE_IDLE),
+	fHp(0.f),
+	fAttackDelay(0.f), fAttackAccrue(0.f),
+	fDieEffectDelay(0.05f), fDieEffectAccrue(0.05f),
+	iDieEffectCount(0), iDieEffectAmount(3),
+	fMoveLength(400.f), fAttackLength(2000.f),
 	bTargeting(true), bAttaking(true)
 {
 	sTag = "Monster";
@@ -55,6 +63,26 @@ void MonsterAirPlane::Init()
 
 void MonsterAirPlane::Update()
 {
+	switch (eState)
+	{
+	case E_MONSTERSTATE_IDLE:
+		IdleBehavior();
+		break;
+	case E_MONSTERSTATE_DIE:
+		DieBehavior();
+		break;
+	default:
+		break;
+	}
+}
+
+void MonsterAirPlane::Release()
+{
+	lpEnemyCircle->SetDestroy(true);
+}
+
+void MonsterAirPlane::IdleBehavior()
+{
 	Vector3 vLength = lpPlayer->transform->pos - transform->pos;
 	float fLength = D3DXVec3Length(&vLength);
 
@@ -70,19 +98,57 @@ void MonsterAirPlane::Update()
 
 
 	if (bTargeting)
-		Move(); 
-	
-	if(bAttaking)
+		Move();
+
+	if (bAttaking)
 		Attack();
-		
+
 	LookAtPlayer();
-	
+
 	SendPMLength();
 }
 
-void MonsterAirPlane::Release()
+void MonsterAirPlane::DieBehavior()
 {
-	lpEnemyCircle->SetDestroy(true);
+	if (fDieEffectAccrue > fDieEffectDelay)
+	{
+		fDieEffectAccrue = 0.f;
+		++iDieEffectCount;
+		
+		Vector3 RandomPos = GetRandomNumber(
+			transform->worldPos - Vector3(50.f, 50.f, 0.f),
+			transform->worldPos + Vector3(50.f, 50.f, 0.f));
+		float RandomScale = GetRandomNumber(200.f, 300.f);
+
+		RandomPos.z = transform->worldPos.z;
+
+		CreateEffectA(RandomPos, Vector3(RandomScale, RandomScale, RandomScale), 0.01f);
+	
+		if (iDieEffectCount == iDieEffectAmount)
+		{
+			SetActive(false);
+			SetDestroy(true);
+		}
+	}
+	else
+		fDieEffectAccrue += Et;
+
+}
+
+void MonsterAirPlane::Move()
+{
+
+	bTargeting = true;
+
+	Vector3 vDir = Vector3(0.f, 0.f, 1.f);
+
+	Matrix matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	D3DXVec3TransformCoord(&vDir, &vDir, &matRot);
+
+	transform->pos += vDir * (fSpeed * Et);
+
+	
 }
 
 void MonsterAirPlane::LookAtPlayer()
@@ -105,26 +171,9 @@ void MonsterAirPlane::SendPMLength()
 	Vector3 vLength = transform->worldPos - lpPlayer->transform->worldPos;
 	float fLength = D3DXVec3Length(&vLength);
 
-
-
 	lpMonsterDirector->ReceviePMLength(transform->pos, fLength);
 }
 
-void MonsterAirPlane::Move()
-{
-
-	bTargeting = true;
-
-	Vector3 vDir = Vector3(0.f, 0.f, 1.f);
-
-	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-	D3DXVec3TransformCoord(&vDir, &vDir, &matRot);
-
-	transform->pos += vDir * (fSpeed * Et);
-
-	
-}
 
 void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 {
@@ -134,7 +183,7 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 
 		fHp -= object->GetDamage();
 
- 		if (fHp <= 0)
-			SetDestroy(true);
+		if (fHp <= 0)
+			eState = E_MONSTERSTATE_DIE;
 	}
 }
