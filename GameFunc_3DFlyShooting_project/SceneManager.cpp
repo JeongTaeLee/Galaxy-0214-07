@@ -5,7 +5,8 @@
 #include "Scene.h"
 
 SceneManager::SceneManager()
-	:lpNowScene(nullptr), lpNextScene(nullptr), sNowScene("None")
+	:lpNowScene(nullptr), lpNextScene(nullptr),
+	sNowScene("None"), bLoading(false)
 {
 }
 
@@ -34,12 +35,13 @@ Scene * SceneManager::AddScene(const std::string & key, Scene * lpScene)
 	return mScene.insert(std::make_pair(key, lpScene)).first->second;
 }
 
-Scene * SceneManager::ChangeScene(const std::string key)
+Scene * SceneManager::ChangeScene(const std::string &key)
 {
 	if (auto find = mScene.find(key); find != mScene.end())
 	{
 		lpNextScene = find->second;
 		sNowScene = find->first;
+		sNowScene = key;
 		return lpNextScene;
 	}
 	return nullptr;
@@ -47,14 +49,34 @@ Scene * SceneManager::ChangeScene(const std::string key)
 
 void SceneManager::Update()
 {
-	if (lpNextScene)
-	{
-		if (lpNowScene)
-			lpNowScene->Release();
+	Sleep(1);
 
-		lpNowScene	= nullptr;
-		lpNextScene->Init();
-		lpNowScene	= lpNextScene;
-		lpNextScene = nullptr;
+	if (lpNextScene && !bLoading)
+	{
+		thThread = std::thread([&]() { lpNextScene->LoadingResource(); });
+		bLoading = true;
+
+		if (lpNowScene)
+		{
+			lpNowScene->Release();
+			lpNowScene = nullptr;
+		}
 	}
+
+	if (bLoading)
+	{
+		if (lpNextScene->GetLoadingComplete())
+		{
+			DEBUG_LOG("in");
+			
+			if (thThread.joinable())
+				thThread.join();
+
+			bLoading = false;
+
+			(lpNowScene = lpNextScene)->Init();
+			lpNextScene = nullptr;
+		}
+	}
+
 }

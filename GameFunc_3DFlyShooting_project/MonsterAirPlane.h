@@ -20,6 +20,12 @@ protected:
 
 	float fAttackDelay;
 	float fAttackAccrue;
+
+	float fMoveLength;
+	float fAttackLength;
+
+	bool bTargeting;
+	bool bAttaking;
 public:
 	MonsterAirPlane();
 	virtual ~MonsterAirPlane();
@@ -28,12 +34,13 @@ public:
 	virtual void Update()	override;
 	virtual void Release()	override;
 
+
 	void LookAtPlayer();
 	void SendPMLength();
 
 public:
 	virtual void Attack() PURE;
-
+	virtual void Move();
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

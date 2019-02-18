@@ -3,6 +3,7 @@
 
 
 Scene::Scene()
+	:bLoadingComplete(false)
 {
 }
 

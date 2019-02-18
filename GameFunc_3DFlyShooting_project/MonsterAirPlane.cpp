@@ -6,6 +6,7 @@
 #include "ImageManager.h"
 #include "ObjectManager.h"
 #include "CameraManager.h"
+#include "TimeManager.h"
 
 //Component
 #include "ShaderRenderer.h"
@@ -17,8 +18,10 @@
 #include "EnemyCircle.h"
 #include "MonsterDirector.h"
 MonsterAirPlane::MonsterAirPlane()
-	:lpPlayer(nullptr), lpCollider(nullptr), 
-	fHp(0.f), fAttackDelay(0.f), fAttackAccrue(0.f)
+	:lpPlayer(nullptr), lpCollider(nullptr),
+	fHp(0.f), fAttackDelay(0.f), fAttackAccrue(0.f),
+	fMoveLength(500.f), fAttackLength(1500.f),
+	bTargeting(true), bAttaking(true)
 {
 	sTag = "Monster";
 }
@@ -52,10 +55,29 @@ void MonsterAirPlane::Init()
 
 void MonsterAirPlane::Update()
 {
-	SendPMLength();
-	LookAtPlayer();
+	Vector3 vLength = lpPlayer->transform->pos - transform->pos;
+	float fLength = D3DXVec3Length(&vLength);
 
-	Attack();
+	if (fLength > fMoveLength)
+		bTargeting = true;
+	else
+		bTargeting = false;
+
+	if (fLength <= fAttackLength)
+		bAttaking = true;
+	else
+		bAttaking = false;
+
+
+	if (bTargeting)
+		Move(); 
+	
+	if(bAttaking)
+		Attack();
+		
+	LookAtPlayer();
+	
+	SendPMLength();
 }
 
 void MonsterAirPlane::Release()
@@ -83,7 +105,25 @@ void MonsterAirPlane::SendPMLength()
 	Vector3 vLength = transform->worldPos - lpPlayer->transform->worldPos;
 	float fLength = D3DXVec3Length(&vLength);
 
+
+
 	lpMonsterDirector->ReceviePMLength(transform->pos, fLength);
+}
+
+void MonsterAirPlane::Move()
+{
+
+	bTargeting = true;
+
+	Vector3 vDir = Vector3(0.f, 0.f, 1.f);
+
+	Matrix matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	D3DXVec3TransformCoord(&vDir, &vDir, &matRot);
+
+	transform->pos += vDir * (fSpeed * Et);
+
+	
 }
 
 void MonsterAirPlane::ReceiveCollider(Collider* lpOther)

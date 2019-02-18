@@ -10,5 +10,6 @@ public:
 	virtual void Init()	override;
 	virtual void Release()	override;
 
+	virtual void LoadingResource() override;
 };
 

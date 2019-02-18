@@ -25,7 +25,7 @@ EnemyCircle::~EnemyCircle()
 void EnemyCircle::Init()
 {
 	lpRenderer = AC(UIRenderer);
-	lpRenderer->SetTexture(IMAGE.LoadTexture("EnemyCircle", "./rs/Sprite/EnemyUI/EnemyCircle.png"), true);
+	lpRenderer->SetTexture(IMAGE.LoadTexture("EnemyCircle", "./rs/Sprite/UI/EnemyCircle.png"), true);
 	transform->scale = Vector3(0.5f, 0.5f, 1.f);
 }
 

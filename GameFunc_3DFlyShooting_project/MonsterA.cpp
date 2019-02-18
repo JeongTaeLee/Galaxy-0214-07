@@ -16,6 +16,7 @@ MonsterA::MonsterA()
 	:bSecondAttack(false)
 {
 	fAttackDelay = 1.0f;
+	fSpeed = 200.f;
 }
 
 
@@ -24,7 +25,7 @@ MonsterA::~MonsterA()
 }
 
 void MonsterA::Init()
-{
+{ 
 	transform->scale = Vector3(3.0f, 3.0f, 3.0f);
 
 	MonsterAirPlane::Init();
@@ -63,7 +64,7 @@ void MonsterA::Attack()
 		
 		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
-		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, transform->qRot, 500, 3.f);
+		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, transform->qRot, 2000.f, 3.f);
 	}
 	else
 		fAttackAccrue += Et;

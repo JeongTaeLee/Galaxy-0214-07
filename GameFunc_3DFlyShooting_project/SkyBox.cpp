@@ -25,7 +25,7 @@ void SkyBox::Init()
 	transform->scale = Vector3(100, 100, 100);
 
 	lpRenderer = AC(ShaderRenderer);
-	lpRenderer->LoadMesh(IMAGE.LoadObjFile("SkyBopx", "./rs/obj/Stage/Stage.obj"));
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("SkyBox_Sphere", "./rs/obj/SkyBox_Sphere/Stage.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("SkyBox", "SkyBox.fx"));
 
 	lpRenderer->SetRenderBegin([&]() { 

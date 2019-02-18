@@ -25,10 +25,12 @@ public:
 	ImageManager();
 	virtual ~ImageManager();
 
-	texture * LoadTexture(const std::string & key, const std::string & path);
-	void LoadTextures(const std::string & keys, const std::string & paths, int mn, int mx);
+	void Reset();
 
-	Mesh* LoadObjFile(const std::string & keys, const std::string & path);
+	texture * LoadTexture(const std::string & key, const std::string & path, bool bNoneDelete = false);
+	void LoadTextures(const std::string & keys, const std::string & paths, int mn, int mx, bool bNoneDelete = false);
+
+	Mesh* LoadObjFile(const std::string & keys, const std::string & path, bool bNoneDelete = false);
 	void LoadObjFiles(const std::string & keys, const std::string & paths, int mn, int mx);
 
 	LPD3DXEFFECT LoadEffect(const std::string& key, const std::string& path);

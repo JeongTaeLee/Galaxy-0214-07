@@ -1,7 +1,16 @@
 #include "DXUT.h"
 #include "Func.h"
 
+//Manager
 #include "CameraManager.h"
+#include "ObjectManager.h"
+#include "ImageManager.h"
+
+//Component
+#include "Transform.h"
+
+//Object
+#include "EffectA.h"
 
 Vector3 GetDirectionVector(const Vector3& v1, const Vector3& v2)
 {
@@ -86,4 +95,12 @@ void GetLookAt(const Vector3& v1, const Vector3& v2, Quaternion& nowQuater, floa
 	D3DXQUATERNION currQ;
 	D3DXQuaternionRotationMatrix(&currQ, &matRot);
 	D3DXQuaternionSlerp(&nowQuater, &nowQuater, &currQ, fS);
+}
+
+void CreateEffectA(const Vector3& pos, const Vector3& scale, float speed)
+{
+	EffectA* effect = OBJECT.AddObject<EffectA>();
+  	effect->transform->pos = pos;
+
+	effect->SetEffect("EffectA%d", "./rs/Sprite/Effect_A/Effect00%02d.png", 1, 30, scale, speed);
 }

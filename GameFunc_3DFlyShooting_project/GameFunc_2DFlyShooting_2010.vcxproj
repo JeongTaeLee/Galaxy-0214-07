@@ -392,6 +392,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DebugMesh.cpp" />
+    <ClCompile Include="EffectA.cpp" />
     <ClCompile Include="EnemyCircle.cpp" />
     <ClCompile Include="Func.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -402,6 +403,7 @@
     <ClCompile Include="MonsterA.cpp" />
     <ClCompile Include="MonsterAirPlane.cpp" />
     <ClCompile Include="MonsterBullet.cpp" />
+    <ClCompile Include="MonsterCreater.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="PlayerAim.cpp" />
     <ClCompile Include="PlayerAirplane.cpp" />
@@ -424,6 +426,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DebugMesh.h" />
+    <ClInclude Include="EffectA.h" />
     <ClInclude Include="EnemyCircle.h" />
     <ClInclude Include="Func.h" />
     <ClInclude Include="GameObject.h" />
@@ -433,6 +436,7 @@
     <ClInclude Include="MonsterA.h" />
     <ClInclude Include="MonsterAirPlane.h" />
     <ClInclude Include="MonsterBullet.h" />
+    <ClInclude Include="MonsterCreater.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="PlayerAim.h" />

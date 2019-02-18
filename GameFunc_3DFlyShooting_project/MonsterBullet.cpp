@@ -4,6 +4,9 @@
 //Component & GameObject
 #include "ShaderRenderer.h"
 #include "Collider.h"
+#include "Transform.h"
+
+#include "Func.h"
 
 MonsterBullet::MonsterBullet()
 {
@@ -29,5 +32,8 @@ void MonsterBullet::Init()
 void MonsterBullet::ReceiveCollider(Collider* lpOther)
 {
 	if (lpOther->gameObject->sTag == "PlayerAirPlane")
+	{
+		CreateEffectA(transform->pos);
 		SetDestroy(true);
+	}
 }

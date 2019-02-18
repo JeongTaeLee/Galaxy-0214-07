@@ -27,7 +27,6 @@ public:
 
 public:
 	void DestroyProcess();
-
 public:
 	void SetBullet(const Vector3 & FirePos, const Quaternion& _qRot, float _fSpeed, float _fDamage);
 

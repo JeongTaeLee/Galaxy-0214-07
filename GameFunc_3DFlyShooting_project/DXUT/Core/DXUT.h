@@ -76,6 +76,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <functional>
+#include <random>
 #include <fstream>
 #include <thread>
 #include <vector>	
@@ -391,6 +392,8 @@ using Quaternion = D3DXQUATERNION;
 
 struct texture
 {
+	bool bNoneDelete = false;
+	
 	LPDIRECT3DTEXTURE9  lpD3DTexture;
 	D3DXIMAGE_INFO		info;
 
@@ -422,6 +425,8 @@ struct Material
 
 struct Mesh
 {
+	bool bNoneDelete = false;
+
 	LPD3DXMESH lpD3DXMesh;
 	std::vector<Material*> vMaterial;
 

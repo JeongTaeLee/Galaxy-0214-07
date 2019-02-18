@@ -42,7 +42,7 @@ sampler gMapSampler = sampler_state
 float4 ps_main(PS_INPUT Input) : COLOR
 {
 	float4 albedo = tex2D(gMapSampler, Input.mUv);
-	return albedo * 3;
+	return albedo;
 }
 
 

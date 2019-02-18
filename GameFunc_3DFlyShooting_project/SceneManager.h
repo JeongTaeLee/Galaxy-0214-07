@@ -9,15 +9,22 @@ class SceneManager :
 private:
 	Scene * lpNowScene;
 	Scene * lpNextScene;
-	std::string sNowScene;
 
 	std::map<std::string, Scene*> mScene;
+
+	std::thread thThread;
+
+	bool bLoading;
+
+public:
+	std::string sNowScene;
+
 public:
 	SceneManager();
 	virtual ~SceneManager();
 
 	Scene * AddScene(const std::string & key, Scene * lpScene);
-	Scene * ChangeScene(const std::string key);
+	Scene * ChangeScene(const std::string &key);
 
 	void Update();
 };

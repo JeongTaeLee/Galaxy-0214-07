@@ -22,5 +22,5 @@ void PlayerAim::Init()
 	transform->pos = Vector3(WINSIZEX / 2, WINSIZEY / 2, 0.f);
 
 	lpRenderer = AC(UIRenderer);
-	lpRenderer->SetTexture(IMAGE.LoadTexture("PlayerAim", "./rs/Sprite/PlayerUI/Aim.png"), true);
+	lpRenderer->SetTexture(IMAGE.LoadTexture("Aim", "./rs/Sprite/UI/Aim.png"), true);
 }

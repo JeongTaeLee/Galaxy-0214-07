@@ -4,9 +4,12 @@
 //Component
 #include "Collider.h"
 #include "ShaderRenderer.h"
+#include "Transform.h"
 
 //GameObject;
 #include "GameObject.h"
+
+#include "Func.h"
 
 PlayerBullet::PlayerBullet()
 {
@@ -33,5 +36,10 @@ void PlayerBullet::Init()
 void PlayerBullet::ReceiveCollider(Collider* Other)
 {
 	if (Other->gameObject->sTag == "Monster")
+	{
+		float fRandomScale = GetRandomNumber(50.f, 200.f);
+
+		CreateEffectA(transform->pos, Vector3(fRandomScale, fRandomScale, 1.f), 0.01f);
 		SetDestroy(true);
+	}
 }

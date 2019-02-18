@@ -85,7 +85,29 @@ ImageManager::~ImageManager()
 	mEffects.clear();
 }
 
-texture * ImageManager::LoadTexture(const std::string & key, const std::string & path)
+void ImageManager::Reset()
+{
+	for (auto Iter : mTextures)
+	{
+		if(!Iter.second->bNoneDelete)
+		{ 
+			SAFE_RELEASE(Iter.second->lpD3DTexture);
+			SAFE_DELETE(Iter.second);
+		}
+	}
+	mTextures.clear();
+
+	for (auto Iter : mMeshs)
+	{
+		if (!Iter.second->bNoneDelete)
+			SAFE_DELETE(Iter.second);
+	}
+	mMeshs.clear();
+
+
+}
+
+texture * ImageManager::LoadTexture(const std::string & key, const std::string & path, bool bNoneDelete)
 {
 	if (auto find = mTextures.find(key); find != mTextures.end())
 		return find->second;
@@ -100,10 +122,12 @@ texture * ImageManager::LoadTexture(const std::string & key, const std::string &
 		return nullptr;
 	}
 
-	return mTextures.insert(std::make_pair(key, new texture(lpD3DTex, info))).first->second;
+	texture* tex = new texture(lpD3DTex, info);
+	tex->bNoneDelete = bNoneDelete;
+	return mTextures.insert(std::make_pair(key, tex)).first->second;
 }
 
-void ImageManager::LoadTextures(const std::string & keys, const std::string & paths, int mn, int mx)
+void ImageManager::LoadTextures(const std::string & keys, const std::string & paths, int mn, int mx, bool bNoneDelete)
 {
 	for (int i = mn; i <= mx; ++i)
 	{
@@ -113,11 +137,11 @@ void ImageManager::LoadTextures(const std::string & keys, const std::string & pa
 		char path[256];
 		sprintf(path, paths.c_str(), i);
 
-		LoadTexture(key, path);
+		LoadTexture(key, path, bNoneDelete);
 	}
 }
 
-Mesh* ImageManager::LoadObjFile(const std::string & keys, const std::string & path)
+Mesh* ImageManager::LoadObjFile(const std::string & keys, const std::string & path, bool bNoneDelete)
 {
 	if (auto find = mMeshs.find(keys); find != mMeshs.end())
 		return find->second;
@@ -125,6 +149,7 @@ Mesh* ImageManager::LoadObjFile(const std::string & keys, const std::string & pa
 	Mesh * mesh = new Mesh;
 	lpObjLoader->OBJLoad(mesh, path);
 
+	mesh->bNoneDelete = bNoneDelete;
 	return mMeshs.insert(make_pair(keys, mesh)).first->second;
 }
 

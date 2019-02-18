@@ -46,7 +46,7 @@ void PlayerAirplane::Init()
 
 #pragma region RendererSetting
 	lpRenderer = AC(ShaderRenderer);
-	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Player_Airplane", "./rs/obj/Player/PlayerAirPlane.obj"));
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("PlayerAirPlane", "./rs/obj/Player/PlayerAirPlane.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
 	
 	lpRenderer->SetRenderBegin(
@@ -59,8 +59,8 @@ void PlayerAirplane::Init()
 #pragma endregion RendererSetting
 
 #pragma region CameraSetting
-	fCameraAngle = D3DXToRadian(13.f);
-	fCameraDistance = 70.f;
+	fCameraAngle = D3DXToRadian(7.f);
+	fCameraDistance = 100.f;
 
 	CamreaSetting();
 #pragma endregion CameraSetting 
@@ -196,7 +196,7 @@ void PlayerAirplane::CamreaSetting()
 	D3DXVec3TransformNormal(&vCameraUp, &vCameraUp, &matCamreaRot);
 
 	//LookAt
-	vCameraLookAt = Vector3(0.f, 15.f, 0.f);
+	vCameraLookAt = Vector3(0.f, 11.f, 0.f);
 	memcpy(&matCamreaRot._41, &transform->pos, sizeof(Vector3));
 	
 	D3DXVec3TransformCoord(&vCameraLookAt, &vCameraLookAt, &matCamreaRot);

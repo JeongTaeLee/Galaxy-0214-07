@@ -13,7 +13,9 @@
 #include "Func.h"
 
 BBRenderer::BBRenderer()
+	:lpTexture(nullptr)
 {
+	
 }
 
 BBRenderer::~BBRenderer()

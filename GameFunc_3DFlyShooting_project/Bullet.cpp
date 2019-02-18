@@ -5,11 +5,15 @@
 #include "TimeManager.h"
 #include "ImageManager.h"
 #include "CameraManager.h"
+#include "ObjectManager.h"
 
 //Component
 #include "Transform.h"
 #include "ShaderRenderer.h"
 #include "SphereCollider.h"
+
+//GameObject
+#include "EffectA.h"
 
 Bullet::Bullet()
 	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f), 
@@ -28,7 +32,7 @@ Bullet::~Bullet()
 void Bullet::Init()
 {
 	lpRenderer = AC(ShaderRenderer);
-	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Bullet", "./rs/obj/Bullet/Bullet.obj"));
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("BasicBullet", "./rs/obj/Bullet/Bullet.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Bullet", "Bullet.fx"));
 
 	transform->scale = Vector3(0.01f, 0.01f, 0.01f);
@@ -52,7 +56,6 @@ void Bullet::DestroyProcess()
 		SetDestroy(true);
 	}
 }
-
 
 void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _fSpeed, float _fDamage)
 {	
