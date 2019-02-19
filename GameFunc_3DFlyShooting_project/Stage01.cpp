@@ -11,6 +11,7 @@
 #include "SkyBox.h"
 #include "MonsterDirector.h"
 #include "MonsterCreater.h"
+#include "MeteorAdmin.h"
 Stage01::Stage01()
 {
 }
@@ -30,6 +31,10 @@ void Stage01::Init()
 	player->SetMonsterDirector(director);
 	director->SetPlayer(player);
 
+	MeteorAdmin* meteor = OBJECT.AddObject <MeteorAdmin>();
+	meteor->SetPlayer(player);
+	meteor->CreateMeteor();
+	
 	MonsterCreater* monster = OBJECT.AddObject<MonsterCreater>();
 	monster->SetMonsterDirector(director);
 }
@@ -57,6 +62,11 @@ void Stage01::LoadingResource()
 
 	//Monster
 	IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj", true);
+
+	//Meteor
+	IMAGE.LoadObjFile("MeteorA", "./rs/obj/Meteor/Meteor1/Meteor_A.obj", true);
+	IMAGE.LoadObjFile("MeteorB", "./rs/obj/Meteor/Meteor2/Meteor_B.obj", true);
+	IMAGE.LoadObjFile("MeteorC", "./rs/obj/Meteor/Meteor3/Meteor_C.obj", true);
 
 	/****png****/
 	

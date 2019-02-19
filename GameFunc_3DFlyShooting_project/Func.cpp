@@ -41,6 +41,12 @@ Vector3 GetDirectionVector(const Vector3& v1, const Vector3& v2)
 	return vRot;
 }
 
+float GetLengthVector3(const Vector3& v1, const Vector3& v2)
+{
+	Vector3 vLength = v1 - v2;
+	return  D3DXVec3Length(&vLength);
+}
+
 void GetBillBoardMatrix(Matrix& mat, const Vector3& pos, const Vector3& scal)
 {
 	D3DXMATRIX matView;

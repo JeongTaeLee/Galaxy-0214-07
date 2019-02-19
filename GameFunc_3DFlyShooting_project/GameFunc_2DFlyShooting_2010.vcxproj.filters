@@ -59,9 +59,6 @@
     <Filter Include="GameObject\SkyBox">
       <UniqueIdentifier>{43efba8c-2731-4d0a-96e7-68fbe4900c68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Map">
-      <UniqueIdentifier>{b9be0718-fd75-452c-9624-830efdd5b7b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Manager\TimeManager">
       <UniqueIdentifier>{8538c7b0-a10d-4303-a812-766d95a7b49a}</UniqueIdentifier>
     </Filter>
@@ -122,6 +119,12 @@
     </Filter>
     <Filter Include="GameObject\EffectA">
       <UniqueIdentifier>{889360f3-98ff-496f-998d-6636fa68bf70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Meteor">
+      <UniqueIdentifier>{dbbfa608-cb8c-4d3e-86ff-600093d2d64b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Meteor\MeteorAdmin">
+      <UniqueIdentifier>{7cb8b07c-8892-4dcd-b647-4dfddf14d2cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -224,9 +227,6 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>Manager\CameraManager</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerAirplane.cpp">
-      <Filter>GameObject\PlayerAirplane</Filter>
-    </ClCompile>
     <ClCompile Include="Stage01.cpp">
       <Filter>Scene\Stage01</Filter>
     </ClCompile>
@@ -238,9 +238,6 @@
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>GameObject\SkyBox</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>GameObject\Map</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>Manager\TimeManager</Filter>
@@ -296,6 +293,15 @@
     <ClCompile Include="EffectA.cpp">
       <Filter>GameObject\EffectA</Filter>
     </ClCompile>
+    <ClCompile Include="Meteor.cpp">
+      <Filter>GameObject\Meteor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAirplane.cpp">
+      <Filter>GameObject\PlayerAirplane</Filter>
+    </ClCompile>
+    <ClCompile Include="MeteorAdmin.cpp">
+      <Filter>GameObject\Meteor\MeteorAdmin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -348,9 +354,6 @@
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>GameObject\SkyBox</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>GameObject\Map</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>Manager\TimeManager</Filter>
@@ -405,6 +408,12 @@
     </ClInclude>
     <ClInclude Include="EffectA.h">
       <Filter>GameObject\EffectA</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteor.h">
+      <Filter>GameObject\Meteor</Filter>
+    </ClInclude>
+    <ClInclude Include="MeteorAdmin.h">
+      <Filter>GameObject\Meteor\MeteorAdmin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

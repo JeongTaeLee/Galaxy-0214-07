@@ -46,13 +46,13 @@ void ObjectManager::Update()
 		}
 		else
 		{
-			if (!((*Iter)->GetActive()))
-				continue;
+			if ((*Iter)->GetActive())
+			{
+				(*Iter)->Update();
+				(*Iter)->ComUpdate();
 
-			(*Iter)->Update();
-			(*Iter)->ComUpdate();
-
-			(*Iter)->transform->UpdateTransform();
+				(*Iter)->transform->UpdateTransform();
+			}
 			++Iter;
 		}
 	}
@@ -70,7 +70,7 @@ void ObjectManager::Render()
 		if (!(Iter->gameObject->GetActive()))
 			continue;
 
-		if(Iter->bEnable)
+		if(Iter->GetEnable())
 			Iter->Render();
 	}
 
@@ -81,7 +81,7 @@ void ObjectManager::Render()
 		if (!(Iter->gameObject->GetActive()))
 			continue;
 
-		if (Iter->bEnable)
+		if (Iter->GetEnable())
 			Iter->Render();
 	}
 
@@ -95,7 +95,7 @@ void ObjectManager::CollisionProcess()
 
 	for (auto Iter : liColliders)
 	{
-		if (!Iter->bEnable)
+		if (!Iter->GetEnable())
 			continue;
 
 		if (Iter->gameObject->GetDestroy())
@@ -107,7 +107,7 @@ void ObjectManager::CollisionProcess()
 
 		for (auto Iter02 : liColliders)
 		{
-			if (!Iter02->bEnable)
+			if (!Iter02->GetEnable())
 				continue;
 
 			if (Iter->gameObject == Iter02->gameObject)

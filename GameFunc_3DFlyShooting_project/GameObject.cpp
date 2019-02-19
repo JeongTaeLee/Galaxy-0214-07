@@ -37,7 +37,7 @@ void GameObject::ComUpdate()
 {
 	for (auto Iter : liComponents)
 	{
-		if(Iter->bEnable)
+		if(Iter->GetEnable())
 			Iter->Update();
 	}
 }
@@ -60,7 +60,7 @@ void GameObject::SendCollider(Collider* collider)
 {
 	for (auto Iter : liComponents)
 	{
-		if(Iter->bEnable)
+		if(Iter->GetEnable())
 			Iter->ReceiveCollider(collider);
 	}
 }

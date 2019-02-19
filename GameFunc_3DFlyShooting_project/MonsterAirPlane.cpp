@@ -28,7 +28,7 @@ MonsterAirPlane::MonsterAirPlane()
 	fAttackDelay(0.f), fAttackAccrue(0.f),
 	fDieEffectDelay(0.05f), fDieEffectAccrue(0.05f),
 	iDieEffectCount(0), iDieEffectAmount(3),
-	fMoveLength(400.f), fAttackLength(2000.f),
+	fMoveLength(50.f), fAttackLength(2000.f),
 	bTargeting(true), bAttaking(true)
 {
 	sTag = "Monster";
@@ -54,7 +54,7 @@ void MonsterAirPlane::Init()
 			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
 			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
 			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
-			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
+			lpRenderer->SetShaderFloat("gAmbient", 0.5f);
 		});
 
 	lpEnemyCircle = OBJECT.AddObject<EnemyCircle>();
@@ -63,16 +63,25 @@ void MonsterAirPlane::Init()
 
 void MonsterAirPlane::Update()
 {
-	switch (eState)
+	if (lpPlayer)
 	{
-	case E_MONSTERSTATE_IDLE:
-		IdleBehavior();
-		break;
-	case E_MONSTERSTATE_DIE:
-		DieBehavior();
-		break;
-	default:
-		break;
+		if (lpPlayer&& lpPlayer->GetDestroy())
+		{
+			lpPlayer = nullptr;
+			return;
+		}
+
+		switch (eState)
+		{
+		case E_MONSTERSTATE_IDLE:
+			IdleBehavior();
+			break;
+		case E_MONSTERSTATE_DIE:
+			DieBehavior();
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -153,6 +162,7 @@ void MonsterAirPlane::Move()
 
 void MonsterAirPlane::LookAtPlayer()
 {
+
 	Vector3 vDir = lpPlayer->transform->worldPos - transform->worldPos;
 	normalize(vDir);
 
@@ -185,5 +195,6 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 
 		if (fHp <= 0)
 			eState = E_MONSTERSTATE_DIE;
+		
 	}
 }

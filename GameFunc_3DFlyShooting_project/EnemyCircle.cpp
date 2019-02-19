@@ -39,10 +39,10 @@ void EnemyCircle::Update()
 	if (CheckPos.z > 0.f)
 	{
 		SpaceToClient(transform->pos, lpMonster->transform->worldPos);
-		lpRenderer->bEnable = true;
+		lpRenderer->SetEnable(true);
 	}
 	else
-		lpRenderer->bEnable = false;
+		lpRenderer->SetEnable(false);
 
 }
 

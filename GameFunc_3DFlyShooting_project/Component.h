@@ -7,9 +7,10 @@ class Collider;
 class Component
 {
 public:
-	GameObject * gameObject;
-	Transform * transform;
+	GameObject* gameObject;
+	Transform* transform;
 
+protected:
 	bool bEnable;
 public:
 	Component();
@@ -21,7 +22,9 @@ public:
 	virtual void Render() {}
 
 public:
-	virtual void ReceiveCollider(Collider * collider);
+	virtual void ReceiveCollider(Collider* collider);
+	virtual void SetEnable(bool _bEnable) { bEnable = _bEnable; }
+	bool GetEnable() { return bEnable; }
 
 public:
 	void SetInfo(GameObject * _gameObject, Transform * _transform);

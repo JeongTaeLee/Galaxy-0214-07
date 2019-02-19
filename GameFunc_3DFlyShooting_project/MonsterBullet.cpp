@@ -10,6 +10,7 @@
 
 MonsterBullet::MonsterBullet()
 {
+	sTag = "MonsterBullet";
 }
 
 

@@ -34,9 +34,22 @@ void Collider::Release()
 	OBJECT.UnRegisterCollider(this);
 
 #ifdef DebugColliderRender
-	if(lpDebugMesh)
-		lpDebugMesh->bEnable = false;
+	if (lpDebugMesh)
+		lpDebugMesh->SetEnable(false);
 #endif // DEBUG
+}
+
+void Collider::SetEnable(bool _bEnable)
+{
+	if (bEnable == _bEnable)
+		return;
+	
+	bEnable = _bEnable;
+
+	if (bEnable)
+		OBJECT.RegisterCollider(this);
+	else
+		OBJECT.UnRegisterCollider(this);
 }
 
 void Collider::ColliderUpdate()
@@ -52,7 +65,7 @@ void Collider::SetColliderInfo(ColliderType _eColliderType, const Vector3& _vCol
 {
 	vOriginColliderPos = _vColliderPos;
 	vColliderPos = vOriginColliderPos;
-	Update();
+	ColliderUpdate();
 }
 
 void Collider::SendCollision(Collider* lpOther)

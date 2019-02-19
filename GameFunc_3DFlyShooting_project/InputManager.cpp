@@ -39,8 +39,7 @@ void InputManager::Update()
 	ScreenToClient(g_hwnd, &pt);
 	
 	vNowMousePos = Vector2(pt.x, pt.y);
-	//DEBUG_LOG(vNowMousePos.x << " " << vNowMousePos.y);
-		
+
 	MouseGapProcess();
 }
 

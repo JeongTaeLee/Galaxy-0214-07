@@ -63,7 +63,7 @@ void MonsterA::Attack()
 		
 		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
-		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, transform->qRot, 2000.f, 3.f);
+		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, transform->qRot, 1500.f, 3.f);
 	}
 	else
 		fAttackAccrue += Et;

@@ -1,8 +1,7 @@
 #pragma once
 #include "AirPlane.h"
 
-
-#define PlayerRollAngle D3DXToRadian(1.0)
+#define PlayerRollAngle D3DXToRadian(2.0)
 #define PlayerPitchAngle D3DXToRadian(1.0)
 #define PlayerYawAngle D3DXToRadian(1.0f)
 
@@ -31,6 +30,8 @@ private:
 
 	float fAttackDelay;
 	float fAttackAccrue;
+
+	int iLife;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();

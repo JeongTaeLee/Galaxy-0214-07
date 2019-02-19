@@ -38,7 +38,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	transform->eUpdateType = E_UPDATE_02;
-	
+
 	aim = OBJECT.AddObject<PlayerAim>();
 
 	transform->pos = Vector3(0.f, 0.f, -150.f);
@@ -48,7 +48,7 @@ void PlayerAirplane::Init()
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("PlayerAirPlane", "./rs/obj/Player/PlayerAirPlane.obj"));
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
-	
+
 	lpRenderer->SetRenderBegin(
 		[&]() {
 			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
@@ -72,7 +72,7 @@ void PlayerAirplane::Init()
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
 
-
+	
 }
 
 void PlayerAirplane::Update()
@@ -90,10 +90,12 @@ void PlayerAirplane::Update()
 #pragma region ATTACK
 	if (fAttackAccrue >= fAttackDelay)
 	{
+
 		if (KEYPRESS(VK_SPACE) || KEYPRESS(VK_LBUTTON))
 		{
+
 			fAttackAccrue = 0.f;
-			
+
 			Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
 			Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
 
@@ -105,15 +107,15 @@ void PlayerAirplane::Update()
 			D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
 
 			OBJECT.AddObject<PlayerBullet>()
-				->SetBullet(LeftFirePos, transform->qRot, 2000.f, 5.f);
+				->SetBullet(LeftFirePos, transform->qRot,1500.f, 5.f);
 			OBJECT.AddObject<PlayerBullet>()
-				->SetBullet(RightFirePos, transform->qRot, 2000.f, 5.f);
+				->SetBullet(RightFirePos, transform->qRot, 1500.f, 5.f);
 		}
 	}
 	else
 		fAttackAccrue += Et;
 #pragma endregion ATTACK
-	
+
 
 	CamreaSetting();
 }
@@ -137,7 +139,7 @@ void PlayerAirplane::InputKeyboard()
 		fPitchAngle = PlayerPitchAngle;
 	if (KEYPRESS(VK_DOWN))
 		fPitchAngle = -PlayerPitchAngle;
-	
+
 	if (KEYPRESS(VK_LEFT))
 		fRollAngle = PlayerRollAngle;
 	if (KEYPRESS(VK_RIGHT))
@@ -157,20 +159,20 @@ void PlayerAirplane::InputKeyboard()
 
 	if (KEYPRESS('W'))
 	{
-		if(fSpeed < fMaxSpeed)
+		if (fSpeed < fMaxSpeed)
 			fSpeed += PlayerAccel;
 	}
-	
+
 	if (KEYPRESS('S'))
 	{
-		if(fSpeed > 0.f)
+		if (fSpeed > 0.f)
 			fSpeed -= PlayerUnAccel;
 	}
 
 	if (KEYPRESS(VK_LSHIFT))
 		fMaxSpeed = 800.f;
 	else
-		fMaxSpeed = 500.f;	
+		fMaxSpeed = 500.f;
 }
 
 void PlayerAirplane::CamreaSetting()
@@ -181,8 +183,8 @@ void PlayerAirplane::CamreaSetting()
 
 	D3DXMATRIX matCamreaRot;
 	D3DXMatrixRotationQuaternion(&matCamreaRot, &qCameraRot);
-	
-	
+
+
 	//vCameraPos;
 	D3DXMATRIX matInitCameraRot;
 	D3DXMatrixRotationX(&matInitCameraRot, bCameraBack ? -fCameraAngle : fCameraAngle);
@@ -198,7 +200,7 @@ void PlayerAirplane::CamreaSetting()
 	//LookAt
 	vCameraLookAt = Vector3(0.f, 11.f, 0.f);
 	memcpy(&matCamreaRot._41, &transform->pos, sizeof(Vector3));
-	
+
 	D3DXVec3TransformCoord(&vCameraLookAt, &vCameraLookAt, &matCamreaRot);
 
 	CAMERA.SetCameraPos(vCameraPos, false, 0.f);
@@ -210,6 +212,3 @@ void PlayerAirplane::ReceiveCollider(Collider* Other)
 {
 	fSpeed = 0.f;
 }
-
-
-// Äî¾Ø Åä·±½º cook & torrance

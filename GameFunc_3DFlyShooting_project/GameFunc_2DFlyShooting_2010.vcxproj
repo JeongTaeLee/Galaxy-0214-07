@@ -399,7 +399,8 @@
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="MainGame.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Meteor.cpp" />
+    <ClCompile Include="MeteorAdmin.cpp" />
     <ClCompile Include="MonsterA.cpp" />
     <ClCompile Include="MonsterAirPlane.cpp" />
     <ClCompile Include="MonsterBullet.cpp" />
@@ -432,7 +433,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="Meteor.h" />
+    <ClInclude Include="MeteorAdmin.h" />
     <ClInclude Include="MonsterA.h" />
     <ClInclude Include="MonsterAirPlane.h" />
     <ClInclude Include="MonsterBullet.h" />
