@@ -45,8 +45,10 @@ void MonsterCreater::CreateMonsterA()
 	MonsterA* monster = OBJECT.AddObject<MonsterA>();
 	monster->SetCreater(this);
 	monster->SetMonsterDirector(lpDirector);
+	monster->SetPlayer(lpPlayer);
 	monster->transform->pos = transform->pos + Vector3(0.f, 50.f, 0.f);
 	
+
 	liMonsters.push_back(monster);
 
 }

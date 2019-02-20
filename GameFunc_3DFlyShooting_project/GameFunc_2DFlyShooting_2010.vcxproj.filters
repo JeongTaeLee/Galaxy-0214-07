@@ -126,6 +126,9 @@
     <Filter Include="GameObject\Meteor\MeteorAdmin">
       <UniqueIdentifier>{7cb8b07c-8892-4dcd-b647-4dfddf14d2cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Monster\MonsterFlight">
+      <UniqueIdentifier>{ea011077-e850-4c76-9a5f-c6eba58bb141}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -302,6 +305,9 @@
     <ClCompile Include="MeteorAdmin.cpp">
       <Filter>GameObject\Meteor\MeteorAdmin</Filter>
     </ClCompile>
+    <ClCompile Include="MonsterFlight.cpp">
+      <Filter>GameObject\Monster\MonsterFlight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -414,6 +420,9 @@
     </ClInclude>
     <ClInclude Include="MeteorAdmin.h">
       <Filter>GameObject\Meteor\MeteorAdmin</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterFlight.h">
+      <Filter>GameObject\Monster\MonsterFlight</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

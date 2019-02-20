@@ -39,11 +39,9 @@ void MeteorAdmin::CreateMeteor()
 	for (int i = 0; i < 500; ++i)
 	{
 		Meteor* lpMeteor = OBJECT.AddObject<Meteor>();
-		lpMeteor->SetMeteor((MeteorType)GetRandomNumber((int)MeteorType::E_METEOR_01, (int)MeteorType::E_METEOR_03));
 		lpMeteor->SetPlayer(lpPlayer);
 
 		float fRange = 20000;
-
 
 		Vector3 vStartPos(Vector3(0.f, 0.f, 0.f) + Vector3(-fRange, -fRange, -fRange));
 		Vector3 vEndPos(Vector3(0.f, 0.f, 0.f) + Vector3(fRange, fRange, fRange));

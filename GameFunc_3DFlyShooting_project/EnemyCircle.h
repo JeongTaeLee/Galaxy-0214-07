@@ -10,8 +10,7 @@ class EnemyCircle :
 {
 private:
 	MonsterAirPlane* lpMonster;
-	PlayerAirplane* lpPlayer;
-
+	
 	UIRenderer * lpRenderer;
 	texture* lpNoneLockOnTexture;
 	texture* lpLockOnTexture;
@@ -33,8 +32,6 @@ public:
 	void SetLockOn(bool _bLockOn);
 	
 	float GetCircleRad() { return fRad; }
-	
-	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
 public:
 
 };

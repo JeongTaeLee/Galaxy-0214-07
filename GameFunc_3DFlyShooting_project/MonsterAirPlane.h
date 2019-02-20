@@ -3,7 +3,6 @@
 
 enum MonsterState
 {
-	E_MONSTERSTATE_IDLEMOVE,
 	E_MONSTERSTATE_IDLE,
 	E_MONSTERSTATE_DIE,
 };
@@ -37,18 +36,15 @@ protected:
 	float fDieEffectDelay;
 	float fDieEffectAccrue;
 
-	float fMoveIdleDelay;
-	float fMoveIdleAccure;
-
 	int iDieEffectCount;
 	int iDieEffectAmount;
 
 	float fMoveLength;
 	float fAttackLength;
 
-	bool bTargeting;
 	bool bAttaking;
-	
+	bool bFlight;
+
 	float fPlayerLength;
 public:
 	MonsterAirPlane();
@@ -74,6 +70,8 @@ public:
 
 	EnemyCircle* GetCircle() { return lpEnemyCircle; }
 	float GetPlayerLength() { return fPlayerLength; }
+
+	void SetPlayer(PlayerAirplane * airPlane) { lpPlayer = airPlane;}
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

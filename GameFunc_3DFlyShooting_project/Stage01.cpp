@@ -67,10 +67,7 @@ void Stage01::LoadingResource()
 	IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj", true);
 
 	//Meteor
-	IMAGE.LoadObjFile("MeteorA", "./rs/obj/Meteor/Meteor1/Meteor_A.obj", true);
-	IMAGE.LoadObjFile("MeteorB", "./rs/obj/Meteor/Meteor2/Meteor_B.obj", true);
-	IMAGE.LoadObjFile("MeteorC", "./rs/obj/Meteor/Meteor3/Meteor_C.obj", true);
-
+	IMAGE.LoadObjFile("Meteor", "./rs/obj/Meteor/Meteor.obj", true);
 	/****png****/
 	
 	//EffectA

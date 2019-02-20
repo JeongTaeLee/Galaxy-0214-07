@@ -15,7 +15,7 @@
 #include "Func.h"
 
 Meteor::Meteor()
-	:eType(E_METEOR_01), lpRenderer(nullptr), lpPlayer(nullptr), 
+	:lpRenderer(nullptr), lpPlayer(nullptr), 
 	fOriginColliderScale(30.f)
 {
 	sTag = "Meteor";
@@ -28,28 +28,39 @@ Meteor::~Meteor()
 
 void Meteor::Init()
 {
+#pragma region Renderer
+	lpRenderer = AC(ShaderRenderer);
+	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Meteor", "./rs/obj/Meteor/Meteor.obj"));
+	
+	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "./Lighting"));
+	lpRenderer->SetRenderBegin(
+		[&]() {
+			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
+			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
+			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
+		});
+
+#pragma endregion Renderer
+#pragma region Collider
+	lpCollider = AC(SphereCollider);
+	lpCollider->InitSphere(Vector3(0.f, 0.f, 0.f), fOriginColliderScale * transform->scale.x);
+	lpCollider->SetEnable(false);
+#pragma endregion Collider
+
 	float fScale = GetRandomNumber(5.f, 15.f);
 	transform->scale = Vector3(fScale, fScale, fScale);
 
 	float fRotation = GetRandomNumber(0.f, 6.28f);
 	transform->rot = Vector3(fRotation, fRotation, fRotation);
-
-	lpCollider = AC(SphereCollider);
-	lpCollider->InitSphere(Vector3(0.f, 0.f, 0.f), fOriginColliderScale * transform->scale.x);
-	lpCollider->SetEnable(false);
 }
 
 void Meteor::Update()
 {
-	static float fRot = 0;
-	fRot += D3DXToRadian(1.f);
-
 	if (lpPlayer)
 	{
 		if (lpPlayer->GetDestroy())
-		{
 			return;
-		}
 		else
 		{
 			Vector3 vLength = lpPlayer->transform->worldPos - transform->pos;
@@ -60,37 +71,6 @@ void Meteor::Update()
 			else
 				lpCollider->SetEnable(false);
 		}
-	}
-}
-
-void Meteor::SetMeteor(MeteorType _eType)
-{
-	eType = _eType;
-
-	lpRenderer = AC(ShaderRenderer);
-	
-	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "./Lighting.fx"));
-	
-	lpRenderer->SetRenderBegin([&]() {
-		lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
-		lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
-		lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
-		lpRenderer->SetShaderFloat("gAmbient", 0.3f);
-		});
-
-	switch (eType)
-	{
-	case E_METEOR_01:
-		lpRenderer->LoadMesh(IMAGE.LoadObjFile("MeteorA", "./rs/obj/Meteor/Meteor1/Meteor_A.obj"));
-		break;
-	case E_METEOR_02:
-		lpRenderer->LoadMesh(IMAGE.LoadObjFile("MeteorB", "./rs/obj/Meteor/Meteor2/Meteor_B.obj"));
-		break;
-	case E_METEOR_03:
-		lpRenderer->LoadMesh(IMAGE.LoadObjFile("MeteorC", "./rs/obj/Meteor/Meteor3/Meteor_C.obj"));
-		break;
-	default:
-		break;
 	}
 }
 

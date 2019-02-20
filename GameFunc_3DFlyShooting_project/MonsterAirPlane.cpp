@@ -27,11 +27,10 @@ MonsterAirPlane::MonsterAirPlane()
 	eState(E_MONSTERSTATE_IDLE),
 	fHp(0.f),
 	fAttackDelay(0.f), fAttackAccrue(0.f),
-	fMoveIdleAccure(0.f), fMoveIdleDelay(3.f),
 	fDieEffectDelay(0.05f), fDieEffectAccrue(0.05f),
 	iDieEffectCount(0), iDieEffectAmount(3),
-	fMoveLength(500.f), fAttackLength(2000.f),
-	bTargeting(true), bAttaking(true),
+	fMoveLength(400.f), fAttackLength(400.f),
+	bAttaking(true), bFlight(false),
 	fPlayerLength(0.f)
 {
 	sTag = "Monster";
@@ -45,9 +44,6 @@ MonsterAirPlane::~MonsterAirPlane()
 void MonsterAirPlane::Init()
 {
 	transform->eUpdateType = E_UPDATE_02;
-
-	lpPlayer = (PlayerAirplane*)OBJECT.FindWithTag("PlayerAirPlane");
-
 
 	lpRenderer = AC(ShaderRenderer);
 	lpCollider = AC(SphereCollider);
@@ -63,7 +59,6 @@ void MonsterAirPlane::Init()
 
 	lpEnemyCircle = OBJECT.AddObject<EnemyCircle>();
 	lpEnemyCircle->SetMonster(this);
-	lpEnemyCircle->SetPlayer(lpPlayer);
 }
 
 void MonsterAirPlane::Update()
@@ -100,23 +95,13 @@ void MonsterAirPlane::Release()
 
 void MonsterAirPlane::IdleBehavior()
 {
-	Vector3 vLength = lpPlayer->transform->pos - transform->pos;
-	float fLength = D3DXVec3Length(&vLength);
+	if (!bFlight)
+	{
+		if (fPlayerLength > fMoveLength)
+			Move();
+	}
 
-	if (fLength > fMoveLength)
-		bTargeting = true;
-	else
-		bTargeting = false;
-
-	if (fLength <= fAttackLength)
-		bAttaking = true;
-	else
-		bAttaking = false;
-
-	if (bTargeting)
-		Move();
-
-	if (bAttaking)
+	if (fPlayerLength <= fAttackLength)
 		Attack();
 
 	LookAtPlayer();
@@ -152,18 +137,6 @@ void MonsterAirPlane::DieBehavior()
 
 void MonsterAirPlane::Move()
 {
-	if (eState == E_MONSTERSTATE_IDLEMOVE)
-	{
-		fMoveIdleAccure += Et;
-
-		if (fMoveIdleAccure >= fMoveIdleDelay)
-			eState = E_MONSTERSTATE_IDLE;
-		else
-			return;
-	}
-
-	bTargeting = true;
-
 	Vector3 vDir = Vector3(0.f, 0.f, 1.f);
 
 	Matrix matRot;
@@ -216,14 +189,6 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 	}
 	if (lpOther->gameObject->sTag == "Monster")
 	{
-		MonsterAirPlane* lpOtherMonster = (MonsterAirPlane*)lpOther->gameObject;
-
-		if (lpOtherMonster->GetState() != E_MONSTERSTATE_IDLEMOVE)
-		{
-			fMoveIdleAccure = 0.f;
-			eState = E_MONSTERSTATE_IDLEMOVE;	
-			transform->pos = -(vAxis[E_AXIS_FORWARD] * (100 * Et));
-		}
 	}
 	
 }
