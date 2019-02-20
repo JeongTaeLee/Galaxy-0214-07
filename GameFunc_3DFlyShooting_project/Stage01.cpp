@@ -27,16 +27,19 @@ void Stage01::Init()
 
 	MonsterDirector* director = OBJECT.AddObject < MonsterDirector >();
 
+	MonsterCreater* monster = OBJECT.AddObject<MonsterCreater>();
+	monster->SetMonsterDirector(director);
+
 	PlayerAirplane* player = OBJECT.AddObject<PlayerAirplane>();
 	player->SetMonsterDirector(director);
+	player->SetCreater(monster);
+
+	monster->SetPlayer(player);
 	director->SetPlayer(player);
 
 	MeteorAdmin* meteor = OBJECT.AddObject <MeteorAdmin>();
 	meteor->SetPlayer(player);
 	meteor->CreateMeteor();
-	
-	MonsterCreater* monster = OBJECT.AddObject<MonsterCreater>();
-	monster->SetMonsterDirector(director);
 }
 
 void Stage01::Release()
@@ -71,11 +74,12 @@ void Stage01::LoadingResource()
 	/****png****/
 	
 	//EffectA
-	IMAGE.LoadTextures("EffectA%d", "./rs/Sprite/Effect_A/Effect00%02d.png", 1, 30, true);
+	IMAGE.LoadTextures("EffectA%d", "./rs/Sprite/Effect_A/(%d).png", 1, 14, true);
 
 	//UI
 	IMAGE.LoadTexture("Aim", "./rs/Sprite/UI/Aim.png", true);
-	IMAGE.LoadTexture("EnemyCircle", "./rs/Sprite/UI/EnemyCircle.png", true);
+	IMAGE.LoadTexture("LockOnEnemyCircle", "./rs/Sprite/UI/LockOnCircle.png", true);
+	IMAGE.LoadTexture("NoneLockOnEnemyCircle", "./rs/Sprite/UI/NoneLockOnCircle.png", true);
 
 	bLoadingComplete = true;
 }

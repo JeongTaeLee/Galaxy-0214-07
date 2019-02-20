@@ -12,8 +12,6 @@
 #include "AirPlane.h"
 #include "PlayerAirplane.h"
 
-#include "Func.h"
-
 MonsterDirector::MonsterDirector()
 	:lpPlayer(nullptr), lpRenderer(nullptr), 
 	fShortLength(0.f)	

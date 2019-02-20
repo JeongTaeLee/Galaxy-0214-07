@@ -35,6 +35,8 @@ public:
 	void PitchRotation(float fAngle);
 
 	void SetAirPlaneMatrix();
+	void SetAxis();
+
 
 	void SetMonsterDirector(MonsterDirector* _director)
 	{

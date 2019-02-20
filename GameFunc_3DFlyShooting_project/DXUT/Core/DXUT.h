@@ -468,6 +468,8 @@ struct VERTEX
 };
 #define VERTEXFVF D3DFVF_XYZ | D3DFVF_NORMAL| D3DFVF_TEX1
 
+#include "../../Func.h"
+
 #endif
 
 

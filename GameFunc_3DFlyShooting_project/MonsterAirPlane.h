@@ -1,8 +1,9 @@
 #pragma once
 #include "AirPlane.h"
 
-enum MosnterState
+enum MonsterState
 {
+	E_MONSTERSTATE_IDLEMOVE,
 	E_MONSTERSTATE_IDLE,
 	E_MONSTERSTATE_DIE,
 };
@@ -10,20 +11,23 @@ enum MosnterState
 
 class ShaderRenderer;
 class SphereCollider;
-class PlayerAirPlane;
+class PlayerAirplane;
 class Collider;
 class EnemyCircle;
+class MonsterCreater;
 
 class MonsterAirPlane :
 	public AirPlane
 {
 protected:
+	MonsterCreater* lpCreater;
+	PlayerAirplane * lpPlayer;
+
 	EnemyCircle* lpEnemyCircle;
 
-	GameObject * lpPlayer;
 	SphereCollider* lpCollider;
 	
-	MosnterState eState;
+	MonsterState eState;
 
 	float fHp;
 
@@ -33,6 +37,9 @@ protected:
 	float fDieEffectDelay;
 	float fDieEffectAccrue;
 
+	float fMoveIdleDelay;
+	float fMoveIdleAccure;
+
 	int iDieEffectCount;
 	int iDieEffectAmount;
 
@@ -41,6 +48,8 @@ protected:
 
 	bool bTargeting;
 	bool bAttaking;
+	
+	float fPlayerLength;
 public:
 	MonsterAirPlane();
 	virtual ~MonsterAirPlane();
@@ -58,6 +67,12 @@ public:
 	virtual void Move();
 	void LookAtPlayer();
 	void SendPMLength();
+
+public:
+	MonsterState GetState() { return eState; }
+	void SetCreater(MonsterCreater* Creater) { lpCreater = Creater; }
+	EnemyCircle* GetCircle() { return lpEnemyCircle; }
+	float GetPlayerLength() { return fPlayerLength; }
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

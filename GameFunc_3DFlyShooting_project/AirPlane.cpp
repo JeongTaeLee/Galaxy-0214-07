@@ -77,3 +77,13 @@ void AirPlane::SetAirPlaneMatrix()
 	D3DXMatrixTranslation(&transform->matPos, transform->pos.x, transform->pos.y, transform->pos.z);
 	D3DXMatrixScaling(&transform->matScale, transform->scale.x, transform->scale.y, transform->scale.z);
 }
+
+void AirPlane::SetAxis()
+{
+	Matrix matRot;	
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+
+	D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
+	D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
+	D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
+}

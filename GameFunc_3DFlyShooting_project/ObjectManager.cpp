@@ -58,6 +58,7 @@ void ObjectManager::Update()
 	}
 
 	CollisionProcess();
+
 }
 
 void ObjectManager::Render()
@@ -75,6 +76,7 @@ void ObjectManager::Render()
 	}
 
 	IMAGE.GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
+	liUiRenderers.sort(UIRenderer::Sorting);
 
 	for (auto Iter : liUiRenderers)
 	{

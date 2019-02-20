@@ -1,10 +1,10 @@
 #include "DXUT.h"
 #include "EnemyCircle.h"
-#include "Func.h"
 
 //Manager
 #include "ImageManager.h"
 #include "CameraManager.h"
+#include "TimeManager.h"
 
 //Component;
 #include "UIRenderer.h"
@@ -13,7 +13,9 @@
 #include "MonsterAirPlane.h"
 
 EnemyCircle::EnemyCircle()
-	:lpMonster(nullptr), lpRenderer(nullptr)
+	:lpMonster(nullptr), lpRenderer(nullptr),
+	lpNoneLockOnTexture(nullptr), lpLockOnTexture(nullptr),
+	fLockOnAccrue(0.f), bLockOn(false)
 {
 }
 
@@ -25,8 +27,13 @@ EnemyCircle::~EnemyCircle()
 void EnemyCircle::Init()
 {
 	lpRenderer = AC(UIRenderer);
-	lpRenderer->SetTexture(IMAGE.LoadTexture("EnemyCircle", "./rs/Sprite/UI/EnemyCircle.png"), true);
-	transform->scale = Vector3(0.5f, 0.5f, 1.f);
+	lpRenderer->SetTexture(IMAGE.LoadTexture("NoneLockOnEnemyCircle", "./rs/Sprite/UI/NoneLockOnCircle.png"), true);
+	lpNoneLockOnTexture = IMAGE.LoadTexture("NoneLockOnEnemyCircle", "./rs/Sprite/UI/NoneLockOnCircle.png", true);
+	lpLockOnTexture = IMAGE.LoadTexture("LockOnEnemyCircle", "./rs/Sprtie/UI/LockOnCircle.png", true);
+	transform->scale = Vector3(1.f, 1.f, 1.f);
+	
+	fRad = 40 * transform->scale.x;
+
 }
 
 void EnemyCircle::Update()
@@ -43,10 +50,32 @@ void EnemyCircle::Update()
 	}
 	else
 		lpRenderer->SetEnable(false);
-
 }
 
 void EnemyCircle::SetMonster(MonsterAirPlane* monster)
 {
 	lpMonster = monster;
+}
+
+void EnemyCircle::SetRendererLayer(int i)
+{
+	lpRenderer->SetLayer(i);
+}
+
+void EnemyCircle::ResetLockOn()
+{
+	fLockOnAccrue = 0.f;
+	bLockOn = false;
+	lpRenderer->ChangeTexture(lpNoneLockOnTexture);
+}
+
+void EnemyCircle::LockOnProcess()
+{
+	fLockOnAccrue += Et;
+
+	if (fLockOnAccrue > 1.f)
+	{
+		lpRenderer->ChangeTexture(lpLockOnTexture);
+		bLockOn = true;
+	}
 }

@@ -41,11 +41,18 @@ Vector3 GetDirectionVector(const Vector3& v1, const Vector3& v2)
 	return vRot;
 }
 
+float GetLengthVector2(const Vector2& v1, const Vector2& v2)
+{
+	Vector2 vLength = v1 - v2;
+	return D3DXVec2Length(&vLength);
+}
+
 float GetLengthVector3(const Vector3& v1, const Vector3& v2)
 {
 	Vector3 vLength = v1 - v2;
 	return  D3DXVec3Length(&vLength);
 }
+
 
 void GetBillBoardMatrix(Matrix& mat, const Vector3& pos, const Vector3& scal)
 {
@@ -108,5 +115,5 @@ void CreateEffectA(const Vector3& pos, const Vector3& scale, float speed)
 	EffectA* effect = OBJECT.AddObject<EffectA>();
   	effect->transform->pos = pos;
 
-	effect->SetEffect("EffectA%d", "./rs/Sprite/Effect_A/Effect00%02d.png", 1, 30, scale, speed);
+	effect->SetEffect("EffectA%d", "./rs/Sprite/Effect_A/(%d).png", 1, 14, scale, speed);
 }

@@ -14,6 +14,7 @@ class ObjectManager :
 private:
 	std::list<GameObject*> liGameObjects;
 
+	/*너가 안봐도되는거*/
 	std::list<Renderer*> liRenderers;
 	std::list<UIRenderer*> liUiRenderers;
 	std::list<Collider*> liColliders;
@@ -28,6 +29,7 @@ public:
 	
 	void CollisionProcess();
 public:
+	/*너가 안봐도되는거*/
 	Renderer* RegisterRenderer(Renderer* renderer);
 	void UnRegisterRenderer(Renderer* renderer);
 
@@ -35,9 +37,11 @@ public:
 	void UnRegisterUIRenderer(UIRenderer* lpUIRenderer);
 
 public:
+	/*너가 안봐도되는거*/
 	Collider* RegisterCollider(Collider* collider);
 	void UnRegisterCollider(Collider * collider);
 public:
+	/*봐야되는거*/
 	template<class T>
 	T * AddObject(GameObject * lpParentObject = nullptr,T * lpObject = nullptr);
 
@@ -58,8 +62,8 @@ inline T * ObjectManager::AddObject(GameObject * lpParentObject, T* lpObject)
 		lpParentObject->AddChild(obj);
 	}
 	
-	obj->Init();
 	liGameObjects.push_back(obj);
+	obj->Init();
 	obj->transform->UpdateTransform();
 
 	return obj;

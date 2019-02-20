@@ -17,13 +17,16 @@
 #include "PlayerBullet.h"
 #include "PlayerAim.h"
 #include "MonsterDirector.h"
+#include "MonsterCreater.h"
+#include "MonsterAirPlane.h"
 
 
 PlayerAirplane::PlayerAirplane()
 	:vCameraPos(0.f, 0.f, 0.f), vCameraLookAt(0.f, 0.f, 0.f),
 	fCameraDistance(0.f), fCameraLookAtDistance(0.f),
 	bCameraBack(false), fMaxSpeed(0.f),
-	fAttackDelay(0.2f), fAttackAccrue(0.5f)
+	fAttackDelay(0.2f), fAttackAccrue(0.5f),
+	eGunState(E_GUNSTATE_MACHINE)
 {
 	sTag = "PlayerAirPlane";
 
@@ -87,38 +90,66 @@ void PlayerAirplane::Update()
 
 	AirPlane::SetAirPlaneMatrix();
 
-#pragma region ATTACK
-	if (fAttackAccrue >= fAttackDelay)
-	{
-
-		if (KEYPRESS(VK_SPACE) || KEYPRESS(VK_LBUTTON))
-		{
-
-			fAttackAccrue = 0.f;
-
-			Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
-			Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
-
-			D3DXMATRIX matRot;
-			D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-			memcpy(&matRot._41, transform->pos, sizeof(Vector3));
-
-			D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
-			D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
-
-			OBJECT.AddObject<PlayerBullet>()
-				->SetBullet(LeftFirePos, transform->qRot,1500.f, 5.f);
-			OBJECT.AddObject<PlayerBullet>()
-				->SetBullet(RightFirePos, transform->qRot, 1500.f, 5.f);
-		}
-	}
-	else
-		fAttackAccrue += Et;
-#pragma endregion ATTACK
-
+	Attack();
 
 	CamreaSetting();
 }
+
+void PlayerAirplane::Attack()
+{
+	if (KEYDOWN('1'))
+		eGunState = E_GUNSTATE_MACHINE;
+	if (KEYDOWN('2'))
+		eGunState = E_GUNSTATE_MISSILE;
+
+	if (eGunState == E_GUNSTATE_MISSILE)
+		lpCreater->LockOnCheck();
+
+	fAttackAccrue += Et;
+	
+	if (fAttackAccrue <= fAttackDelay)
+		return;
+
+	if (KEYPRESS(VK_SPACE) || KEYPRESS(VK_LBUTTON))
+	{
+		fAttackAccrue = 0.f;
+
+		switch (eGunState)
+		{
+		case E_GUNSTATE_MACHINE:
+			MachineGun();
+			break;
+
+		case E_GUNSTATE_MISSILE:
+			Missile();
+			break;
+		}
+	}
+}
+
+void PlayerAirplane::MachineGun()
+{
+	Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
+	Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
+
+	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
+	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+
+	OBJECT.AddObject<PlayerBullet>()
+		->SetBullet(LeftFirePos, transform->qRot, 1500.f, 5.f);
+	OBJECT.AddObject<PlayerBullet>()
+		->SetBullet(RightFirePos, transform->qRot, 1500.f, 5.f);
+}
+
+void PlayerAirplane::Missile()
+{
+	
+}
+
 
 void PlayerAirplane::InputMouse()
 {
@@ -210,5 +241,11 @@ void PlayerAirplane::CamreaSetting()
 
 void PlayerAirplane::ReceiveCollider(Collider* Other)
 {
-	fSpeed = 0.f;
+	if(Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor")
+		fSpeed = 0.f;
+}
+
+void PlayerAirplane::SetCreater(MonsterCreater* creater)
+{
+	lpCreater = creater;
 }

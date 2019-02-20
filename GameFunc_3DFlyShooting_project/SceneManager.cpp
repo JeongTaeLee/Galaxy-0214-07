@@ -67,8 +67,6 @@ void SceneManager::Update()
 	{
 		if (lpNextScene->GetLoadingComplete())
 		{
-			DEBUG_LOG("in");
-			
 			if (thThread.joinable())
 				thThread.join();
 

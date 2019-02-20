@@ -10,8 +10,6 @@
 //Component
 #include "Transform.h"
 
-#include "Func.h"
-
 BBRenderer::BBRenderer()
 	:lpTexture(nullptr)
 {
@@ -28,10 +26,9 @@ void BBRenderer::Render()
 	GetBillBoardMatrix(matWorld, transform->worldPos, transform->scale);
 	g_device->SetTransform(D3DTS_WORLD, &matWorld);
 	
-	g_device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	g_device->SetRenderState(D3DRS_ALPHAREF, 0x00000088);
-	g_device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
+	g_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	g_device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	g_device->SetRenderState(D3DRS_ALPHATESTENABLE, true);
 	g_device->SetRenderState(D3DRS_ALPHAREF, 0x00000088);

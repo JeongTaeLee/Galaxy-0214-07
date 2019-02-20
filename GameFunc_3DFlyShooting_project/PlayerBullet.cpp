@@ -7,9 +7,7 @@
 #include "Transform.h"
 
 //GameObject;
-#include "GameObject.h"
 
-#include "Func.h"
 
 PlayerBullet::PlayerBullet()
 {

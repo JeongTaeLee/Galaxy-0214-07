@@ -9,7 +9,7 @@
 
 UIRenderer::UIRenderer()
 	:lpTexture(nullptr), d3dxColor(1.f, 1.f, 1.f, 1.f),
-	reSrc({0, 0, 0, 0}), vCenterPos(0.f, 0.f, 0.f)
+	reSrc({0, 0, 0, 0}), vCenterPos(0.f, 0.f, 0.f), iLayer(0)
 {
 }
 

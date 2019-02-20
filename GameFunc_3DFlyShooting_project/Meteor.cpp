@@ -18,6 +18,7 @@ Meteor::Meteor()
 	:eType(E_METEOR_01), lpRenderer(nullptr), lpPlayer(nullptr), 
 	fOriginColliderScale(30.f)
 {
+	sTag = "Meteor";
 }
 
 
@@ -27,7 +28,7 @@ Meteor::~Meteor()
 
 void Meteor::Init()
 {
-	float fScale = GetRandomNumber(5.f, 8.f);
+	float fScale = GetRandomNumber(5.f, 15.f);
 	transform->scale = Vector3(fScale, fScale, fScale);
 
 	float fRotation = GetRandomNumber(0.f, 6.28f);
@@ -40,6 +41,9 @@ void Meteor::Init()
 
 void Meteor::Update()
 {
+	static float fRot = 0;
+	fRot += D3DXToRadian(1.f);
+
 	if (lpPlayer)
 	{
 		if (lpPlayer->GetDestroy())
@@ -51,7 +55,7 @@ void Meteor::Update()
 			Vector3 vLength = lpPlayer->transform->worldPos - transform->pos;
 			float fLength = D3DXVec3Length(&vLength);
 
-			if (fLength < (fOriginColliderScale* transform->scale.x) + 100)
+			if (fLength < (fOriginColliderScale* transform->scale.x) + 500)
 				lpCollider->SetEnable(true);
 			else
 				lpCollider->SetEnable(false);
