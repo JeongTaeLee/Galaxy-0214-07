@@ -16,6 +16,7 @@ enum GunState
 
 class PlayerAim;
 class MonsterCreater;
+class MonsterAirPlane;
 
 class PlayerAirplane :
 	public AirPlane
@@ -23,6 +24,7 @@ class PlayerAirplane :
 private:
 	PlayerAim* aim;
 	MonsterCreater* lpCreater;
+	MonsterAirPlane* lpLockOnMonster;
 
 	Vector3 vCameraPos;
 	Vector3 vCameraLookAt;
@@ -39,6 +41,9 @@ private:
 	float fAttackDelay;
 	float fAttackAccrue;
 
+	float fLockOnDelay;
+	float fLockOnAccrue;
+
 	int iLife;
 
 	GunState eGunState;
@@ -53,6 +58,7 @@ public:
 	
 	void MachineGun();
 	void Missile();
+	void LockOn();
 
 	void InputMouse();
 	void InputKeyboard();

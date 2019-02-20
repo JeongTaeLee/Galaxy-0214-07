@@ -31,14 +31,14 @@ public:
 
 	void CreateMonsterA();
 	void CreateMonsterB();
-
-	void LockOnCheck();
 public:
 	void DestroyListMonster(MonsterAirPlane* airPlane);
-	void SortingMonsterCircle();
 	void CreateMonster();
+
 public:
 	void SetMonsterDirector(MonsterDirector* director) {lpDirector = director;}
 	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
+	
+	std::list<MonsterAirPlane*>& GetMonsterList() { return liMonsters; }
 };
 

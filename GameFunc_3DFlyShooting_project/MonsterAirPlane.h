@@ -71,6 +71,7 @@ public:
 public:
 	MonsterState GetState() { return eState; }
 	void SetCreater(MonsterCreater* Creater) { lpCreater = Creater; }
+
 	EnemyCircle* GetCircle() { return lpEnemyCircle; }
 	float GetPlayerLength() { return fPlayerLength; }
 public:

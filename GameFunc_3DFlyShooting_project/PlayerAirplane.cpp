@@ -19,6 +19,7 @@
 #include "MonsterDirector.h"
 #include "MonsterCreater.h"
 #include "MonsterAirPlane.h"
+#include "EnemyCircle.h"
 
 
 PlayerAirplane::PlayerAirplane()
@@ -26,7 +27,8 @@ PlayerAirplane::PlayerAirplane()
 	fCameraDistance(0.f), fCameraLookAtDistance(0.f),
 	bCameraBack(false), fMaxSpeed(0.f),
 	fAttackDelay(0.2f), fAttackAccrue(0.5f),
-	eGunState(E_GUNSTATE_MACHINE)
+	fLockOnDelay(0.5f), fLockOnAccrue(0.f),
+	eGunState(E_GUNSTATE_MACHINE), lpLockOnMonster(nullptr)
 {
 	sTag = "PlayerAirPlane";
 
@@ -74,12 +76,12 @@ void PlayerAirplane::Init()
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 5.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
-
-	
 }
 
 void PlayerAirplane::Update()
 {
+	
+
 	InputMouse();
 	InputKeyboard();
 
@@ -97,13 +99,16 @@ void PlayerAirplane::Update()
 
 void PlayerAirplane::Attack()
 {
-	if (KEYDOWN('1'))
-		eGunState = E_GUNSTATE_MACHINE;
-	if (KEYDOWN('2'))
-		eGunState = E_GUNSTATE_MISSILE;
-
 	if (eGunState == E_GUNSTATE_MISSILE)
-		lpCreater->LockOnCheck();
+	{
+		if (lpLockOnMonster)
+		{
+			if (lpLockOnMonster->GetDestroy())
+				lpLockOnMonster = nullptr;
+		}
+	
+		LockOn();
+	}
 
 	fAttackAccrue += Et;
 	
@@ -148,6 +153,69 @@ void PlayerAirplane::MachineGun()
 void PlayerAirplane::Missile()
 {
 	
+}
+
+void PlayerAirplane::LockOn()
+{
+	std::list<MonsterAirPlane*> & refMonsters = lpCreater->GetMonsterList();
+
+	MonsterAirPlane* lpNowLockOnMonster = nullptr;
+	Vector2 vAimPos = Vector2((float)WINSIZEX / 2.f, (float)WINSIZEY / 2.f);
+
+	float fMonsterShortDistance = 0.f;
+	int iLoopCount = 0;
+
+	for (auto Iter : refMonsters)
+	{
+		Vector2 vCirclePos = Iter->GetCircle()->transform->pos;
+		
+		if (Iter->GetCircle()->GetCircleRad() > GetLengthVector2(vCirclePos, vAimPos))
+		{
+			float fMonsterNowDistance = GetLengthVector3(Iter->transform->worldPos, transform->worldPos);
+
+			if (iLoopCount == 0)
+			{
+				lpNowLockOnMonster = Iter;
+				fMonsterShortDistance = fMonsterNowDistance;
+			}
+			else if( fMonsterShortDistance > fMonsterNowDistance)
+			{
+				lpNowLockOnMonster = Iter;
+				fMonsterShortDistance = fMonsterNowDistance;
+			}
+
+			iLoopCount++;
+		}
+	}
+
+	if (lpLockOnMonster)
+	{
+		if (lpNowLockOnMonster == lpLockOnMonster)
+		{
+			fLockOnAccrue += Et;
+
+			if (fLockOnAccrue >= fLockOnDelay)
+				lpLockOnMonster->GetCircle()->SetLockOn(true);
+		}
+		else
+		{
+			if (lpLockOnMonster->GetCircle()->GetLockOn())
+			{
+				lpLockOnMonster->GetCircle()->SetLockOn(false);
+				lpLockOnMonster = nullptr;
+			}
+			
+			if (lpNowLockOnMonster)
+				lpLockOnMonster = lpNowLockOnMonster;
+
+			fLockOnAccrue = Et;
+		}
+	}
+	else
+	{
+		lpLockOnMonster = lpNowLockOnMonster;
+		fLockOnAccrue = Et;
+	}
 }
 
 
@@ -204,6 +272,23 @@ void PlayerAirplane::InputKeyboard()
 		fMaxSpeed = 800.f;
 	else
 		fMaxSpeed = 500.f;
+
+	if (KEYDOWN('1'))
+	{
+		if (lpLockOnMonster)
+		{
+			if (lpLockOnMonster->GetCircle()->GetLockOn())
+			{
+				lpLockOnMonster->GetCircle()->SetLockOn(false);
+				lpLockOnMonster = nullptr;
+			}
+		}
+
+		eGunState = E_GUNSTATE_MACHINE;
+	}
+	if (KEYDOWN('2'))
+		eGunState = E_GUNSTATE_MISSILE;
+
 }
 
 void PlayerAirplane::CamreaSetting()

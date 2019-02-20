@@ -16,11 +16,9 @@ private:
 	texture* lpNoneLockOnTexture;
 	texture* lpLockOnTexture;
 
-	float fLockOnAccrue;
 	bool bLockOn;
 
 	float fRad;
-
 public:
 	EnemyCircle();
 	virtual ~EnemyCircle();
@@ -31,14 +29,13 @@ public:
 	MonsterAirPlane* GetMonster() { return lpMonster; }
 	void SetMonster(MonsterAirPlane * monster);
 	
-	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
-	void SetRendererLayer(int i);
-
-	void ResetLockOn();
-	void LockOnProcess();
 	bool GetLockOn() { return bLockOn; }
-	float GetLockOnAccrue() { return fLockOnAccrue; }
+	void SetLockOn(bool _bLockOn);
+	
 	float GetCircleRad() { return fRad; }
+	
+	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
 public:
+
 };
 

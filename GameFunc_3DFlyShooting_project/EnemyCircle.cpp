@@ -15,7 +15,7 @@
 EnemyCircle::EnemyCircle()
 	:lpMonster(nullptr), lpRenderer(nullptr),
 	lpNoneLockOnTexture(nullptr), lpLockOnTexture(nullptr),
-	fLockOnAccrue(0.f), bLockOn(false)
+	bLockOn(false)
 {
 }
 
@@ -57,25 +57,18 @@ void EnemyCircle::SetMonster(MonsterAirPlane* monster)
 	lpMonster = monster;
 }
 
-void EnemyCircle::SetRendererLayer(int i)
+void EnemyCircle::SetLockOn(bool _bLockOn)
 {
-	lpRenderer->SetLayer(i);
-}
+	bLockOn = _bLockOn;
 
-void EnemyCircle::ResetLockOn()
-{
-	fLockOnAccrue = 0.f;
-	bLockOn = false;
-	lpRenderer->ChangeTexture(lpNoneLockOnTexture);
-}
-
-void EnemyCircle::LockOnProcess()
-{
-	fLockOnAccrue += Et;
-
-	if (fLockOnAccrue > 1.f)
+	if (bLockOn)
 	{
 		lpRenderer->ChangeTexture(lpLockOnTexture);
-		bLockOn = true;
+		lpRenderer->SetLayer(1);
+	}
+	else
+	{
+		lpRenderer->ChangeTexture(lpNoneLockOnTexture);
+		lpRenderer->SetLayer(0);
 	}
 }
