@@ -53,7 +53,7 @@ void MonsterDirector::Update()
 
 void MonsterDirector::DirectionMonster()
 {
-	GetLookAt(vShortPos, transform->pos, transform->qRot, 0.5);
+	GetSLerpLookAt(vShortPos, transform->pos, transform->qRot, 0.5);
 	fShortLength = 0;
 }
 

@@ -62,9 +62,12 @@ void Stage01::LoadingResource()
 
 	//Bullet
 	IMAGE.LoadObjFile("BasicBullet", "./rs/obj/Bullet/Bullet.obj", true);
+	IMAGE.LoadObjFile("Missile", "./rs/obj/Missile/C.obj", true);
 
 	//Monster
 	IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj", true);
+	IMAGE.LoadObjFile("BossA", "./rs/obj/BossA/B.obj", true);
+
 
 	//Meteor
 	IMAGE.LoadObjFile("Meteor", "./rs/obj/Meteor/Meteor.obj", true);

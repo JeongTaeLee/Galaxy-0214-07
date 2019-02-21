@@ -16,10 +16,11 @@
 #include "EffectA.h"
 
 Bullet::Bullet()
-	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f), 
+	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f),
 	vOriginModelDir(0.f, 0.f, 1.f),
 	fDamage(0.f), fSpeed(1000.f), fShine(1.f),
-	fDestroyDelay(3.f), fDestroyAccrue(0.f)
+	fDestroyDelay(3.f), fDestroyAccrue(0.f), 
+	fFlightLengthMax(10000.f), fFlightLengthAccrue(0.f)
 {
 	sTag = "Bullet";
 }
@@ -42,7 +43,13 @@ void Bullet::Init()
 
 void Bullet::Update()
 {
+	if (fFlightLengthAccrue > fFlightLengthMax)
+	{
+		SetDestroy(true);
+	}
+
 	transform->pos += vDir * (fSpeed * Et);
+	fFlightLengthAccrue += (fSpeed * Et);
 
 	DestroyProcess();
 }
@@ -50,11 +57,6 @@ void Bullet::Update()
 void Bullet::DestroyProcess()
 {
 	fDestroyAccrue += Et;
-
-	if (fDestroyAccrue >= fDestroyDelay)
-	{
-		SetDestroy(true);
-	}
 }
 
 void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _fSpeed, float _fDamage)

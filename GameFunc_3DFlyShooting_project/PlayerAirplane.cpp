@@ -14,6 +14,7 @@
 #include "ObjectManager.h"
 
 //Object
+#include "PlayerMissile.h"
 #include "PlayerBullet.h"
 #include "PlayerAim.h"
 #include "MonsterDirector.h"
@@ -80,8 +81,6 @@ void PlayerAirplane::Init()
 
 void PlayerAirplane::Update()
 {
-	
-
 	InputMouse();
 	InputKeyboard();
 
@@ -99,16 +98,24 @@ void PlayerAirplane::Update()
 
 void PlayerAirplane::Attack()
 {
-	if (eGunState == E_GUNSTATE_MISSILE)
+	if (lpLockOnMonster)
 	{
-		if (lpLockOnMonster)
-		{
-			if (lpLockOnMonster->GetDestroy())
-				lpLockOnMonster = nullptr;
-		}
-	
-		LockOn();
+		if (lpLockOnMonster->GetDestroy())
+			lpLockOnMonster = nullptr;
 	}
+
+	switch (eGunState)
+	{
+	case E_GUNSTATE_MISSILE:
+		LockOn();
+		break;
+	case E_GUNSTATE_MACHINE:
+		AutoAim();
+		break;
+	default:
+		break;
+	}
+
 
 	fAttackAccrue += Et;
 	
@@ -133,26 +140,63 @@ void PlayerAirplane::Attack()
 }
 
 void PlayerAirplane::MachineGun()
-{
+{	
 	Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
 	Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
 
-	D3DXMATRIX matRot;
+	Matrix matRot;
 	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
 	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
 
 	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
 	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+	
+	Quaternion quater01;
+	Quaternion quater02;
 
+	if (lpLockOnMonster)
+	{
+		GetLookAt(quater01, lpLockOnMonster->transform->worldPos, LeftFirePos);
+		GetLookAt(quater02, lpLockOnMonster->transform->worldPos, RightFirePos);
+	}
+	else
+	{
+		quater01 = transform->qRot;
+		quater02 = transform->qRot;
+	}
+		
 	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(LeftFirePos, transform->qRot, 1500.f, 5.f);
+		->SetBullet(LeftFirePos, quater01, 2000.f, 5.f);
 	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(RightFirePos, transform->qRot, 1500.f, 5.f);
+		->SetBullet(RightFirePos, quater02
+			, 2000.f, 5.f);
+	
 }
 
 void PlayerAirplane::Missile()
 {
+	if (!lpLockOnMonster)
+		return;
 	
+	if (lpLockOnMonster->GetCircle()->GetLockOn() == false)
+		return;
+
+	Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
+	Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+
+	Matrix matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+
+	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
+
+	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
+	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+
+	OBJECT.AddObject<PlayerMissile>()
+		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 1000.f, 20.f);
+	OBJECT.AddObject<PlayerMissile>()
+		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 1000.f, 20.f);
+
 }
 
 void PlayerAirplane::LockOn()
@@ -167,6 +211,9 @@ void PlayerAirplane::LockOn()
 
 	for (auto Iter : refMonsters)
 	{
+		if (Iter->GetDestroy())
+			continue;
+
 		Vector2 vCirclePos = Iter->GetCircle()->transform->pos;
 		
 		if (Iter->GetCircle()->GetCircleRad() > GetLengthVector2(vCirclePos, vAimPos))
@@ -178,7 +225,7 @@ void PlayerAirplane::LockOn()
 				lpNowLockOnMonster = Iter;
 				fMonsterShortDistance = fMonsterNowDistance;
 			}
-			else if( fMonsterShortDistance > fMonsterNowDistance)
+			else if (fMonsterShortDistance > fMonsterNowDistance)
 			{
 				lpNowLockOnMonster = Iter;
 				fMonsterShortDistance = fMonsterNowDistance;
@@ -186,6 +233,8 @@ void PlayerAirplane::LockOn()
 
 			iLoopCount++;
 		}
+		else
+			Iter->GetCircle()->SetLockOn(false);
 	}
 
 	if (lpLockOnMonster)
@@ -206,7 +255,11 @@ void PlayerAirplane::LockOn()
 			}
 			
 			if (lpNowLockOnMonster)
+			{
 				lpLockOnMonster = lpNowLockOnMonster;
+				lpNowLockOnMonster = nullptr;
+			}
+
 
 			fLockOnAccrue = Et;
 		}
@@ -216,6 +269,74 @@ void PlayerAirplane::LockOn()
 		lpLockOnMonster = lpNowLockOnMonster;
 		fLockOnAccrue = Et;
 	}
+}
+
+void PlayerAirplane::AutoAim()
+{
+	std::list<MonsterAirPlane*>& refMonsters = lpCreater->GetMonsterList();
+
+	MonsterAirPlane* lpNowLockOnMonster = nullptr;
+	Vector2 vAimPos = Vector2((float)WINSIZEX / 2.f, (float)WINSIZEY / 2.f);
+
+	float fMonsterShortDistance = 0.f;
+	int iLoopCount = 0;
+
+	for (auto Iter : refMonsters)
+	{
+		Vector2 vCirclePos = Iter->GetCircle()->transform->pos;
+
+		if (Iter->GetCircle()->GetCircleRad() > GetLengthVector2(vCirclePos, vAimPos))
+		{
+			float fMonsterNowDistance = GetLengthVector3(Iter->transform->worldPos, transform->worldPos);
+
+			if (iLoopCount == 0)
+			{
+				lpNowLockOnMonster = Iter;
+				fMonsterShortDistance = fMonsterNowDistance;
+			}
+			else if (fMonsterShortDistance > fMonsterNowDistance)
+			{
+				lpNowLockOnMonster = Iter;
+				fMonsterShortDistance = fMonsterNowDistance;
+			}
+
+			iLoopCount++;
+		}
+	}
+
+	if (lpLockOnMonster)
+	{
+		if (lpNowLockOnMonster)
+		{
+			if (lpLockOnMonster != lpNowLockOnMonster)
+			{
+				if(lpLockOnMonster->GetCircle()->GetLockOn())
+					lpLockOnMonster->GetCircle()->SetLockOn(false);
+
+				lpNowLockOnMonster->GetCircle()->SetLockOn(true);
+				lpLockOnMonster = lpNowLockOnMonster;
+			}
+		}
+		else
+		{
+			if (lpLockOnMonster->GetCircle()->GetLockOn())
+				lpLockOnMonster->GetCircle()->SetLockOn(false);
+			
+			lpLockOnMonster = nullptr;
+		}
+	}
+	else
+	{
+		if (lpNowLockOnMonster)
+		{
+			lpNowLockOnMonster->GetCircle()->SetLockOn(true);
+			lpLockOnMonster = lpNowLockOnMonster;
+			lpNowLockOnMonster = nullptr;
+		}
+	}
+
+
+
 }
 
 
@@ -260,6 +381,11 @@ void PlayerAirplane::InputKeyboard()
 	{
 		if (fSpeed < fMaxSpeed)
 			fSpeed += PlayerAccel;
+	}
+	else
+	{
+		if (fSpeed > 0.f)
+			fSpeed -= PlayerUnAccel/ 3;
 	}
 
 	if (KEYPRESS('S'))

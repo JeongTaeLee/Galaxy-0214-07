@@ -20,6 +20,7 @@ private:
 	MonsterDirector* lpDirector;
 
 	std::list<MonsterAirPlane*> liMonsters;
+	std::vector<Vector3> veCreatePos;
 
 	float fCreateAccrue;
 	float fCreateDelay;
@@ -27,10 +28,11 @@ public:
 	MonsterCreater();
 	virtual ~MonsterCreater();
 
+	virtual void Init()	override;
 	virtual void Update()	override;
 
-	void CreateMonsterA();
-	void CreateMonsterB();
+	void CreateMonsterA(const Vector3& createPos);
+	void CreateMonsterB(const Vector3& createPos);
 public:
 	void DestroyListMonster(MonsterAirPlane* airPlane);
 	void CreateMonster();

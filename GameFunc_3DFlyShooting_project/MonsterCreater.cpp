@@ -13,7 +13,7 @@
 #include "MonsterAirPlane.h"
 #include "EnemyCircle.h"
 #include "PlayerAirplane.h"
-
+#include "BossA.h"
 MonsterCreater::MonsterCreater()
 	:lpDirector(nullptr),
 	fCreateAccrue(0.f), fCreateDelay(5.f),
@@ -24,6 +24,19 @@ MonsterCreater::MonsterCreater()
 
 MonsterCreater::~MonsterCreater()
 {
+}
+
+void MonsterCreater::Init()
+{
+	veCreatePos.push_back(Vector3(0.f, 0.f, 7000.f));
+	veCreatePos.push_back(Vector3(7000.f, 0.f, 7000.f));
+	veCreatePos.push_back(Vector3(7000.f, 0.f, 0.f));
+	veCreatePos.push_back(Vector3(7000.f, 0.f, -7000));
+
+	veCreatePos.push_back(Vector3(0.f, 0.f, -7000.f));
+	veCreatePos.push_back(Vector3(-7000.f, 0.f, -7000.f));
+	veCreatePos.push_back(Vector3(-7000.f, 0.f, 0.f));
+	veCreatePos.push_back(Vector3(-7000.f, 0.f, 7000.f));
 }
 
 void MonsterCreater::Update()
@@ -40,20 +53,16 @@ void MonsterCreater::Update()
 	CreateMonster();
 }
 
-void MonsterCreater::CreateMonsterA()
+void MonsterCreater::CreateMonsterA(const Vector3 & createPos)
 {
 	MonsterA* monster = OBJECT.AddObject<MonsterA>();
-	monster->SetCreater(this);
 	monster->SetMonsterDirector(lpDirector);
-	monster->SetPlayer(lpPlayer);
-	monster->transform->pos = transform->pos + Vector3(0.f, 50.f, 0.f);
+	monster->transform->pos = createPos;
 	
-
 	liMonsters.push_back(monster);
-
 }
 
-void MonsterCreater::CreateMonsterB()
+void MonsterCreater::CreateMonsterB(const Vector3& createPos)
 {
 }
 
@@ -72,14 +81,15 @@ void MonsterCreater::CreateMonster()
 		fCreateAccrue = 0.f;
 
 		MonsterType eType = (MonsterType)GetRandomNumber(0, 1);
+		Vector3 vCreatePos = veCreatePos[GetRandomNumber(0, (int)veCreatePos.size() - 1)];
 
 		switch (eType)
 		{
 		case E_MonsterA:
-			CreateMonsterA();
+			CreateMonsterA(vCreatePos);
 			break;
 		case E_MonsterB:
-			CreateMonsterA();
+			CreateMonsterA(vCreatePos);
 			break;
 		default:
 			break;

@@ -129,6 +129,18 @@
     <Filter Include="GameObject\Monster\MonsterFlight">
       <UniqueIdentifier>{ea011077-e850-4c76-9a5f-c6eba58bb141}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Animater">
+      <UniqueIdentifier>{aa5924cb-b709-44f4-a3eb-bb3ca5d743d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Bullet\Missile">
+      <UniqueIdentifier>{f065eded-9c5e-4ec6-a695-7d6fe8e7e9a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Bullet\Missile\PlayerMissile">
+      <UniqueIdentifier>{9d03910e-b758-41bc-8ea0-3f2c4f6cf17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\BossA">
+      <UniqueIdentifier>{7440a476-137f-4055-a225-f1050de5f831}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -308,6 +320,18 @@
     <ClCompile Include="MonsterFlight.cpp">
       <Filter>GameObject\Monster\MonsterFlight</Filter>
     </ClCompile>
+    <ClCompile Include="Animater.cpp">
+      <Filter>Component\Animater</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>GameObject\Bullet\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMissile.cpp">
+      <Filter>GameObject\Bullet\Missile\PlayerMissile</Filter>
+    </ClCompile>
+    <ClCompile Include="BossA.cpp">
+      <Filter>GameObject\Monster\BossA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -423,6 +447,18 @@
     </ClInclude>
     <ClInclude Include="MonsterFlight.h">
       <Filter>GameObject\Monster\MonsterFlight</Filter>
+    </ClInclude>
+    <ClInclude Include="Animater.h">
+      <Filter>Component\Animater</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>GameObject\Bullet\Missile</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMissile.h">
+      <Filter>GameObject\Bullet\Missile\PlayerMissile</Filter>
+    </ClInclude>
+    <ClInclude Include="BossA.h">
+      <Filter>GameObject\Monster\BossA</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

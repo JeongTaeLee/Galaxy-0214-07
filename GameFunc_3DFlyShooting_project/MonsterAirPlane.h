@@ -28,6 +28,8 @@ protected:
 	
 	MonsterState eState;
 
+	Vector3 vOriginDir;
+
 	float fHp;
 
 	float fAttackDelay;
@@ -61,17 +63,17 @@ public:
 public:
 	virtual void Attack() PURE;
 	virtual void Move();
-	void LookAtPlayer();
+
 	void SendPMLength();
 
 public:
 	MonsterState GetState() { return eState; }
-	void SetCreater(MonsterCreater* Creater) { lpCreater = Creater; }
-
 	EnemyCircle* GetCircle() { return lpEnemyCircle; }
-	float GetPlayerLength() { return fPlayerLength; }
 
+	float GetPlayerLength() { return fPlayerLength; }
 	void SetPlayer(PlayerAirplane * airPlane) { lpPlayer = airPlane;}
+
+	void SetMonster(MonsterCreater* Creater, PlayerAirplane * player, bool _bFlight, const Vector3& vDir);
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

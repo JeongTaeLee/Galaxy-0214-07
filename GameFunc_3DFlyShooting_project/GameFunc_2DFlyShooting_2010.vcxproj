@@ -386,7 +386,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AirPlane.cpp" />
+    <ClCompile Include="Animater.cpp" />
     <ClCompile Include="BBRenderer.cpp" />
+    <ClCompile Include="BossA.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -401,6 +403,7 @@
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Meteor.cpp" />
     <ClCompile Include="MeteorAdmin.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="MonsterA.cpp" />
     <ClCompile Include="MonsterAirPlane.cpp" />
     <ClCompile Include="MonsterBullet.cpp" />
@@ -411,6 +414,7 @@
     <ClCompile Include="PlayerAirplane.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="MonsterDirector.cpp" />
+    <ClCompile Include="PlayerMissile.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -422,7 +426,9 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UIRenderer.cpp" />
     <ClInclude Include="AirPlane.h" />
+    <ClInclude Include="Animater.h" />
     <ClInclude Include="BBRenderer.h" />
+    <ClInclude Include="BossA.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collider.h" />
@@ -436,6 +442,7 @@
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Meteor.h" />
     <ClInclude Include="MeteorAdmin.h" />
+    <ClInclude Include="Missile.h" />
     <ClInclude Include="MonsterA.h" />
     <ClInclude Include="MonsterAirPlane.h" />
     <ClInclude Include="MonsterBullet.h" />
@@ -447,6 +454,7 @@
     <ClInclude Include="PlayerAirplane.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="MonsterDirector.h" />
+    <ClInclude Include="PlayerMissile.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

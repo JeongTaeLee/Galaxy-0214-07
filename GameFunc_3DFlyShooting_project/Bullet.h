@@ -18,6 +18,8 @@ protected:
 
 	float fDestroyDelay;
 	float fDestroyAccrue;
+	float fFlightLengthMax;
+	float fFlightLengthAccrue;
 public:
 	Bullet();
 	virtual ~Bullet();

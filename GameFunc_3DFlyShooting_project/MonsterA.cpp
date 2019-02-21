@@ -16,7 +16,7 @@ MonsterA::MonsterA()
 	:bSecondAttack(false)
 {
 	fAttackDelay = 1.0f;
-	fSpeed = 200.f;
+	fSpeed = 500.f;
 	fHp = 10.f;
 }
 

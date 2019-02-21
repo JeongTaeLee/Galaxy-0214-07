@@ -1,9 +1,9 @@
 #pragma once
 #include "AirPlane.h"
 
-#define PlayerRollAngle D3DXToRadian(2.0)
-#define PlayerPitchAngle D3DXToRadian(1.0)
-#define PlayerYawAngle D3DXToRadian(1.0f)
+#define PlayerRollAngle D3DXToRadian(3.0f)
+#define PlayerPitchAngle D3DXToRadian(1.7f)
+#define PlayerYawAngle D3DXToRadian(1.3f)
 
 #define PlayerAccel 5.f
 #define PlayerUnAccel 10.f
@@ -59,6 +59,7 @@ public:
 	void MachineGun();
 	void Missile();
 	void LockOn();
+	void AutoAim();
 
 	void InputMouse();
 	void InputKeyboard();

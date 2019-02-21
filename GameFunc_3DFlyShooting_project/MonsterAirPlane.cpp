@@ -19,21 +19,24 @@
 #include "MonsterDirector.h"
 #include "MonsterCreater.h"
 #include "PlayerAirplane.h"
+#include "PlayerMissile.h"
 MonsterAirPlane::MonsterAirPlane()
 	: lpCreater(nullptr),
 	lpEnemyCircle(nullptr),
 	lpPlayer(nullptr),
 	lpCollider(nullptr), 
 	eState(E_MONSTERSTATE_IDLE),
+	vOriginDir(0.f, 0.f, 1.f),
 	fHp(0.f),
 	fAttackDelay(0.f), fAttackAccrue(0.f),
 	fDieEffectDelay(0.05f), fDieEffectAccrue(0.05f),
 	iDieEffectCount(0), iDieEffectAmount(3),
-	fMoveLength(400.f), fAttackLength(400.f),
+	fAttackLength(800.f),
 	bAttaking(true), bFlight(false),
 	fPlayerLength(0.f)
 {
 	sTag = "Monster";
+	
 }
 
 
@@ -91,20 +94,17 @@ void MonsterAirPlane::Update()
 
 void MonsterAirPlane::Release()
 {
+	lpEnemyCircle->SetDestroy(true);
 }
 
 void MonsterAirPlane::IdleBehavior()
 {
 	if (!bFlight)
-	{
-		if (fPlayerLength > fMoveLength)
-			Move();
-	}
+		Move();
 
 	if (fPlayerLength <= fAttackLength)
 		Attack();
 
-	LookAtPlayer();
 	SendPMLength();
 }
 
@@ -137,31 +137,17 @@ void MonsterAirPlane::DieBehavior()
 
 void MonsterAirPlane::Move()
 {
-	Vector3 vDir = Vector3(0.f, 0.f, 1.f);
+	GetSLerpLookAt(lpPlayer->transform->worldPos, transform->worldPos, transform->qRot, 0.015f);
+	
+	Vector3 vDir;
 
 	Matrix matRot;
 	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-	D3DXVec3TransformCoord(&vDir, &vDir, &matRot);
+	D3DXVec3TransformNormal(&vDir, &vOriginDir, &matRot);
 
 	transform->pos += vDir * (fSpeed * Et);
 }
 
-void MonsterAirPlane::LookAtPlayer()
-{
-	Vector3 vDir = lpPlayer->transform->worldPos - transform->worldPos;
-	normalize(vDir);
-
-	Matrix matRot;
-	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &vDir,
-		&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matRot, &matRot); //
-
-	D3DXQUATERNION currQ;
-	D3DXQuaternionRotationMatrix(&currQ, &matRot);
-	D3DXQuaternionSlerp(&transform->qRot, &transform->qRot, &currQ, 0.25f);
-
-	SetAxis();
-}
 
 void MonsterAirPlane::SendPMLength()
 {
@@ -172,6 +158,14 @@ void MonsterAirPlane::SendPMLength()
 }
 
 
+void MonsterAirPlane::SetMonster(MonsterCreater* Creater, PlayerAirplane* player, bool _bFlight, const Vector3& vDir)
+{
+	lpPlayer = player;
+	lpCreater = Creater;
+	bFlight = _bFlight;
+	vOriginDir = vDir;
+}
+
 void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 {
 	if (lpOther->gameObject->sTag == "PlayerBullet")
@@ -179,16 +173,18 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 		PlayerBullet* object = static_cast<PlayerBullet*>(lpOther->gameObject);
 
 		fHp -= object->GetDamage();
-
-		if (fHp <= 0)
-		{ 
-			eState = E_MONSTERSTATE_DIE;
-			lpCreater->DestroyListMonster(this);
-			lpEnemyCircle->SetDestroy(true);
-		}
 	}
-	if (lpOther->gameObject->sTag == "Monster")
+	if (lpOther->gameObject->sTag == "PlayerMissile")
+
 	{
+		PlayerMissile* object = static_cast<PlayerMissile*>(lpOther->gameObject);
+
+		fHp -= object->GetDamage();
 	}
 	
+	if (fHp <= 0)
+	{
+		eState = E_MONSTERSTATE_DIE;
+		lpCreater->DestroyListMonster(this);
+	}
 }
