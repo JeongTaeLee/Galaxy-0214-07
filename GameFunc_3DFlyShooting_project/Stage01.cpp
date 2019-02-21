@@ -25,19 +25,11 @@ void Stage01::Init()
 {
 	OBJECT.AddObject<SkyBox>();
 
-	MonsterDirector* director = OBJECT.AddObject < MonsterDirector >();
-
-	MonsterCreater* monster = OBJECT.AddObject<MonsterCreater>();
-	monster->SetMonsterDirector(director);
-
 	PlayerAirplane* player = OBJECT.AddObject<PlayerAirplane>();
-	player->SetMonsterDirector(director);
-	player->SetCreater(monster);
-
-	monster->SetPlayer(player);
-	director->SetPlayer(player);
-
+	MonsterCreater* monster = OBJECT.AddObject<MonsterCreater>();
 	MeteorAdmin* meteor = OBJECT.AddObject <MeteorAdmin>();
+	
+	player->SetCreater(monster);
 	meteor->SetPlayer(player);
 	meteor->CreateMeteor();
 }

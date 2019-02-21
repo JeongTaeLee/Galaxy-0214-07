@@ -7,7 +7,6 @@ enum MonsterType
 	E_MonsterB,
 };
 
-class MonsterDirector;
 class MonsterAirPlane; 
 class PlayerAirplane;
 
@@ -16,8 +15,6 @@ class MonsterCreater :
 {
 private:
 	PlayerAirplane* lpPlayer;
-	MonsterAirPlane* lpLockOnMonster;
-	MonsterDirector* lpDirector;
 
 	std::list<MonsterAirPlane*> liMonsters;
 	std::vector<Vector3> veCreatePos;
@@ -30,15 +27,13 @@ public:
 
 	virtual void Init()	override;
 	virtual void Update()	override;
-
-	void CreateMonsterA(const Vector3& createPos);
-	void CreateMonsterB(const Vector3& createPos);
 public:
+	void AddListMonster(MonsterAirPlane * airPlane);
 	void DestroyListMonster(MonsterAirPlane* airPlane);
-	void CreateMonster();
+
+	void CreaterFlightA(const Vector3 & vCreaterPos);
 
 public:
-	void SetMonsterDirector(MonsterDirector* director) {lpDirector = director;}
 	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
 	
 	std::list<MonsterAirPlane*>& GetMonsterList() { return liMonsters; }

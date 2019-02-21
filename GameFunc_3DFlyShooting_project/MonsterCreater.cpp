@@ -11,13 +11,12 @@
 #include "MonsterA.h"
 #include "MonsterDirector.h"
 #include "MonsterAirPlane.h"
+#include "MonsterFlight.h"
 #include "EnemyCircle.h"
 #include "PlayerAirplane.h"
 #include "BossA.h"
 MonsterCreater::MonsterCreater()
-	:lpDirector(nullptr),
-	fCreateAccrue(0.f), fCreateDelay(5.f),
-	lpLockOnMonster(nullptr)
+	:fCreateAccrue(0.f), fCreateDelay(5.f)
 {
 }
 
@@ -28,6 +27,8 @@ MonsterCreater::~MonsterCreater()
 
 void MonsterCreater::Init()
 {
+	lpPlayer = (PlayerAirplane*)OBJECT.FindWithTag("PlayerAirPlane");
+
 	veCreatePos.push_back(Vector3(0.f, 0.f, 7000.f));
 	veCreatePos.push_back(Vector3(7000.f, 0.f, 7000.f));
 	veCreatePos.push_back(Vector3(7000.f, 0.f, 0.f));
@@ -37,64 +38,42 @@ void MonsterCreater::Init()
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, -7000.f));
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, 0.f));
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, 7000.f));
+
+	CreaterFlightA(Vector3(0.f, 0.f, 0.f));
 }
 
 void MonsterCreater::Update()
 {
-	if (lpPlayer)
-	{
-		if (lpPlayer->GetDestroy())
-			lpPlayer = nullptr;
-	}
-
-	if (!lpPlayer)
-		return; 
-
-	CreateMonster();
 }
 
-void MonsterCreater::CreateMonsterA(const Vector3 & createPos)
+void MonsterCreater::AddListMonster(MonsterAirPlane* airPlane)
 {
-	MonsterA* monster = OBJECT.AddObject<MonsterA>();
-	monster->SetMonsterDirector(lpDirector);
-	monster->transform->pos = createPos;
-	
-	liMonsters.push_back(monster);
-}
-
-void MonsterCreater::CreateMonsterB(const Vector3& createPos)
-{
+	liMonsters.push_back(airPlane);
 }
 
 void MonsterCreater::DestroyListMonster(MonsterAirPlane* airPlane)
 {
-	if (lpLockOnMonster == airPlane)
-		lpLockOnMonster = nullptr;
-
 	liMonsters.remove(airPlane);
 }
 
-void MonsterCreater::CreateMonster()
+void MonsterCreater::CreaterFlightA(const Vector3& vCreaterPos)
 {
-	if (fCreateAccrue > fCreateDelay)
-	{
-		fCreateAccrue = 0.f;
+	MonsterFlight* flight = OBJECT.AddObject<MonsterFlight>();
+	flight->SetFlight(lpPlayer, vCreaterPos, Vector3(0.f, 0.f, 1.f), 1000.f, 700.f);
 
-		MonsterType eType = (MonsterType)GetRandomNumber(0, 1);
-		Vector3 vCreatePos = veCreatePos[GetRandomNumber(0, (int)veCreatePos.size() - 1)];
+	MonsterA* monster = OBJECT.AddObject<MonsterA>(flight);
+	monster->SetMonsterValue(this, lpPlayer, Vector3(0.f, 1.f, 0.f), true);
+	flight->AddFlightMonster(monster, Vector3(150.f, 0.f, 0.f));
+	flight->CompleteSetting();
 
-		switch (eType)
-		{
-		case E_MonsterA:
-			CreateMonsterA(vCreatePos);
-			break;
-		case E_MonsterB:
-			CreateMonsterA(vCreatePos);
-			break;
-		default:
-			break;
-		}
-	}
-	else
-		fCreateAccrue += Et;
+	monster = OBJECT.AddObject<MonsterA>(flight);
+	monster->SetMonsterValue(this, lpPlayer, Vector3(0.f, 1.f, 0.f), true);
+	flight->AddFlightMonster(monster, Vector3(-150.f, 0.f, 0.f));
+	flight->CompleteSetting();
+
+	monster = OBJECT.AddObject<MonsterA>(flight);
+	monster->SetMonsterValue(this, lpPlayer, Vector3(0.f, 1.f, 0.f), true);
+	flight->AddFlightMonster(monster, Vector3(0.f, 0.f, 150.f));
+	flight->CompleteSetting();
 }
+

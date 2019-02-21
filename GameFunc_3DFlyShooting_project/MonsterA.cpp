@@ -18,6 +18,9 @@ MonsterA::MonsterA()
 	fAttackDelay = 1.0f;
 	fSpeed = 500.f;
 	fHp = 10.f;
+
+	fAttackLength = 1500.f;
+	fMoveLength = 1000.f;
 }
 
 

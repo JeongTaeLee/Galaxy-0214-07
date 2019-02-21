@@ -24,7 +24,6 @@ void EffectA::Update()
 	{
 		fEffectAccrue = 0.f;
 
-
 		size_t size = vTexture.size();
 
 		if (iCount < size - 1)

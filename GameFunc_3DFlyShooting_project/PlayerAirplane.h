@@ -17,26 +17,29 @@ enum GunState
 class PlayerAim;
 class MonsterCreater;
 class MonsterAirPlane;
+class MonsterDirector;
 
 class PlayerAirplane :
 	public AirPlane
 {
 private:
-	PlayerAim* aim;
+	PlayerAim* lpAim;
 	MonsterCreater* lpCreater;
 	MonsterAirPlane* lpLockOnMonster;
+	MonsterDirector* lpDirector;
+	
+	GunState eGunState;
 
 	Vector3 vCameraPos;
 	Vector3 vCameraLookAt;
 	Vector3 vCameraUp;
 	Quaternion qCameraRot;
 
+	Vector3 vDirectorPos;
+
 	float fCameraDistance;
-	float fCameraLookAtDistance;
 	float fCameraAngle;
 	bool bCameraBack;
-
-	float fMaxSpeed;
 
 	float fAttackDelay;
 	float fAttackAccrue;
@@ -45,8 +48,6 @@ private:
 	float fLockOnAccrue;
 
 	int iLife;
-
-	GunState eGunState;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();
@@ -55,18 +56,20 @@ public:
 	virtual void Update()	override;
 
 	void Attack();
-	
+	void Move();
+
 	void MachineGun();
 	void Missile();
+
 	void LockOn();
 	void AutoAim();
+	void Director();
 
 	void InputMouse();
 	void InputKeyboard();
 	void CamreaSetting();
 
 	virtual void ReceiveCollider(Collider* Other) override;
-
 public:
 	void SetCreater(MonsterCreater * creater);
 };

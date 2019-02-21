@@ -9,9 +9,9 @@
 #include "ShaderRenderer.h"
 
 AirPlane::AirPlane()
-	:lpRenderer(nullptr), fSpeed(0.f),
-	fYawAngle(0.f), fPitchAngle(0.f), fRollAngle(0.f),
-	lpMonsterDirector(nullptr)
+	:lpRenderer(nullptr), 
+	fMaxSpeed(0.f), fSpeed(0.f),
+	fYawAngle(0.f), fPitchAngle(0.f), fRollAngle(0.f)
 {
 	vAxis[E_AXIS_UP] = Vector3(0.f, 1.f, 0.f);
 	vAxis[E_AXIS_RIGHT] = Vector3(1.f, 0.f, 0.f);

@@ -38,7 +38,7 @@ void InputManager::Update()
 	GetCursorPos(&pt);
 	ScreenToClient(g_hwnd, &pt);
 	
-	vNowMousePos = Vector2(pt.x, pt.y);
+	vNowMousePos = Vector2((float)pt.x, (float)pt.y);
 
 	MouseGapProcess();
 }

@@ -15,12 +15,11 @@ class AirPlane :
 	public GameObject
 {
 protected:
-	MonsterDirector* lpMonsterDirector;
-
 	ShaderRenderer* lpRenderer;
 
 	Vector3 vAxis[E_AXIS];
 
+	float fMaxSpeed;
 	float fSpeed;
 
 	float fYawAngle;
@@ -36,12 +35,6 @@ public:
 
 	void SetAirPlaneMatrix();
 	void SetAxis();
-
-
-	void SetMonsterDirector(MonsterDirector* _director)
-	{
-		lpMonsterDirector = _director;
-	};
 
 	const Vector3& GetAxis(AirPlaneAxis axis) {	return vAxis[axis]; }
 };

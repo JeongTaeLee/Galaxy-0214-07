@@ -19,14 +19,13 @@ class MonsterAirPlane :
 	public AirPlane
 {
 protected:
+	MonsterState eState;
+	
 	MonsterCreater* lpCreater;
 	PlayerAirplane * lpPlayer;
-
 	EnemyCircle* lpEnemyCircle;
 
 	SphereCollider* lpCollider;
-	
-	MonsterState eState;
 
 	Vector3 vOriginDir;
 
@@ -44,10 +43,9 @@ protected:
 	float fMoveLength;
 	float fAttackLength;
 
-	bool bAttaking;
-	bool bFlight;
+	float fPlayerDistance;
 
-	float fPlayerLength;
+	bool bFlight;
 public:
 	MonsterAirPlane();
 	virtual ~MonsterAirPlane();
@@ -55,25 +53,18 @@ public:
 	virtual void Init()	override;
 	virtual void Update()	override;
 	virtual void Release()	override;
-
 public:
 	virtual void IdleBehavior();
 	virtual void DieBehavior(); 
+	virtual void Attack() {};
+	virtual void Move() {};
 
 public:
-	virtual void Attack() PURE;
-	virtual void Move();
-
-	void SendPMLength();
-
-public:
-	MonsterState GetState() { return eState; }
 	EnemyCircle* GetCircle() { return lpEnemyCircle; }
 
-	float GetPlayerLength() { return fPlayerLength; }
-	void SetPlayer(PlayerAirplane * airPlane) { lpPlayer = airPlane;}
-
-	void SetMonster(MonsterCreater* Creater, PlayerAirplane * player, bool _bFlight, const Vector3& vDir);
+	float GetPlayerDistance() { return fPlayerDistance; }
+	
+	void SetMonsterValue(MonsterCreater* _lpCreater, PlayerAirplane* _lpPlayer, const Vector3& _vOriginDir, bool _bFlight);
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };

@@ -24,16 +24,36 @@
 
 
 PlayerAirplane::PlayerAirplane()
-	:vCameraPos(0.f, 0.f, 0.f), vCameraLookAt(0.f, 0.f, 0.f),
-	fCameraDistance(0.f), fCameraLookAtDistance(0.f),
-	bCameraBack(false), fMaxSpeed(0.f),
-	fAttackDelay(0.2f), fAttackAccrue(0.5f),
-	fLockOnDelay(0.5f), fLockOnAccrue(0.f),
-	eGunState(E_GUNSTATE_MACHINE), lpLockOnMonster(nullptr)
+	:lpAim(nullptr),
+	lpCreater(nullptr),
+	lpLockOnMonster(nullptr),
+	lpDirector(nullptr),
+
+	vDirectorPos(transform->pos + Vector3(0.f, 25.f, 0.f)),
+
+	eGunState(GunState::E_GUNSTATE_MISSILE),
+
+	vCameraPos(0.f, 0.f, 0.f),
+	vCameraLookAt(0.f, 0.f, 1.f),
+	vCameraUp(0.f, 1.f, 0.f),
+
+	fCameraDistance(0.f),
+	fCameraAngle(0.f),
+	bCameraBack(false),
+
+	fAttackDelay(0.2f),
+	fAttackAccrue(0.f),
+
+	fLockOnDelay(0.3f),
+	fLockOnAccrue(0.f),
+
+	iLife(5)
 {
 	sTag = "PlayerAirPlane";
 
 	D3DXQuaternionIdentity(&qCameraRot);
+
+	fMaxSpeed = 700.f;
 }
 
 
@@ -44,10 +64,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	transform->eUpdateType = E_UPDATE_02;
-
-	aim = OBJECT.AddObject<PlayerAim>();
-
-	transform->pos = Vector3(0.f, 0.f, -150.f);
+	transform->pos = Vector3(0.f, 0.f, -300.f);
 	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 
 #pragma region RendererSetting
@@ -63,20 +80,22 @@ void PlayerAirplane::Init()
 			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
 		});
 #pragma endregion RendererSetting
-
 #pragma region CameraSetting
 	fCameraAngle = D3DXToRadian(7.f);
 	fCameraDistance = 100.f;
 
 	CamreaSetting();
 #pragma endregion CameraSetting 
-
 #pragma region Collider
 	AC(SphereCollider)->InitSphere(Vector3(20.f, 0.f, -10.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(-20.f, 0.f, -10.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 5.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
+
+	lpAim = OBJECT.AddObject<PlayerAim>();
+	lpDirector = OBJECT.AddObject<MonsterDirector>();
+	lpDirector->SetPos(vDirectorPos);
 }
 
 void PlayerAirplane::Update()
@@ -84,21 +103,18 @@ void PlayerAirplane::Update()
 	InputMouse();
 	InputKeyboard();
 
-	if (fSpeed > fMaxSpeed)
-		fSpeed -= PlayerUnAccel;
-
-	transform->pos += vAxis[E_AXIS_FORWARD] * (fSpeed * Et);
-
-	AirPlane::SetAirPlaneMatrix();
-
+	Move();
 	Attack();
+	Director();
+	
+	AirPlane::SetAirPlaneMatrix();
 
 	CamreaSetting();
 }
 
 void PlayerAirplane::Attack()
 {
-	if (lpLockOnMonster)
+	if (lpLockOnMonster) 
 	{
 		if (lpLockOnMonster->GetDestroy())
 			lpLockOnMonster = nullptr;
@@ -115,7 +131,6 @@ void PlayerAirplane::Attack()
 	default:
 		break;
 	}
-
 
 	fAttackAccrue += Et;
 	
@@ -138,6 +153,16 @@ void PlayerAirplane::Attack()
 		}
 	}
 }
+
+void PlayerAirplane::Move()
+{
+	if (fSpeed > fMaxSpeed)
+		fSpeed = fMaxSpeed;
+	if (0 > fSpeed)
+		fSpeed = 0.f;
+
+	transform->pos += vAxis[E_AXIS_FORWARD] * (fSpeed * DXUTGetElapsedTime());
+} 
 
 void PlayerAirplane::MachineGun()
 {	
@@ -168,8 +193,7 @@ void PlayerAirplane::MachineGun()
 	OBJECT.AddObject<PlayerBullet>()
 		->SetBullet(LeftFirePos, quater01, 2000.f, 5.f);
 	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(RightFirePos, quater02
-			, 2000.f, 5.f);
+		->SetBullet(RightFirePos, quater02, 2000.f, 5.f);
 	
 }
 
@@ -218,7 +242,7 @@ void PlayerAirplane::LockOn()
 		
 		if (Iter->GetCircle()->GetCircleRad() > GetLengthVector2(vCirclePos, vAimPos))
 		{
-			float fMonsterNowDistance = GetLengthVector3(Iter->transform->worldPos, transform->worldPos);
+			float fMonsterNowDistance = Iter->GetPlayerDistance();
 
 			if (iLoopCount == 0)
 			{
@@ -339,6 +363,45 @@ void PlayerAirplane::AutoAim()
 
 }
 
+void PlayerAirplane::Director()
+{
+	std::list<MonsterAirPlane*>& refMonsters = lpCreater->GetMonsterList();
+	
+	MonsterAirPlane* lpShortMonster = nullptr;
+	float fShortLength = 0.f;
+
+	int iLoopCount = 0;
+	for (auto Iter : refMonsters)
+	{
+		if (Iter->GetDestroy())
+			continue;
+
+		if (iLoopCount == 0)
+		{
+			lpShortMonster = Iter;
+			fShortLength = Iter->GetPlayerDistance();
+		}
+		else if (fShortLength > Iter->GetPlayerDistance())
+		{
+			lpShortMonster = Iter;
+			fShortLength = Iter->GetPlayerDistance();
+		}
+
+		++iLoopCount;
+	}
+
+	if(lpShortMonster)
+		lpDirector->SetDirection(lpShortMonster);
+
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	memcpy(&matRot._41, &transform->pos, sizeof(Vector3));
+
+	Vector3 vPos = Vector3(0.f, 0.f, 0.f);
+	D3DXVec3TransformCoord(&vPos, &vDirectorPos, &matRot);
+	lpDirector->SetPos(vPos);
+}
+
 
 void PlayerAirplane::InputMouse()
 {
@@ -378,21 +441,10 @@ void PlayerAirplane::InputKeyboard()
 		bCameraBack = false;
 
 	if (KEYPRESS('W'))
-	{
-		if (fSpeed < fMaxSpeed)
-			fSpeed += PlayerAccel;
-	}
-	else
-	{
-		if (fSpeed > 0.f)
-			fSpeed -= PlayerUnAccel/ 3;
-	}
+		fSpeed += PlayerAccel;
 
 	if (KEYPRESS('S'))
-	{
-		if (fSpeed > 0.f)
-			fSpeed -= PlayerUnAccel;
-	}
+		fSpeed -= PlayerUnAccel;
 
 	if (KEYPRESS(VK_LSHIFT))
 		fMaxSpeed = 800.f;

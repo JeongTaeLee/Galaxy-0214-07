@@ -67,7 +67,7 @@ void Transform::UpdateTransform02()
 	matWorld	= matScale * matRot * matPos;
 
 	if (gameObject->GetParent())
-		matWorld = gameObject->GetParent()->transform->matWorld * matWorld;
+		matWorld = matWorld * gameObject->GetParent()->transform->matWorld;
 
 	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);
 }

@@ -10,11 +10,9 @@
 #include "ShaderRenderer.h"
 
 #include "AirPlane.h"
-#include "PlayerAirplane.h"
-
+#include "MonsterAirPlane.h"
 MonsterDirector::MonsterDirector()
-	:lpPlayer(nullptr), lpRenderer(nullptr), 
-	fShortLength(0.f)	
+	:lpRenderer(nullptr)
 {
 }
 
@@ -42,34 +40,14 @@ void MonsterDirector::Init()
 	transform->scale = Vector3(0.6f, 0.6f, 0.6f);
 }
 
-void MonsterDirector::Update()
+void MonsterDirector::SetDirection(MonsterAirPlane* monster)
 {
-	if (lpPlayer)
-		transform->pos = CAMERA.vLookAt + lpPlayer->GetAxis(AirPlaneAxis::E_AXIS_UP) * 10;
-
-
-	DirectionMonster();
+	Quaternion qRot;
+	GetLookAt(qRot, monster->transform->worldPos, transform->worldPos);
+	transform->qRot = qRot;
 }
 
-void MonsterDirector::DirectionMonster()
+void MonsterDirector::SetPos(Vector3 _vPos)
 {
-	GetSLerpLookAt(vShortPos, transform->pos, transform->qRot, 0.5);
-	fShortLength = 0;
-}
-
-void MonsterDirector::ReceviePMLength(const Vector3 & pos, float fLength)
-{
-	if (fShortLength == 0.f)
-	{
-		vShortPos = pos;
-		fShortLength = fLength;
-	}
-	else
-	{
-		if (fShortLength > fLength)
-		{
-			vShortPos = pos;
-			fShortLength = fLength;
-		}
-	}
+	transform->pos = _vPos;
 }
