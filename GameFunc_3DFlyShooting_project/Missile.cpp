@@ -14,8 +14,9 @@
 #include "Collider.h"
 Missile::Missile()
 	:lpRenderer(nullptr), lpTargetObject(nullptr),
-	vOriginDir(0.f, 0.f, 0.f),
-	fSpeed(0.f), fDamage(0.f)
+	fAngle(D3DXToRadian(20.f)),
+	fSpeed(0.f), fDamage(0.f),
+	fTargetingAccrue(0.f), fTargetingDelay(0.00f)
 {
 }
 
@@ -51,40 +52,57 @@ void Missile::Update()
 	if (lpTargetObject->GetDestroy())
 	{
 		float fRandomScale = GetRandomNumber(150.f, 300.f);
-		CreateEffectA(transform->pos, Vector3(fRandomScale, fRandomScale, 1.f), 0.01f);
+		CreateEffectA(transform->pos, Vector3(fRandomScale, fRandomScale, 1.f), 0.05f);
 		SetDestroy(true);
 		return;
 	}
+	
+	Vector3 vTargetDirection = lpTargetObject->transform->worldPos - transform->worldPos;
+	normalize(vTargetDirection);
 
-	GetSLerpLookAt(lpTargetObject->transform->worldPos, transform->pos, transform->qRot, 0.5f);
+	Vector3 vRotationAxis;
+	D3DXVec3Cross(&vRotationAxis, &vDir, &vTargetDirection);
 
-	D3DXMATRIX matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	float thath = acos(D3DXVec3Dot(&vTargetDirection, &vDir));
+	
+	if(vRotationAxis.z > 0.f)
+		thath = acos(D3DXVec3Dot(&vTargetDirection, &vDir));
+	else
+		thath = -acos(D3DXVec3Dot(&vTargetDirection, &vDir));
 
-	Vector3 vDir = Vector3(0.f, 0.f, 1.f);//vOriginDir;
+	if (fAngle < thath)
+		thath = fAngle;
+
+	Matrix matRot;
+	D3DXMatrixRotationAxis(&matRot, &vRotationAxis, thath);
 	D3DXVec3TransformNormal(&vDir, &vDir, &matRot);
+	normalize(vDir);
 
+	GetLookAt(transform->qRot, transform->worldPos + vDir, transform->worldPos);
+	
 	transform->pos += vDir * (fSpeed * Et);
-	fSpeed += 50;
+
+	DEBUG_VEC(vDir);
 }
 
 
-void Missile::SetMissile(GameObject* _target, const Vector3& vFirePos,const Vector3& _vOriginDir, float _fSpeed, float _fDamage)
+void Missile::SetMissile(GameObject* _target, const Vector3& vFirePos,const Vector3& _vOriginDir, float _fSpeed, float _fDamage, float _fAngle)
 {
 	lpTargetObject = _target;	
-	vOriginDir = _vOriginDir;
+	vDir	= vOriginDir =_vOriginDir;
+	fSpeed	= _fSpeed;
+	fDamage = _fDamage;
+	fAngle = D3DXToRadian(_fAngle);
 
 	if (lpTargetObject->GetDestroy())
 	{
 		SetDestroy(true);
 		return;
 	}
-	GetLookAt(transform->qRot, lpTargetObject->transform->worldPos, lpTargetObject->transform->worldPos); 
+	GetLookAt(transform->qRot, transform->worldPos+vDir, transform->worldPos);
 
 	transform->pos = vFirePos;
 	
-	fSpeed = _fSpeed;
-	fDamage = _fDamage;
 }
 
 

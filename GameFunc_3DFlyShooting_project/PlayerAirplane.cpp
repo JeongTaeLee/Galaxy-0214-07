@@ -6,6 +6,7 @@
 #include "ShaderRenderer.h"
 #include "Transform.h"
 #include "SphereCollider.h"
+
 //Manager
 #include "ImageManager.h"
 #include "CameraManager.h"
@@ -21,7 +22,9 @@
 #include "MonsterCreater.h"
 #include "MonsterAirPlane.h"
 #include "EnemyCircle.h"
-
+#include "LockOned.h"
+#include "LifeGuid.h"
+#include "SpeedEffect.h"
 
 PlayerAirplane::PlayerAirplane()
 	:lpAim(nullptr),
@@ -31,7 +34,7 @@ PlayerAirplane::PlayerAirplane()
 
 	vDirectorPos(transform->pos + Vector3(0.f, 25.f, 0.f)),
 
-	eGunState(GunState::E_GUNSTATE_MISSILE),
+	eGunState(GunState::E_GUNSTATE_MACHINE),
 
 	vCameraPos(0.f, 0.f, 0.f),
 	vCameraLookAt(0.f, 0.f, 1.f),
@@ -47,7 +50,9 @@ PlayerAirplane::PlayerAirplane()
 	fLockOnDelay(0.3f),
 	fLockOnAccrue(0.f),
 
-	iLife(5)
+	iLife(5),
+	
+	bLockOned(false)
 {
 	sTag = "PlayerAirPlane";
 
@@ -64,7 +69,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	transform->eUpdateType = E_UPDATE_02;
-	transform->pos = Vector3(0.f, 0.f, -300.f);
+	transform->pos = Vector3(0.f, 0.f, -3000.f);
 	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 
 #pragma region RendererSetting
@@ -96,10 +101,21 @@ void PlayerAirplane::Init()
 	lpAim = OBJECT.AddObject<PlayerAim>();
 	lpDirector = OBJECT.AddObject<MonsterDirector>();
 	lpDirector->SetPos(vDirectorPos);
+
+	lpLockOned = OBJECT.AddObject<LockOned>();
+	lpLockOned->SetActive(false);
+
+	lpLifeGuid = OBJECT.AddObject<LifeGuid>();
+	
+	lpSpeedEffect = OBJECT.AddObject<SpeedEffect>();
+	lpSpeedEffect->SetActive(false);
 }
 
 void PlayerAirplane::Update()
 {
+	lpLockOned->SetActive(bLockOned);
+	bLockOned = false;
+
 	InputMouse();
 	InputKeyboard();
 
@@ -161,6 +177,11 @@ void PlayerAirplane::Move()
 	if (0 > fSpeed)
 		fSpeed = 0.f;
 
+	if (fSpeed < 100)
+		lpSpeedEffect->SetActive(false);
+	else
+		lpSpeedEffect->SetActive(true);
+
 	transform->pos += vAxis[E_AXIS_FORWARD] * (fSpeed * DXUTGetElapsedTime());
 } 
 
@@ -217,9 +238,9 @@ void PlayerAirplane::Missile()
 	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
 
 	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 1000.f, 20.f);
+		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 800.f, 20.f, 10.f);
 	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 1000.f, 20.f);
+		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 800.f, 20.f, 10.f);
 
 }
 
@@ -237,6 +258,10 @@ void PlayerAirplane::LockOn()
 	{
 		if (Iter->GetDestroy())
 			continue;
+
+		if (Iter->GetCircle()->GetDestroy())
+			continue;
+
 
 		Vector2 vCirclePos = Iter->GetCircle()->transform->pos;
 		
@@ -307,6 +332,9 @@ void PlayerAirplane::AutoAim()
 
 	for (auto Iter : refMonsters)
 	{
+		if (Iter->GetDestroy())
+			continue;
+
 		Vector2 vCirclePos = Iter->GetCircle()->transform->pos;
 
 		if (Iter->GetCircle()->GetCircleRad() > GetLengthVector2(vCirclePos, vAimPos))
@@ -504,8 +532,17 @@ void PlayerAirplane::CamreaSetting()
 
 void PlayerAirplane::ReceiveCollider(Collider* Other)
 {
-	if(Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor")
-		fSpeed = 0.f;
+	if (Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor")
+	{
+		if (Other->gameObject->sTag == "Monster")
+			static_cast<MonsterAirPlane*>(Other->gameObject)->SetMonsterDie();
+
+		if (Other->gameObject->sTag == "Meteor")
+			Other->gameObject->SetDestroy(true);
+
+		if (Other->gameObject->sTag == "MonsterBullet")
+			iLife -= 1;
+	}
 }
 
 void PlayerAirplane::SetCreater(MonsterCreater* creater)

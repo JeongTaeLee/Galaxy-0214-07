@@ -60,13 +60,21 @@ void MonsterA::Attack()
 
 		bSecondAttack = !bSecondAttack;
 
+
+		Quaternion qRot;
+
+		if (bFlight)
+			qRot = lpParent->transform->qRot;
+		else
+			qRot = transform->qRot;
+
 		D3DXMATRIX matRot;
-		D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-		memcpy(&matRot._41, &transform->pos, sizeof(Vector3));
+		D3DXMatrixRotationQuaternion(&matRot, &qRot);
+		memcpy(&matRot._41, &transform->worldPos , sizeof(Vector3));
 		
 		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
-		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, transform->qRot, 1500.f, 3.f);
+		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, qRot, 1500.f, 3.f);
 	}
 	else
 		fAttackAccrue += Et;

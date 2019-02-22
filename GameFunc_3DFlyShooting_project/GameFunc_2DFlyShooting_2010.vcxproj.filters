@@ -141,6 +141,21 @@
     <Filter Include="GameObject\Monster\BossA">
       <UniqueIdentifier>{7440a476-137f-4055-a225-f1050de5f831}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Monster\MonsterB">
+      <UniqueIdentifier>{c0d67756-41a2-4d71-ae15-b39c44e9faf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Bullet\Missile\MonsterMissile">
+      <UniqueIdentifier>{e58b776e-3bda-49aa-9d72-0f585821c272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\LockOned">
+      <UniqueIdentifier>{f5ba68e0-1624-411b-a584-0958e2930430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\LIfeUI">
+      <UniqueIdentifier>{8f1a667b-f8a9-4c76-95f6-4fce846e8f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\SpeedEffect">
+      <UniqueIdentifier>{9e20432e-4e58-4a62-90d8-150564f4ef06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="DXUT\Optional\directx.ico">
@@ -208,7 +223,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameFunc_2DFlyShooting.cpp" />
     <ClCompile Include="ImageManager.cpp">
       <Filter>Manager\ImageManager</Filter>
     </ClCompile>
@@ -314,9 +328,6 @@
     <ClCompile Include="PlayerAirplane.cpp">
       <Filter>GameObject\PlayerAirplane</Filter>
     </ClCompile>
-    <ClCompile Include="MeteorAdmin.cpp">
-      <Filter>GameObject\Meteor\MeteorAdmin</Filter>
-    </ClCompile>
     <ClCompile Include="MonsterFlight.cpp">
       <Filter>GameObject\Monster\MonsterFlight</Filter>
     </ClCompile>
@@ -331,6 +342,25 @@
     </ClCompile>
     <ClCompile Include="BossA.cpp">
       <Filter>GameObject\Monster\BossA</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterB.cpp">
+      <Filter>GameObject\Monster\MonsterB</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterMissile.cpp">
+      <Filter>GameObject\Bullet\Missile\MonsterMissile</Filter>
+    </ClCompile>
+    <ClCompile Include="LockOned.cpp">
+      <Filter>UI\LockOned</Filter>
+    </ClCompile>
+    <ClCompile Include="MeteorAdmin.cpp">
+      <Filter>GameObject\Meteor\MeteorAdmin</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeGuid.cpp">
+      <Filter>UI\LIfeUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFunc_2DFlyShooting.cpp" />
+    <ClCompile Include="SpeedEffect.cpp">
+      <Filter>UI\SpeedEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +489,21 @@
     </ClInclude>
     <ClInclude Include="BossA.h">
       <Filter>GameObject\Monster\BossA</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterB.h">
+      <Filter>GameObject\Monster\MonsterB</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterMissile.h">
+      <Filter>GameObject\Bullet\Missile\MonsterMissile</Filter>
+    </ClInclude>
+    <ClInclude Include="LockOned.h">
+      <Filter>UI\LockOned</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeGuid.h">
+      <Filter>UI\LIfeUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedEffect.h">
+      <Filter>UI\SpeedEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

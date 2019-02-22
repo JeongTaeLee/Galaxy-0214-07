@@ -1,10 +1,11 @@
 #pragma once
 #include "GameObject.h"
 
-enum MonsterType
+enum FlightType
 {
-	E_MonsterA,
-	E_MonsterB,
+	E_FlightA,
+	E_FLIGHTB,
+	E_FLIGHTC,
 };
 
 class MonsterAirPlane; 
@@ -32,6 +33,8 @@ public:
 	void DestroyListMonster(MonsterAirPlane* airPlane);
 
 	void CreaterFlightA(const Vector3 & vCreaterPos);
+	void CreaterFlightB(const Vector3& vCreaterPos);
+	void CreaterFlightC(const Vector3& vCreaterPos);
 
 public:
 	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }

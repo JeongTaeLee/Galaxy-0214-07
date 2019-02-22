@@ -58,6 +58,7 @@ void Stage01::LoadingResource()
 
 	//Monster
 	IMAGE.LoadObjFile("MonsterA", "./rs/obj/MonsterA/MonsterA.obj", true);
+	IMAGE.LoadObjFile("MonsterB", "./rs/obj/MonsterB/MonsterB.obj", true);
 	IMAGE.LoadObjFile("BossA", "./rs/obj/BossA/B.obj", true);
 
 
@@ -72,6 +73,10 @@ void Stage01::LoadingResource()
 	IMAGE.LoadTexture("Aim", "./rs/Sprite/UI/Aim.png", true);
 	IMAGE.LoadTexture("LockOnEnemyCircle", "./rs/Sprite/UI/LockOnCircle.png", true);
 	IMAGE.LoadTexture("NoneLockOnEnemyCircle", "./rs/Sprite/UI/NoneLockOnCircle.png", true);
+	IMAGE.LoadTexture("LockOned", "./rs/Sprite/UI/LockOned.png", true);
+	IMAGE.LoadTexture("LifeGuid", "./rs/Sprite/UI/healthBar.png", true);
+	IMAGE.LoadTexture("LifeCount", "./rs/Sprite/UI/healthGauge.png", true);
 
+	IMAGE.LoadTextures("SpeedEffect%d", "./rs/Sprite/Speed/%d.png", 1, 3, true);
 	bLoadingComplete = true;
 }

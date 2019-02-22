@@ -73,8 +73,7 @@ void GetSLerpLookAt(const Vector3& v1, const Vector3& v2, Quaternion& nowQuater,
 	normalize(vDir);
 
 	Matrix matRot;
-	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &vDir,
-		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &vDir,&D3DXVECTOR3(0, 1, 0));
 	D3DXMatrixTranspose(&matRot, &matRot); //
 
 	D3DXQUATERNION currQ;

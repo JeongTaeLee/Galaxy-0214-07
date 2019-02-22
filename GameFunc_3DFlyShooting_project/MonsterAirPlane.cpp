@@ -46,8 +46,6 @@ MonsterAirPlane::~MonsterAirPlane()
 
 void MonsterAirPlane::Init()
 {
-	transform->eUpdateType = E_UPDATE_02;
-
 	lpRenderer = AC(ShaderRenderer);
 	lpCollider = AC(SphereCollider);
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
@@ -56,7 +54,10 @@ void MonsterAirPlane::Init()
 		[&]() {
 			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
 			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
-			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+
+			if(lpRenderer->GetMesh()->GetSpecularMap(0))
+				lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+			
 			lpRenderer->SetShaderFloat("gAmbient", 0.5f);
 		});
 
@@ -144,6 +145,12 @@ void MonsterAirPlane::SetMonsterValue(MonsterCreater* _lpCreater, PlayerAirplane
 	GetLookAt(transform->qRot, transform->worldPos + vOriginDir, transform->worldPos);
 }
 
+void MonsterAirPlane::SetMonsterDie()
+{
+	eState = E_MONSTERSTATE_DIE;
+	lpCreater->DestroyListMonster(this);
+}
+
 void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 {
 	if (lpOther->gameObject->sTag == "PlayerBullet")
@@ -162,7 +169,6 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 	
 	if (fHp <= 0)
 	{
-		eState = E_MONSTERSTATE_DIE;
-		lpCreater->DestroyListMonster(this);
+		SetMonsterDie();
 	}
 }

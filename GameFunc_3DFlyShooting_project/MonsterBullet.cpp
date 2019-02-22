@@ -34,7 +34,7 @@ void MonsterBullet::ReceiveCollider(Collider* lpOther)
 {
 	if (lpOther->gameObject->sTag == "PlayerAirPlane")
 	{
-		CreateEffectA(transform->pos);
+		CreateEffectA(transform->worldPos);
 		SetDestroy(true);
 	}
 }

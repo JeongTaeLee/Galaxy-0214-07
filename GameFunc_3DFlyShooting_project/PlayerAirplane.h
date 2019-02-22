@@ -18,6 +18,9 @@ class PlayerAim;
 class MonsterCreater;
 class MonsterAirPlane;
 class MonsterDirector;
+class LockOned;
+class LifeGuid;
+class SpeedEffect;
 
 class PlayerAirplane :
 	public AirPlane
@@ -27,7 +30,10 @@ private:
 	MonsterCreater* lpCreater;
 	MonsterAirPlane* lpLockOnMonster;
 	MonsterDirector* lpDirector;
-	
+	LockOned* lpLockOned;
+	LifeGuid* lpLifeGuid;
+	SpeedEffect* lpSpeedEffect;
+
 	GunState eGunState;
 
 	Vector3 vCameraPos;
@@ -48,6 +54,8 @@ private:
 	float fLockOnAccrue;
 
 	int iLife;
+
+	bool bLockOned;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();
@@ -72,5 +80,6 @@ public:
 	virtual void ReceiveCollider(Collider* Other) override;
 public:
 	void SetCreater(MonsterCreater * creater);
+	void SetLockOned() { bLockOned = true; }
 };
 

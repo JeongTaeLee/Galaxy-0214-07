@@ -65,6 +65,7 @@ public:
 	float GetPlayerDistance() { return fPlayerDistance; }
 	
 	void SetMonsterValue(MonsterCreater* _lpCreater, PlayerAirplane* _lpPlayer, const Vector3& _vOriginDir, bool _bFlight);
+	void SetMonsterDie();
 public:
 	virtual void ReceiveCollider(Collider* lpCollider) override;
 };
