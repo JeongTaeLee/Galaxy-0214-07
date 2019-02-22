@@ -13,7 +13,7 @@
 #include "MonsterMissile.h"
 MonsterB::MonsterB()
 {
-
+	iLife = 5;
 	fAttackDelay = fAttackAccrue = 3.f;
 }
 

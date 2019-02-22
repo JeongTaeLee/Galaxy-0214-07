@@ -2,7 +2,10 @@
 #include "MainGame.h"
 
 //Scene
+#include "MainManu.h"
 #include "Stage01.h"
+#include "Stage02.h"
+
 
 //Manager
 #include "SceneManager.h"
@@ -11,6 +14,7 @@
 #include "CameraManager.h"
 #include "TimeManager.h"
 #include "InputManager.h"
+#include "GameManager.h"
 
 //Object
 #include "SkyBox.h"
@@ -31,6 +35,8 @@ void MainGame::Init()
 	INPUT.SetShowMouse(false);
 
 	SCENE.AddScene("Stage01", new Stage01);
+	SCENE.AddScene("Stage02", new Stage02);
+	SCENE.AddScene("MainManu", new MainManu);
 	SCENE.ChangeScene("Stage01");
 }
 
@@ -43,11 +49,19 @@ void MainGame::Release()
 	CameraManager::ReleaseInst();
 	InputManager::ReleaseInst();
 	TimeManager::ReleaseInst();
+	GameManager::ReleaseInst();
 }
 
 void MainGame::Update()
 {
 	INPUT.Update();
+	if (KEYDOWN('R'))
+	{
+		if (SCENE.sNowScene == "Stage02" || SCENE.sNowScene == "MainManu")
+			SCENE.ChangeScene("Stage01");
+	}
+
+
 	SCENE.Update();
 	OBJECT.Update();
 

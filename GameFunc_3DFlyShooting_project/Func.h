@@ -13,6 +13,7 @@ void GetLookAt(Quaternion & q, const Vector3& v1, const Vector3& v2);
 
 //CreateEffect
 void CreateEffectA(const Vector3& pos, const Vector3  & scale= Vector3(1.f, 1.f, 1.f), float speed = 0.05f);
+void LoadImages(std::vector<texture*>& veTex, const std::string& keys, const std::string& paths, int mn, int mx);
 
 #pragma region GetRandomNumber_Template
 template<typename T>

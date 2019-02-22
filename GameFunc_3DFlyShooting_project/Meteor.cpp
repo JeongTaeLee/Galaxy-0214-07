@@ -78,3 +78,11 @@ void Meteor::SetPlayer(PlayerAirplane* player)
 {
 	lpPlayer = player;
 }
+
+void Meteor::ReceiveCollider(Collider* lpOther)
+{
+	if (lpOther->gameObject->sTag == "PlayerAirPlane")
+	{
+		SetDestroy(true);
+	}
+}

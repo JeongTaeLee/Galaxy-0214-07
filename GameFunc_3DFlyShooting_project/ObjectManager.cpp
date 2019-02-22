@@ -95,7 +95,10 @@ void ObjectManager::CollisionProcess()
 	//DEBUG_LOG(liColliders.size());
 
 	for (auto Iter : liColliders)
-		Iter->ColliderUpdate();
+	{
+		if (Iter->GetEnable())
+			Iter->ColliderUpdate();
+	}
 
 	for (auto Iter : liColliders)
 	{

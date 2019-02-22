@@ -9,7 +9,8 @@
 #include "UIRenderer.h"
 #include "Transform.h"
 SpeedEffect::SpeedEffect()
-	:iCount(0),fAccrue(0.f)
+	:lpUIRenderer(nullptr), iCount(0), 
+	fAccrue(0.f), fDelay(0.f)
 {
 }
 
@@ -22,33 +23,26 @@ void SpeedEffect::Init()
 {
 	transform->pos = Vector3(WINSIZEX / 2, WINSIZEY / 2, 0.f);
 
-	for (int i = 1; i <= 3; ++i)
-	{
-		char key[256];
-		sprintf(key, "SpeedEffect%d", i);
-
-		vTexture.push_back(IMAGE.LoadTexture(key, " "));
-	}
-
 	lpUIRenderer = AC(UIRenderer);
-	lpUIRenderer->SetTexture(vTexture[0], true);
+	
+	LoadImages(vTexs, "SpeedEffect%d", "./rs/Sprite/Speed/%d.png", 1, 3);
+	lpUIRenderer->SetTexture(vTexs[0], true);
+
 }
 
 void SpeedEffect::Update()
 {
 	fAccrue += Et;
 
-	if (fAccrue > 0.05f)
+	if (fAccrue >= fDelay)
 	{
 		fAccrue = 0.f;
-
-		lpUIRenderer->ChangeTexture(vTexture[iCount]);
-
+		
+		lpUIRenderer->ChangeTexture(vTexs[iCount]);
+		
 		if (iCount < 2)
 			++iCount;
 		else
 			iCount = 0;
-
-		DEBUG_LOG(iCount);
 	}
 }

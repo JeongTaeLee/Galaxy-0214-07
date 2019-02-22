@@ -15,7 +15,7 @@ protected:
 
 	float fAngle;
 	float fSpeed;
-	float fDamage;
+	int iDamage;
 
 	float fTargetingAccrue;
 	float fTargetingDelay;
@@ -26,10 +26,10 @@ public:
 	virtual void Init()	override;
 	virtual void Update()	override;
 
-	void SetMissile(GameObject* _target, const Vector3& vFirePos, const Vector3 & vOriginDir, float fSpeed = 1000.f, float fDamage = 1.f, float fAngle = 20.f);
+	void SetMissile(GameObject* _target, const Vector3& vFirePos, const Vector3 & vOriginDir, float fSpeed = 1000.f, int fDamage = 1.f, float fAngle = 20.f);
 
 public:
 	float GetSpeed() { return fSpeed;}
-	float GetDamage() { return fDamage; }
+	int GetDamage() { return iDamage; }
 };
 

@@ -12,7 +12,7 @@ protected:
 	Vector3 vDir;
 	Vector3 vOriginModelDir;
 	
-	float fDamage;
+	int iDamage;
 	float fSpeed;
 	float fShine;
 
@@ -30,8 +30,8 @@ public:
 public:
 	void DestroyProcess();
 public:
-	void SetBullet(const Vector3 & FirePos, const Quaternion& _qRot, float _fSpeed, float _fDamage);
+	void SetBullet(const Vector3 & FirePos, const Quaternion& _qRot, float _fSpeed, int _fDamage);
 
-	float GetDamage() { return fDamage; }
+	int GetDamage() { return iDamage; }
 };
 

@@ -100,3 +100,17 @@ void CreateEffectA(const Vector3& pos, const Vector3& scale, float speed)
 
 	effect->SetEffect("EffectA%d", "./rs/Sprite/Effect_A/(%d).png", 1, 14, scale, speed);
 }
+
+void LoadImages(std::vector<texture*>& veTex, const std::string& keys, const std::string& paths, int mn, int mx)
+{
+	for (int i = mn; i <= mx; ++i)
+	{
+		char key[256];
+		sprintf(key, "SpeedEffect%d", i);
+		
+		char path[256];
+		sprintf(path, paths.c_str(), i);
+
+		veTex.push_back(IMAGE.LoadTexture(key, " "));
+	}
+}

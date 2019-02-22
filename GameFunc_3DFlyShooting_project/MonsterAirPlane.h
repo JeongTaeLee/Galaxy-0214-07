@@ -29,7 +29,7 @@ protected:
 
 	Vector3 vOriginDir;
 
-	float fHp;
+	int iLife;
 
 	float fAttackDelay;
 	float fAttackAccrue;
@@ -61,6 +61,7 @@ public:
 
 public:
 	EnemyCircle* GetCircle() { return lpEnemyCircle; }
+	MonsterState GetState() { return eState; }
 
 	float GetPlayerDistance() { return fPlayerDistance; }
 	

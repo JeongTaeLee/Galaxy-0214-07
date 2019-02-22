@@ -18,7 +18,7 @@
 Bullet::Bullet()
 	:lpRenderer(nullptr), vDir(0.f, 0.f, 0.f),
 	vOriginModelDir(0.f, 0.f, 1.f),
-	fDamage(0.f), fSpeed(1000.f), fShine(1.f),
+	iDamage(1), fSpeed(1000.f), fShine(1.f),
 	fDestroyDelay(3.f), fDestroyAccrue(0.f), 
 	fFlightLengthMax(10000.f), fFlightLengthAccrue(0.f)
 {
@@ -59,7 +59,7 @@ void Bullet::DestroyProcess()
 	fDestroyAccrue += Et;
 }
 
-void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _fSpeed, float _fDamage)
+void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _fSpeed, int _fDamage)
 {	
 	transform->pos = FirePos;
 	transform->qRot = _qRot;
@@ -69,7 +69,7 @@ void Bullet::SetBullet(const Vector3& FirePos, const Quaternion & _qRot, float _
 	D3DXVec3TransformCoord(&vDir, &vOriginModelDir, &matRot);
 	
 	fSpeed = _fSpeed;
-	fDamage = _fDamage;
+	iDamage = _fDamage;
 
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 50.f), 3);
 }

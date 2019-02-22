@@ -3,7 +3,7 @@
 class UIRenderer :
 	public Component
 {
-protected:
+	private:
 	texture* lpTexture;
 	D3DXCOLOR d3dxColor;
 
@@ -27,6 +27,13 @@ public:
 	void SetCenterPos(const Vector3& centerPos);
 	void SetLayer(int _iLayer) { iLayer = _iLayer; }
 	int GetLayer() { return iLayer; }
+
+	const RECT& GetSrc() { return reSrc; }
+	const D3DXCOLOR& GetColor() { return d3dxColor; }
+	const Vector3& GetCenterPos() { return vCenterPos; }
+	texture* GetTexture() {
+		return lpTexture;
+	};
 	
 public:
 	static bool Sorting(UIRenderer* ui01, UIRenderer* ui02)

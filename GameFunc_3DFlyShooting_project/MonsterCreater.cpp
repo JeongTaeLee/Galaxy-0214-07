@@ -39,13 +39,11 @@ void MonsterCreater::Init()
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, -7000.f));
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, 0.f));
 	veCreatePos.push_back(Vector3(-7000.f, 0.f, 7000.f));
-
-	CreaterFlightC(Vector3(0.f, 0.f, 0.f));
 }
 
 void MonsterCreater::Update()
 {
-	if (fCreateAccrue >= fCreateDelay && liMonsters.size() <=5)
+	if (fCreateAccrue >= fCreateDelay && liMonsters.size() < 1)
 	{
 		fCreateAccrue = 0.f;
 

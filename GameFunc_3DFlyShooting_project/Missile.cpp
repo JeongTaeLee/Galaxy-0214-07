@@ -15,7 +15,7 @@
 Missile::Missile()
 	:lpRenderer(nullptr), lpTargetObject(nullptr),
 	fAngle(D3DXToRadian(20.f)),
-	fSpeed(0.f), fDamage(0.f),
+	fSpeed(0.f), iDamage(1),
 	fTargetingAccrue(0.f), fTargetingDelay(0.00f)
 {
 }
@@ -86,12 +86,12 @@ void Missile::Update()
 }
 
 
-void Missile::SetMissile(GameObject* _target, const Vector3& vFirePos,const Vector3& _vOriginDir, float _fSpeed, float _fDamage, float _fAngle)
+void Missile::SetMissile(GameObject* _target, const Vector3& vFirePos,const Vector3& _vOriginDir, float _fSpeed, int _fDamage, float _fAngle)
 {
 	lpTargetObject = _target;	
 	vDir	= vOriginDir =_vOriginDir;
 	fSpeed	= _fSpeed;
-	fDamage = _fDamage;
+	iDamage = _fDamage;
 	fAngle = D3DXToRadian(_fAngle);
 
 	if (lpTargetObject->GetDestroy())

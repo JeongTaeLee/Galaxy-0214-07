@@ -19,7 +19,9 @@ class MonsterCreater;
 class MonsterAirPlane;
 class MonsterDirector;
 class LockOned;
-class LifeGuid;
+class LifeBar;
+class PlayerHitEffect;
+
 class SpeedEffect;
 
 class PlayerAirplane :
@@ -31,8 +33,9 @@ private:
 	MonsterAirPlane* lpLockOnMonster;
 	MonsterDirector* lpDirector;
 	LockOned* lpLockOned;
-	LifeGuid* lpLifeGuid;
 	SpeedEffect* lpSpeedEffect;
+	LifeBar* lpLifeBar;
+	PlayerHitEffect* lpHitEffect;
 
 	GunState eGunState;
 
@@ -53,6 +56,8 @@ private:
 	float fLockOnDelay;
 	float fLockOnAccrue;
 
+	float fHitDelay;
+	float fHitAccrue;
 	int iLife;
 
 	bool bLockOned;

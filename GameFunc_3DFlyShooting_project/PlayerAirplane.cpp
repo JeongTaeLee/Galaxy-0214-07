@@ -23,14 +23,19 @@
 #include "MonsterAirPlane.h"
 #include "EnemyCircle.h"
 #include "LockOned.h"
-#include "LifeGuid.h"
 #include "SpeedEffect.h"
+#include "LifeBar.h"
+#include "PlayerHitEffect.h"
 
 PlayerAirplane::PlayerAirplane()
 	:lpAim(nullptr),
 	lpCreater(nullptr),
 	lpLockOnMonster(nullptr),
 	lpDirector(nullptr),
+	lpLockOned(nullptr),
+	lpSpeedEffect(nullptr),
+	lpLifeBar(nullptr),
+	lpHitEffect(nullptr),
 
 	vDirectorPos(transform->pos + Vector3(0.f, 25.f, 0.f)),
 
@@ -51,6 +56,7 @@ PlayerAirplane::PlayerAirplane()
 	fLockOnAccrue(0.f),
 
 	iLife(5),
+	fHitAccrue(0.f), fHitDelay(1.f),
 	
 	bLockOned(false)
 {
@@ -69,7 +75,7 @@ PlayerAirplane::~PlayerAirplane()
 void PlayerAirplane::Init()
 {
 	transform->eUpdateType = E_UPDATE_02;
-	transform->pos = Vector3(0.f, 0.f, -3000.f);
+	transform->pos = Vector3(0.f, 0.f, 0.f);
 	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 
 #pragma region RendererSetting
@@ -105,10 +111,13 @@ void PlayerAirplane::Init()
 	lpLockOned = OBJECT.AddObject<LockOned>();
 	lpLockOned->SetActive(false);
 
-	lpLifeGuid = OBJECT.AddObject<LifeGuid>();
+	lpLifeBar = OBJECT.AddObject<LifeBar>();
 	
 	lpSpeedEffect = OBJECT.AddObject<SpeedEffect>();
 	lpSpeedEffect->SetActive(false);
+
+	lpHitEffect = OBJECT.AddObject<PlayerHitEffect>();
+	lpHitEffect->SetActive(false);
 }
 
 void PlayerAirplane::Update()
@@ -134,6 +143,14 @@ void PlayerAirplane::Attack()
 	{
 		if (lpLockOnMonster->GetDestroy())
 			lpLockOnMonster = nullptr;
+	}
+
+	if (fHitAccrue <= fHitDelay)
+		fHitAccrue += Et;
+	else
+	{
+		if (lpHitEffect->GetActive())
+			lpHitEffect->SetActive(false);
 	}
 
 	switch (eGunState)
@@ -177,12 +194,23 @@ void PlayerAirplane::Move()
 	if (0 > fSpeed)
 		fSpeed = 0.f;
 
-	if (fSpeed < 100)
+
+	if (fSpeed <= 100.f)
 		lpSpeedEffect->SetActive(false);
 	else
+	{
 		lpSpeedEffect->SetActive(true);
 
-	transform->pos += vAxis[E_AXIS_FORWARD] * (fSpeed * DXUTGetElapsedTime());
+		if (100.f < fSpeed&& fSpeed <= 200.f)
+			lpSpeedEffect->SetDelay(0.2f);
+		else if (200.f < fSpeed&& fSpeed <= 300.f)
+			lpSpeedEffect->SetDelay(0.1f);
+		else
+			lpSpeedEffect->SetDelay(0.05f);
+
+	}
+	
+	transform->pos += vAxis[E_AXIS_FORWARD] * (fSpeed * Et);
 } 
 
 void PlayerAirplane::MachineGun()
@@ -212,9 +240,9 @@ void PlayerAirplane::MachineGun()
 	}
 		
 	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(LeftFirePos, quater01, 2000.f, 5.f);
+		->SetBullet(LeftFirePos, quater01, 2000.f, 1);
 	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(RightFirePos, quater02, 2000.f, 5.f);
+		->SetBullet(RightFirePos, quater02, 2000.f, 1);
 	
 }
 
@@ -231,16 +259,15 @@ void PlayerAirplane::Missile()
 
 	Matrix matRot;
 	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-
 	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
 
 	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
 	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
 
 	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 800.f, 20.f, 10.f);
+		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 800.f, 1, 10.f);
 	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 800.f, 20.f, 10.f);
+		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 800.f, 1, 10.f);
 
 }
 
@@ -530,18 +557,19 @@ void PlayerAirplane::CamreaSetting()
 	CAMERA.SetCameraUp(vCameraUp, false, 0.f);
 }
 
+
 void PlayerAirplane::ReceiveCollider(Collider* Other)
 {
-	if (Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor")
+	if (Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor" || Other->gameObject->sTag == "MonsterBullet")
 	{
-		if (Other->gameObject->sTag == "Monster")
-			static_cast<MonsterAirPlane*>(Other->gameObject)->SetMonsterDie();
 
-		if (Other->gameObject->sTag == "Meteor")
-			Other->gameObject->SetDestroy(true);
-
-		if (Other->gameObject->sTag == "MonsterBullet")
-			iLife -= 1;
+		if (fHitAccrue >= fHitDelay)
+		{
+			fHitAccrue = 0.f;
+			lpHitEffect->SetActive(true);
+			--iLife;
+			lpLifeBar->SetLife(iLife);
+		}
 	}
 }
 

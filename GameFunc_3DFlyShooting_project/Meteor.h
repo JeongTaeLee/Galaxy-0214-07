@@ -25,5 +25,6 @@ public:
 	virtual void Update()	override;
 
 	void SetPlayer(PlayerAirplane* player);
+	virtual void ReceiveCollider(Collider* lpOther);
 };
 

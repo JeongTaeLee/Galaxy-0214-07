@@ -17,7 +17,7 @@ MonsterA::MonsterA()
 {
 	fAttackDelay = 1.0f;
 	fSpeed = 500.f;
-	fHp = 10.f;
+	iLife = 2;
 
 	fAttackLength = 1500.f;
 	fMoveLength = 1000.f;
@@ -74,7 +74,7 @@ void MonsterA::Attack()
 		
 		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
-		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, qRot, 1500.f, 3.f);
+		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, qRot, 1500.f, 3);
 	}
 	else
 		fAttackAccrue += Et;

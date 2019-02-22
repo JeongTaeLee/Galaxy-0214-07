@@ -67,12 +67,15 @@ void SceneManager::Update()
 	{
 		if (lpNextScene->GetLoadingComplete())
 		{
+			lpNextScene->ResetLoadingComplete();
+
 			if (thThread.joinable())
 				thThread.join();
 
 			bLoading = false;
 
 			(lpNowScene = lpNextScene)->Init();
+	
 			lpNextScene = nullptr;
 		}
 	}

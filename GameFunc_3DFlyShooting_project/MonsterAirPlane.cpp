@@ -7,6 +7,7 @@
 #include "ObjectManager.h"
 #include "CameraManager.h"
 #include "TimeManager.h"
+#include "GameManager.h"
 
 //Component
 #include "ShaderRenderer.h"
@@ -27,7 +28,7 @@ MonsterAirPlane::MonsterAirPlane()
 	lpPlayer(nullptr),
 	lpEnemyCircle(nullptr),
 	lpCollider(nullptr),
-	fHp(10.f),
+	iLife(2),
 	fAttackDelay(0.f), fAttackAccrue(0.f),
 	iDieEffectAmount(3), iDieEffectCount(0),
 	fDieEffectDelay(0.f), fDieEffectAccrue(3.f),
@@ -108,6 +109,9 @@ void MonsterAirPlane::IdleBehavior()
 
 void MonsterAirPlane::DieBehavior()
 {
+	if (lpCollider->GetEnable())
+		lpCollider->SetEnable(false);
+
 	if (fDieEffectAccrue > fDieEffectDelay)
 	{
 		fDieEffectAccrue = 0.f;
@@ -156,19 +160,19 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 	if (lpOther->gameObject->sTag == "PlayerBullet")
 	{
 		PlayerBullet* object = static_cast<PlayerBullet*>(lpOther->gameObject);
-
-		fHp -= object->GetDamage();
+		iLife -= object->GetDamage();
 	}
 	if (lpOther->gameObject->sTag == "PlayerMissile")
-
 	{
 		PlayerMissile* object = static_cast<PlayerMissile*>(lpOther->gameObject);
-
-		fHp -= object->GetDamage();
+		iLife -= object->GetDamage();
 	}
+	if (lpOther->gameObject->sTag == "PlayerAirPlane")
+		iLife = 0;
 	
-	if (fHp <= 0)
+	if (iLife <= 0)
 	{
+		GAMEMANAGER.iKillMonsterCount += 1;
 		SetMonsterDie();
 	}
 }

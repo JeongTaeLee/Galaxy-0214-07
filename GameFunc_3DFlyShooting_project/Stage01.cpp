@@ -4,7 +4,7 @@
 //Manager
 #include "ObjectManager.h"
 #include "ImageManager.h"
-
+#include "GameManager.h"
 //GameObject
 #include "PlayerAirplane.h"
 #include "MonsterAirPlane.h"
@@ -12,6 +12,8 @@
 #include "MonsterDirector.h"
 #include "MonsterCreater.h"
 #include "MeteorAdmin.h"
+#include "GameVictroy.h"
+#include "GameOver.h"
 Stage01::Stage01()
 {
 }
@@ -23,6 +25,11 @@ Stage01::~Stage01()
 
 void Stage01::Init()
 {
+	GAMEMANAGER.Reset();
+
+	GAMEMANAGER.iLastState = 1;
+	GAMEMANAGER.iNowState = 1;
+
 	OBJECT.AddObject<SkyBox>();
 
 	PlayerAirplane* player = OBJECT.AddObject<PlayerAirplane>();
@@ -74,9 +81,19 @@ void Stage01::LoadingResource()
 	IMAGE.LoadTexture("LockOnEnemyCircle", "./rs/Sprite/UI/LockOnCircle.png", true);
 	IMAGE.LoadTexture("NoneLockOnEnemyCircle", "./rs/Sprite/UI/NoneLockOnCircle.png", true);
 	IMAGE.LoadTexture("LockOned", "./rs/Sprite/UI/LockOned.png", true);
-	IMAGE.LoadTexture("LifeGuid", "./rs/Sprite/UI/healthBar.png", true);
-	IMAGE.LoadTexture("LifeCount", "./rs/Sprite/UI/healthGauge.png", true);
+	IMAGE.LoadTexture("LifeBar", "./rs/Sprite/UI/healthBar.png", true);
+	IMAGE.LoadTexture("LifeGauge", "./rs/Sprite/UI/healthGauge.png", true);
 
 	IMAGE.LoadTextures("SpeedEffect%d", "./rs/Sprite/Speed/%d.png", 1, 3, true);
+	IMAGE.LoadTexture("PlayerHitEffect", "./rs/Sprite/UI/PlayerHitEffect.png", true);
+
+	IMAGE.LoadTexture("GameVictory", "./rs/Sprite/UI/GameVictory.png", true);
+	IMAGE.LoadTexture("GameOver", "./rs/Sprite/UI/GameOver.png", true);
+
+	IMAGE.LoadTexture("Replay", "./rs/Sprite/UI/Replay.png", true);
+	IMAGE.LoadTexture("NextState", "./rs/Sprite/UI/NextState.png", true);
+	IMAGE.LoadTexture("MainScreen", "./rs/Sprite/UI/MainScreen.png", true);
+
+
 	bLoadingComplete = true;
 }
