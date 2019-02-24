@@ -21,13 +21,17 @@ class MonsterDirector;
 class LockOned;
 class LifeBar;
 class PlayerHitEffect;
-
 class SpeedEffect;
+class WeaponUI;
+
+struct Camera;
 
 class PlayerAirplane :
 	public AirPlane
 {
 private:
+	Camera* lpCamera;
+
 	PlayerAim* lpAim;
 	MonsterCreater* lpCreater;
 	MonsterAirPlane* lpLockOnMonster;
@@ -36,12 +40,10 @@ private:
 	SpeedEffect* lpSpeedEffect;
 	LifeBar* lpLifeBar;
 	PlayerHitEffect* lpHitEffect;
+	WeaponUI* lpWeaponUI;
 
 	GunState eGunState;
 
-	Vector3 vCameraPos;
-	Vector3 vCameraLookAt;
-	Vector3 vCameraUp;
 	Quaternion qCameraRot;
 
 	Vector3 vDirectorPos;
@@ -61,11 +63,14 @@ private:
 	int iLife;
 
 	bool bLockOned;
+	bool bLeftRight;
+	bool bWarningSound;
 public:
 	PlayerAirplane();
 	virtual ~PlayerAirplane();
 
 	virtual void Init()	override;
+	virtual void Release()	override;
 	virtual void Update()	override;
 
 	void Attack();
@@ -85,6 +90,6 @@ public:
 	virtual void ReceiveCollider(Collider* Other) override;
 public:
 	void SetCreater(MonsterCreater * creater);
-	void SetLockOned() { bLockOned = true; }
+	void SetLockOned();
 };
 

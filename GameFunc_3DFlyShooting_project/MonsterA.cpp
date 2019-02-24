@@ -12,6 +12,7 @@
 #include "ShaderRenderer.h"
 #include "SphereCollider.h"
 #include "MonsterBullet.h"
+#include "PlayerAirplane.h"
 MonsterA::MonsterA()
 	:bSecondAttack(false)
 {
@@ -20,7 +21,6 @@ MonsterA::MonsterA()
 	iLife = 2;
 
 	fAttackLength = 1500.f;
-	fMoveLength = 1000.f;
 }
 
 
@@ -41,6 +41,9 @@ void MonsterA::Init()
 
 void MonsterA::Attack()
 {
+	if (fAttackLength < GetLengthVector3(lpPlayer->transform->worldPos, transform->worldPos))
+		return;
+
 	if (fAttackAccrue >= fAttackDelay)
 	{
 		fAttackAccrue = 0.f;

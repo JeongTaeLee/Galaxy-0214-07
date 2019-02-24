@@ -225,7 +225,7 @@ void OBJLoader::MtlLoad(const std::string & mtlName, Mesh * mesh, const std::str
 				else
 					ImagePath = mapPath + tag;
 
-				lpMtl->DiffuseMap = LOADTEX(ImagePath, ImagePath);
+				lpMtl->DiffuseMap = IMAGE.LoadTexture(ImagePath, ImagePath, true);
 			}
 			if (tag == "map_Ks")
 			{
@@ -241,7 +241,7 @@ void OBJLoader::MtlLoad(const std::string & mtlName, Mesh * mesh, const std::str
 				else
 					ImagePath = mapPath + tag;
 
-				lpMtl->specularMap = LOADTEX(ImagePath, ImagePath);
+				lpMtl->specularMap = IMAGE.LoadTexture(ImagePath, ImagePath, true);
 			}
 
 

@@ -83,9 +83,6 @@
     <Filter Include="GameObject\Monster">
       <UniqueIdentifier>{307229e8-3694-49d4-bdc5-fe2674f17594}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Monster\Monster01">
-      <UniqueIdentifier>{d59210f6-17aa-4198-83df-0c3e9d53dd38}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\UIRenderer">
       <UniqueIdentifier>{55264891-a20f-471a-8470-e8f9280e7d7f}</UniqueIdentifier>
     </Filter>
@@ -106,10 +103,6 @@
     </Filter>
     <Filter Include="GameObject\PlayerDirector">
       <UniqueIdentifier>{cc4bf7c8-cdf0-49a1-8a79-cca2706d0abc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
-      <Extensions>fx;fxh;hlsl</Extensions>
     </Filter>
     <Filter Include="GameObject\Bullet\MonsterBullet">
       <UniqueIdentifier>{356bf408-4ff6-4b92-b94c-283b2854750a}</UniqueIdentifier>
@@ -188,6 +181,67 @@
     </Filter>
     <Filter Include="Scene\Stage02">
       <UniqueIdentifier>{da794c59-293e-49c7-ae04-1a22d0a12473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\StageMission">
+      <UniqueIdentifier>{a1cad277-b18b-4e1d-97e7-83f9b9ef634f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MonsterA">
+      <UniqueIdentifier>{d59210f6-17aa-4198-83df-0c3e9d53dd38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MiddleBossA">
+      <UniqueIdentifier>{32375f34-bb47-4742-964c-debd1da8d0cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\AppearUI">
+      <UniqueIdentifier>{5636a88a-c90c-4619-9270-bbb6bc11b36a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MainMonster">
+      <UniqueIdentifier>{1c570596-18eb-4f82-b004-ae7efea10371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\MissileCircle">
+      <UniqueIdentifier>{1353fea6-73cc-4977-9da6-6278d7b9805f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\WeaponUI">
+      <UniqueIdentifier>{2bf66bc4-21a3-4ba1-987f-fda3431821db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\BossHpBar">
+      <UniqueIdentifier>{3cc3d380-1f7c-420c-89e8-9694228ce56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MonsterA2">
+      <UniqueIdentifier>{f91a0179-18a1-4cd2-b0e3-c136c24e17b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MonsterB2">
+      <UniqueIdentifier>{c48d7589-2800-4a74-8483-06c6e31fbf4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\MiddleBossB">
+      <UniqueIdentifier>{edf73998-3b2d-40d5-a701-3a1a5ec46c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\BossB">
+      <UniqueIdentifier>{9168be16-ac2b-462d-8111-3c7ee134db6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\LoseEnding">
+      <UniqueIdentifier>{1e341de9-76d1-4ac3-b228-11b280ac41b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\VictroyEnding">
+      <UniqueIdentifier>{8b2ecd63-db00-41d0-9e55-80957f97b2c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Intro">
+      <UniqueIdentifier>{e727275b-fe6f-4276-a827-2f8e1e79e3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\IntroAnimation">
+      <UniqueIdentifier>{0f0bfbe9-1d6c-4ddf-8f48-84631916b1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
+      <Extensions>fx;fxh;hlsl</Extensions>
+    </Filter>
+    <Filter Include="UI\InfoScreen">
+      <UniqueIdentifier>{4e54a436-1d92-4121-a324-76d5a201abf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Monster\SoundManager">
+      <UniqueIdentifier>{1312819f-8084-4360-abd2-bc53c1d28ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SoundManager">
+      <UniqueIdentifier>{22e77c75-49a2-4a35-8f37-41f7506c1983}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -326,7 +380,7 @@
       <Filter>GameObject\Monster</Filter>
     </ClCompile>
     <ClCompile Include="MonsterA.cpp">
-      <Filter>GameObject\Monster\Monster01</Filter>
+      <Filter>GameObject\Monster\MonsterA</Filter>
     </ClCompile>
     <ClCompile Include="Func.cpp">
       <Filter>Func</Filter>
@@ -425,6 +479,57 @@
     <ClCompile Include="Stage02.cpp">
       <Filter>Scene\Stage02</Filter>
     </ClCompile>
+    <ClCompile Include="StageMission.cpp">
+      <Filter>UI\StageMission</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddleBossA.cpp">
+      <Filter>GameObject\Monster\MiddleBossA</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMonster.cpp">
+      <Filter>GameObject\Monster\MainMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="AppearUI.cpp">
+      <Filter>UI\AppearUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileCircle.cpp">
+      <Filter>UI\MissileCircle</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponUI.cpp">
+      <Filter>UI\WeaponUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossHpBar.cpp">
+      <Filter>UI\BossHpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterA2.cpp">
+      <Filter>GameObject\Monster\MonsterA2</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterB2.cpp">
+      <Filter>GameObject\Monster\MonsterB2</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddleBossB.cpp">
+      <Filter>GameObject\Monster\MiddleBossB</Filter>
+    </ClCompile>
+    <ClCompile Include="BossB.cpp">
+      <Filter>GameObject\Monster\BossB</Filter>
+    </ClCompile>
+    <ClCompile Include="LoseEnding.cpp">
+      <Filter>UI\LoseEnding</Filter>
+    </ClCompile>
+    <ClCompile Include="VictroyEnding.cpp">
+      <Filter>UI\VictroyEnding</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Scene\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroAnimation.cpp">
+      <Filter>UI\IntroAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoScreen.cpp">
+      <Filter>UI\InfoScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\SoundManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImageManager.h">
@@ -503,7 +608,7 @@
       <Filter>GameObject\Monster</Filter>
     </ClInclude>
     <ClInclude Include="MonsterA.h">
-      <Filter>GameObject\Monster\Monster01</Filter>
+      <Filter>GameObject\Monster\MonsterA</Filter>
     </ClInclude>
     <ClInclude Include="Func.h">
       <Filter>Func</Filter>
@@ -597,6 +702,57 @@
     </ClInclude>
     <ClInclude Include="Stage02.h">
       <Filter>Scene\Stage02</Filter>
+    </ClInclude>
+    <ClInclude Include="StageMission.h">
+      <Filter>UI\StageMission</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddleBossA.h">
+      <Filter>GameObject\Monster\MiddleBossA</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMonster.h">
+      <Filter>GameObject\Monster\MainMonster</Filter>
+    </ClInclude>
+    <ClInclude Include="AppearUI.h">
+      <Filter>UI\AppearUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileCircle.h">
+      <Filter>UI\MissileCircle</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponUI.h">
+      <Filter>UI\WeaponUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossHpBar.h">
+      <Filter>UI\BossHpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterA2.h">
+      <Filter>GameObject\Monster\MonsterA2</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterB2.h">
+      <Filter>GameObject\Monster\MonsterB2</Filter>
+    </ClInclude>
+    <ClInclude Include="MiddleBossB.h">
+      <Filter>GameObject\Monster\MiddleBossB</Filter>
+    </ClInclude>
+    <ClInclude Include="BossB.h">
+      <Filter>GameObject\Monster\BossB</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseEnding.h">
+      <Filter>UI\LoseEnding</Filter>
+    </ClInclude>
+    <ClInclude Include="VictroyEnding.h">
+      <Filter>UI\VictroyEnding</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Scene\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroAnimation.h">
+      <Filter>UI\IntroAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoScreen.h">
+      <Filter>UI\InfoScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

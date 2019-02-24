@@ -8,17 +8,12 @@ class Missile :
 {
 protected:
 	ShaderRenderer* lpRenderer;
-	GameObject* lpTargetObject;
-
+	GameObject* lpTarget;
 	Vector3 vDir;
 	Vector3 vOriginDir;
 
-	float fAngle;
 	float fSpeed;
 	int iDamage;
-
-	float fTargetingAccrue;
-	float fTargetingDelay;
 public:
 	Missile();
 	virtual ~Missile();
@@ -26,8 +21,7 @@ public:
 	virtual void Init()	override;
 	virtual void Update()	override;
 
-	void SetMissile(GameObject* _target, const Vector3& vFirePos, const Vector3 & vOriginDir, float fSpeed = 1000.f, int fDamage = 1.f, float fAngle = 20.f);
-
+	void SetMissile(GameObject* lpTarget, const Vector3& vFirePos, Quaternion &qRot, int _iDamage = 1, float _fSpeed = 800.f);
 public:
 	float GetSpeed() { return fSpeed;}
 	int GetDamage() { return iDamage; }

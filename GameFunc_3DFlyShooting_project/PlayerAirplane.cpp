@@ -13,7 +13,7 @@
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "ObjectManager.h"
-
+#include "SoundManager.h"
 //Object
 #include "PlayerMissile.h"
 #include "PlayerBullet.h"
@@ -26,6 +26,10 @@
 #include "SpeedEffect.h"
 #include "LifeBar.h"
 #include "PlayerHitEffect.h"
+#include "WeaponUI.h"
+#include "LoseEnding.h"
+#include "VictroyEnding.h"
+#include "GameVictroy.h"
 
 PlayerAirplane::PlayerAirplane()
 	:lpAim(nullptr),
@@ -41,10 +45,6 @@ PlayerAirplane::PlayerAirplane()
 
 	eGunState(GunState::E_GUNSTATE_MACHINE),
 
-	vCameraPos(0.f, 0.f, 0.f),
-	vCameraLookAt(0.f, 0.f, 1.f),
-	vCameraUp(0.f, 1.f, 0.f),
-
 	fCameraDistance(0.f),
 	fCameraAngle(0.f),
 	bCameraBack(false),
@@ -58,7 +58,9 @@ PlayerAirplane::PlayerAirplane()
 	iLife(5),
 	fHitAccrue(0.f), fHitDelay(1.f),
 	
-	bLockOned(false)
+	bLockOned(false),
+	bLeftRight(false),
+	bWarningSound(false)
 {
 	sTag = "PlayerAirPlane";
 
@@ -74,8 +76,10 @@ PlayerAirplane::~PlayerAirplane()
 
 void PlayerAirplane::Init()
 {
+	lpCamera = CAMERA.ChangeCamera("PlayerCamera");
+
 	transform->eUpdateType = E_UPDATE_02;
-	transform->pos = Vector3(0.f, 0.f, 0.f);
+	transform->pos = Vector3(3000.f, 3000.f, 3000.f);
 	transform->scale = Vector3(0.5f, 0.5f, 0.5f);
 
 #pragma region RendererSetting
@@ -103,7 +107,7 @@ void PlayerAirplane::Init()
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 5.f), 8);
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, -13.f), 8);
 #pragma endregion Collider
-
+#pragma region CreateUI
 	lpAim = OBJECT.AddObject<PlayerAim>();
 	lpDirector = OBJECT.AddObject<MonsterDirector>();
 	lpDirector->SetPos(vDirectorPos);
@@ -118,12 +122,26 @@ void PlayerAirplane::Init()
 
 	lpHitEffect = OBJECT.AddObject<PlayerHitEffect>();
 	lpHitEffect->SetActive(false);
+
+	lpWeaponUI = OBJECT.AddObject<WeaponUI>();
+	lpWeaponUI->ChangeWeapon(0);
+#pragma endregion CreateUI
+}
+
+void PlayerAirplane::Release()
+{
 }
 
 void PlayerAirplane::Update()
 {
 	lpLockOned->SetActive(bLockOned);
 	bLockOned = false;
+
+	if (bWarningSound)
+	{
+		bWarningSound = false;
+		SOUND.Stop("LockOnedWarning");
+	}
 
 	InputMouse();
 	InputKeyboard();
@@ -215,35 +233,33 @@ void PlayerAirplane::Move()
 
 void PlayerAirplane::MachineGun()
 {	
-	Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
-	Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+	fAttackAccrue = 0;
+	fAttackDelay = 0.1f;
 
+	PlayerBullet* bullet = OBJECT.AddObject<PlayerBullet>();
+	Quaternion qRot;
+	Vector3 vFirePos;
 	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
 
-	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
-	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
-	
-	Quaternion quater01;
-	Quaternion quater02;
+	if (bLeftRight)
+		vFirePos = Vector3(20.f, 0.f, 30.f);
+	else
+		vFirePos = Vector3(-20.f, 0.f, 30.f);
+
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	memcpy(&matRot._41, &transform->pos, sizeof(Vector3));
+	D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
 	if (lpLockOnMonster)
-	{
-		GetLookAt(quater01, lpLockOnMonster->transform->worldPos, LeftFirePos);
-		GetLookAt(quater02, lpLockOnMonster->transform->worldPos, RightFirePos);
-	}
+		GetLookAt(qRot, lpLockOnMonster->transform->worldPos, vFirePos);
 	else
-	{
-		quater01 = transform->qRot;
-		quater02 = transform->qRot;
-	}
-		
-	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(LeftFirePos, quater01, 2000.f, 1);
-	OBJECT.AddObject<PlayerBullet>()
-		->SetBullet(RightFirePos, quater02, 2000.f, 1);
-	
+		qRot = transform->qRot;
+
+	bullet->SetBullet(vFirePos, qRot, 2000.f, 1);
+
+	bLeftRight = !bLeftRight;
+
+	SOUND.DuplicatePlay("PlayerFire");
 }
 
 void PlayerAirplane::Missile()
@@ -254,20 +270,37 @@ void PlayerAirplane::Missile()
 	if (lpLockOnMonster->GetCircle()->GetLockOn() == false)
 		return;
 
-	Vector3 LeftFirePos = Vector3(-20.f, 0.f, 30.f);
-	Vector3 RightFirePos = Vector3(20.f, 0.f, 30.f);
+	fAttackAccrue = 0.f;
+	fAttackDelay = 1.f;
 
+	PlayerMissile* missile = OBJECT.AddObject<PlayerMissile>();
+	Vector3 vFirePos = Vector3(0.f, 0.f, 0.f);
 	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
-	memcpy(&matRot._41, transform->pos, sizeof(Vector3));
 
-	D3DXVec3TransformCoord(&LeftFirePos, &LeftFirePos, &matRot);
-	D3DXVec3TransformCoord(&RightFirePos, &RightFirePos, &matRot);
+	if (bLeftRight)
+	{
+		vFirePos = Vector3(-30.f, -30.f, 30.f);
 
-	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, RightFirePos, vAxis[E_AXIS_FORWARD], 800.f, 1, 10.f);
-	OBJECT.AddObject<PlayerMissile>()
-		->SetMissile(lpLockOnMonster, LeftFirePos, vAxis[E_AXIS_FORWARD], 800.f, 1, 10.f);
+		D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+		memcpy(&matRot._41, &transform->pos, sizeof(Vector3));
+		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
+
+		missile->SetMissile(lpLockOnMonster, vFirePos, transform->qRot, 10, 1100.f);
+	}
+	else
+	{
+		vFirePos = Vector3(30.f, -30.f, 30.f);
+
+		D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+		memcpy(&matRot._41, &transform->pos, sizeof(Vector3));
+		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
+
+		missile->SetMissile(lpLockOnMonster, vFirePos, transform->qRot, 10, 1200.f);
+	}
+
+	SOUND.DuplicatePlay("MissileFire");
+
+	bLeftRight = !bLeftRight;
 
 }
 
@@ -506,6 +539,27 @@ void PlayerAirplane::InputKeyboard()
 	else
 		fMaxSpeed = 500.f;
 
+	if (KEYUP(VK_F4))
+	{
+		SetDestroy(true);
+		OBJECT.AddObject<LoseEnding>();
+	}
+	if (KEYUP(VK_F3))
+	{
+		SetDestroy(true);
+		OBJECT.AddObject<VictroyEnding>();
+	}
+	if (KEYUP(VK_F2))
+	{
+		SetDestroy(true);
+		OBJECT.AddObject<GameVictroy>();
+	}
+	if (KEYUP(VK_F1))
+	{
+		++iLife;
+		lpLifeBar->SetLife(iLife);
+	}
+
 	if (KEYDOWN('1'))
 	{
 		if (lpLockOnMonster)
@@ -517,10 +571,15 @@ void PlayerAirplane::InputKeyboard()
 			}
 		}
 
+		lpWeaponUI->ChangeWeapon(0);
+
 		eGunState = E_GUNSTATE_MACHINE;
 	}
 	if (KEYDOWN('2'))
+	{
+		lpWeaponUI->ChangeWeapon(1);
 		eGunState = E_GUNSTATE_MISSILE;
+	}
 
 }
 
@@ -533,34 +592,30 @@ void PlayerAirplane::CamreaSetting()
 	D3DXMATRIX matCamreaRot;
 	D3DXMatrixRotationQuaternion(&matCamreaRot, &qCameraRot);
 
-
 	//vCameraPos;
 	D3DXMATRIX matInitCameraRot;
 	D3DXMatrixRotationX(&matInitCameraRot, bCameraBack ? -fCameraAngle : fCameraAngle);
 
 	D3DXVec3TransformNormal(&vCameraDir, &vCameraDir, &matInitCameraRot);
 	D3DXVec3TransformNormal(&vCameraDir, &vCameraDir, &matCamreaRot);
-	vCameraPos = transform->pos + vCameraDir * fCameraDistance;
+	lpCamera->vPos = transform->pos + vCameraDir * fCameraDistance;
 
 	//Up
-	vCameraUp = Vector3(0.f, 1.f, 0.f);
-	D3DXVec3TransformNormal(&vCameraUp, &vCameraUp, &matCamreaRot);
+	lpCamera->vUp = Vector3(0.f, 1.f, 0.f);
+	D3DXVec3TransformNormal(&lpCamera->vUp, &lpCamera->vUp, &matCamreaRot);
 
 	//LookAt
-	vCameraLookAt = Vector3(0.f, 11.f, 0.f);
+	lpCamera->vLookAt = Vector3(0.f, 11.f, 0.f);
 	memcpy(&matCamreaRot._41, &transform->pos, sizeof(Vector3));
 
-	D3DXVec3TransformCoord(&vCameraLookAt, &vCameraLookAt, &matCamreaRot);
-
-	CAMERA.SetCameraPos(vCameraPos, false, 0.f);
-	CAMERA.SetCameraLookAt(vCameraLookAt, false, 0.f);
-	CAMERA.SetCameraUp(vCameraUp, false, 0.f);
+	D3DXVec3TransformCoord(&lpCamera->vLookAt, &lpCamera->vLookAt, &matCamreaRot);
 }
 
 
 void PlayerAirplane::ReceiveCollider(Collider* Other)
 {
-	if (Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor" || Other->gameObject->sTag == "MonsterBullet")
+	if ((Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor" || Other->gameObject->sTag == "MonsterBullet" || 
+		Other->gameObject->sTag == "MonsterMissile") && iLife != 0)
 	{
 
 		if (fHitAccrue >= fHitDelay)
@@ -570,10 +625,27 @@ void PlayerAirplane::ReceiveCollider(Collider* Other)
 			--iLife;
 			lpLifeBar->SetLife(iLife);
 		}
+
+		if (iLife == 0)
+		{
+			SetDestroy(true);
+			OBJECT.AddObject<LoseEnding>();
+		}
 	}
 }
 
 void PlayerAirplane::SetCreater(MonsterCreater* creater)
 {
 	lpCreater = creater;
+}
+
+void PlayerAirplane::SetLockOned()
+{
+	bLockOned = true; 
+	if (!bWarningSound)
+	{
+		bWarningSound = true;
+		SOUND.Play("LockOnedWarning", 1);
+
+	}
 }

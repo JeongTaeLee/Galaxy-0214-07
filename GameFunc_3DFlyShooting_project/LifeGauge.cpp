@@ -18,7 +18,7 @@ LifeGauge::~LifeGauge()
 void LifeGauge::Init()
 {
 	lpRenderer = AC(UIRenderer);
-	lpRenderer->SetTexture(IMAGE.LoadTexture("LifeGauge", "./rs/Sprite/UI/healthGauge.png"), false);
+	lpRenderer->SetTexture(IMAGE.LoadTexture("LifeGauge", "./rs/Sprite/UI/LifeGauge.png"), false);
 
 	
 }

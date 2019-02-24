@@ -26,7 +26,7 @@ void EffectA::Update()
 
 		size_t size = vTexture.size();
 
-		if (iCount < size - 1)
+		if (iCount < (int)size - 1)
 			++iCount;
 		else
 			SetDestroy(true);

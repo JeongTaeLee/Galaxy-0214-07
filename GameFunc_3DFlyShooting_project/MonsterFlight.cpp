@@ -29,6 +29,15 @@ void MonsterFlight::Init()
 
 void MonsterFlight::Update()
 {
+	if (lpPlayer)
+	{
+		if (lpPlayer->GetDestroy())
+		{
+			SetDestroy(true);
+			return;
+		}
+	}
+
 	GetSLerpLookAt(lpPlayer->transform->worldPos, transform->worldPos, transform->qRot, 0.1f);
 
 	Matrix matRot;

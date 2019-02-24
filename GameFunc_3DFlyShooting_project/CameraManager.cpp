@@ -3,11 +3,7 @@
 
 
 CameraManager::CameraManager()
-	:vPos(0.f, 0.f, 0.f), vLookAt(0.f, 0.f, 0.f), vUp(0.f, 1, 0),
-	vTargetPos(0.f, 0.f, 0.f), vTargetLookAt(0.f, 0.f, 0.f), vTargetUp(0.f, 0.f, 0.f),
-	bLerpPos(false), bLerpLookAt(false), bLerpUp(false),
-	fLerpPos(0.f), fLerpLookAt(0.f), fLerpUp(0.f)
-
+	:lpNowCamera(nullptr), lpNextCamera(nullptr)
 {
 	SetProjMatrix();
 	SetViewMatrix();
@@ -19,67 +15,72 @@ CameraManager::CameraManager()
 
 CameraManager::~CameraManager()
 {
+	for (auto Iter : mCamers)
+		SAFE_DELETE(Iter.second);
+	
+	mCamers.clear();
+}
+
+Camera* CameraManager::AddCamera(const std::string& key, Camera* _lpCamera)
+{
+	if (!_lpCamera)
+		return nullptr;
+
+	if (auto find = mCamers.find(key); find != mCamers.end())
+		return find->second;
+
+	return mCamers.insert(std::make_pair(key.c_str(), _lpCamera)).first->second;
+}
+
+Camera* CameraManager::ChangeCamera(const std::string& key)
+{
+	if (auto find = mCamers.find(key); find != mCamers.end())
+	{
+		sNowCamera = find->first;
+		lpNextCamera = find->second;
+		return lpNextCamera;
+	}
+	return nullptr;
+}
+
+Camera* CameraManager::GetCamera(const std::string& key)
+{
+	if (auto find = mCamers.find(key); find != mCamers.end())
+		return find->second;
+	
+	return nullptr;
+}
+
+void CameraManager::DeleteCamera(const std::string& key)
+{
+	if (auto find = mCamers.find(key); find != mCamers.end())
+	{
+		if (lpNowCamera == find->second)
+			lpNowCamera = nullptr;
+
+		SAFE_DELETE(find->second);
+		mCamers.erase(find);
+	}
 }
 
 void CameraManager::Update()
 {
-	if (bLerpPos)
+	if (lpNextCamera)
 	{
-		Vector3 vLength = vTargetPos - vPos;
-		float fLength	= D3DXVec3Length(&vLength);
-
-		if (0.1f > fLength)
-		{
-			bLerpPos = false;
-			vPos = vTargetPos;
-			vTargetPos = Vector3(0.f, 0.f, 0.f);
-		}
-		else
-			D3DXVec3Lerp(&vPos, &vPos, &vTargetPos, fLerpPos);
+		lpNowCamera = lpNextCamera;
+		lpNextCamera = nullptr;
 	}
-	if (bLerpLookAt)
-	{
-		Vector3 vLength = vTargetLookAt - vLookAt;
-		float fLength = D3DXVec3Length(&vLength);
-
-		if (0.1f > fLength)
-		{
-			bLerpLookAt = false;
-			vLookAt = vTargetLookAt;
-			vTargetLookAt = Vector3(0.f, 0.f, 0.f);
-		}
-		else
-		{
-			D3DXVec3Lerp(&vLookAt, &vLookAt, &vTargetLookAt, fLerpLookAt);
-		}
-	}
-	if (bLerpUp)
-	{
-		Vector3 vLength = vTargetUp - vUp;
-		float fLength = D3DXVec3Length(&vLength);
-
-		if (0.1f > fLength)
-		{
-			bLerpUp = false;
-			vUp = vTargetUp;
-			vTargetUp = Vector3(0.f, 0.f, 0.f);
-		}
-		else
-			D3DXVec3Lerp(&vUp, &vUp, &vTargetUp, fLerpUp);
-	}
-
-	SetViewMatrix();
 }
 
 void CameraManager::SetViewMatrix()
 {
-	D3DXMatrixLookAtLH(&matView, &vPos, &vLookAt, &vUp);
+	if(lpNowCamera)
+		D3DXMatrixLookAtLH(&matView, &lpNowCamera->vPos, &lpNowCamera->vLookAt, &lpNowCamera->vUp);
 }
 
 void CameraManager::SetProjMatrix()
 {
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DXToRadian(60), 16.f / 9.f, 1.f, 50000.f);
-	D3DXMatrixOrthoLH(&matOrthoProj, (float)WINSIZEX, (float)WINSIZEY, 1.f, 50000.f);
 }
 
 void CameraManager::SetCameraTransform()
@@ -92,53 +93,20 @@ void CameraManager::SetProjectionTransform()
 	g_device->SetTransform(D3DTS_PROJECTION, &matProj);
 }
 
-void CameraManager::SetOrthoProjectionTransform()
+Vector3 CameraManager::GetPos()
 {
-	g_device->SetTransform(D3DTS_PROJECTION, &matOrthoProj);
+	if (lpNowCamera)
+		return lpNowCamera->vPos;
+
+	return Vector3(0.f, 0.f, 0.f);
+	// TODO: 여기에 반환 구문을 삽입합니다.
 }
 
-void CameraManager::SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp)
+Vector3 CameraManager::GetLookAt()
 {
-	if (vPos == _vPos)
-		return;
+	if (lpNowCamera)
+		return lpNowCamera->vLookAt;
 
-	fLerpPos = _fLerp;
-
-	bLerpPos = _bLerpPos;
-
-	if (bLerpPos)
-		vTargetPos = _vPos;
-	else
-		vPos = _vPos;
+	return Vector3(0.f, 0.f, 0.f);
+	// TODO: 여기에 반환 구문을 삽입합니다.
 }
-
-void CameraManager::SetCameraLookAt(const Vector3& _vLookAt, bool _bLerpLookAt, float _fLerp)
-{
-	if (vLookAt == _vLookAt)
-		return;
-
-	fLerpLookAt = _fLerp;
-
-	bLerpLookAt = _bLerpLookAt;
-
-	if (bLerpLookAt)
-		vTargetLookAt = _vLookAt;
-	else
-		vLookAt = _vLookAt;
-}
-
-void CameraManager::SetCameraUp(const Vector3& _vUp, bool _bLerpUp, float _fLerp)
-{
-	if (vUp == _vUp)
-		return;
-	
-	fLerpUp = _fLerp;
-
-	bLerpUp = _bLerpUp;
-
-	if (bLerpUp)
-		vTargetUp = _vUp;
-	else
-		vUp = _vUp;
-}
-

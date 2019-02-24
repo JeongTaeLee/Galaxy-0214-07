@@ -60,7 +60,10 @@ void Meteor::Update()
 	if (lpPlayer)
 	{
 		if (lpPlayer->GetDestroy())
+		{
+			lpPlayer = nullptr;
 			return;
+		}
 		else
 		{
 			Vector3 vLength = lpPlayer->transform->worldPos - transform->pos;

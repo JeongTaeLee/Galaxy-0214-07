@@ -69,7 +69,7 @@ void Transform::UpdateTransform02()
 	if (gameObject->GetParent())
 		matWorld = matWorld * gameObject->GetParent()->transform->matWorld;
 
-	worldPos = Vector3(matWorld._41, matWorld._42, matWorld._43);
+	memcpy(&worldPos, &matWorld._41, sizeof(Vector3));
 }
 
 void Transform::UpdateTrasformUI()

@@ -4,6 +4,7 @@
 //Manager
 #include "ImageManager.h"
 #include "ObjectManager.h"
+#include "TimeManager.h"
 
 //Component
 #include "ShaderRenderer.h"
@@ -11,10 +12,13 @@
 
 //Object
 #include "MonsterMissile.h"
+#include "PlayerAirplane.h"
 MonsterB::MonsterB()
 {
 	iLife = 5;
-	fAttackDelay = fAttackAccrue = 3.f;
+	fAttackDelay = 15.f;
+	fAttackAccrue = 10.f;
+
 }
 
 
@@ -35,8 +39,11 @@ void MonsterB::Attack()
 {
 	if (fAttackAccrue >= fAttackDelay)
 	{
+		fAttackAccrue = 0.f;
 
-		//OBJECT.AddObject<MonsterMissile>()
-		//	->SetMissile((GameObject*)lpPlayer, transform->worldPos, Vector3(0.f, 0.f, 1.f), 1500.f, 20.f, 10.f);
+		MonsterMissile* missile = OBJECT.AddObject<MonsterMissile>();
+		missile->SetMissile(lpPlayer, transform->worldPos, transform->qRot, 1, 800.f);
 	}
+	else
+		fAttackAccrue += Et;
 }

@@ -27,7 +27,6 @@ void SpeedEffect::Init()
 	
 	LoadImages(vTexs, "SpeedEffect%d", "./rs/Sprite/Speed/%d.png", 1, 3);
 	lpUIRenderer->SetTexture(vTexs[0], true);
-
 }
 
 void SpeedEffect::Update()

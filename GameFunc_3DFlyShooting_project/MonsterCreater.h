@@ -22,6 +22,8 @@ private:
 
 	float fCreateAccrue;
 	float fCreateDelay;
+	
+	bool bBossWar;
 public:
 	MonsterCreater();
 	virtual ~MonsterCreater();
@@ -36,9 +38,15 @@ public:
 	void CreaterFlightB(const Vector3& vCreaterPos);
 	void CreaterFlightC(const Vector3& vCreaterPos);
 
+	void CreaterMiddleBossA();
+	void CreaterBossA();
+
+	void AllDestroyMonster();
 public:
 	void SetPlayer(PlayerAirplane* airPlane) { lpPlayer = airPlane; }
-	
+
+	bool GetBossWar() { return bBossWar;}
+	void EndBossWar();
 	std::list<MonsterAirPlane*>& GetMonsterList() { return liMonsters; }
 };
 

@@ -31,7 +31,7 @@ MonsterAirPlane::MonsterAirPlane()
 	iLife(2),
 	fAttackDelay(0.f), fAttackAccrue(0.f),
 	iDieEffectAmount(3), iDieEffectCount(0),
-	fDieEffectDelay(0.f), fDieEffectAccrue(3.f),
+	fDieEffectDelay(0.05f), fDieEffectAccrue(0.f),
 	fMoveLength(0.f), fAttackLength(0.f),
 	fPlayerDistance(0.f),
 	bFlight(false)
@@ -47,6 +47,8 @@ MonsterAirPlane::~MonsterAirPlane()
 
 void MonsterAirPlane::Init()
 {
+	transform->eUpdateType = TransformUpdateType::E_UPDATE_02;
+
 	lpRenderer = AC(ShaderRenderer);
 	lpCollider = AC(SphereCollider);
 	lpRenderer->SetEffect(IMAGE.LoadEffect("Lighting", "Lighting.fx"));
@@ -58,6 +60,8 @@ void MonsterAirPlane::Init()
 
 			if(lpRenderer->GetMesh()->GetSpecularMap(0))
 				lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
+			else
+				lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
 			
 			lpRenderer->SetShaderFloat("gAmbient", 0.5f);
 		});
@@ -78,6 +82,7 @@ void MonsterAirPlane::Update()
 	{
 		SetDestroy(true);
 		lpPlayer = nullptr;
+		return;
 	}
 
 	switch (eState)
@@ -91,6 +96,7 @@ void MonsterAirPlane::Update()
 	}
 
 	fPlayerDistance = GetLengthVector3(lpPlayer->transform->worldPos, transform->worldPos);
+	SetAxis();
 }
 
 void MonsterAirPlane::Release()
@@ -100,11 +106,8 @@ void MonsterAirPlane::Release()
 
 void MonsterAirPlane::IdleBehavior()
 {
-	if (fPlayerDistance >= fMoveLength)
-		Move();
-
-	if (fPlayerDistance <= fAttackLength)
-		Attack();
+	Move();
+	Attack();
 }
 
 void MonsterAirPlane::DieBehavior()
@@ -172,7 +175,10 @@ void MonsterAirPlane::ReceiveCollider(Collider* lpOther)
 	
 	if (iLife <= 0)
 	{
-		GAMEMANAGER.iKillMonsterCount += 1;
+		if(!lpCreater->GetBossWar())
+			GAMEMANAGER.AddNowKill(1);
+
+		
 		SetMonsterDie();
 	}
 }

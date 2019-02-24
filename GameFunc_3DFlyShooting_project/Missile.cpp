@@ -13,10 +13,8 @@
 #include "Transform.h"
 #include "Collider.h"
 Missile::Missile()
-	:lpRenderer(nullptr), lpTargetObject(nullptr),
-	fAngle(D3DXToRadian(20.f)),
-	fSpeed(0.f), iDamage(1),
-	fTargetingAccrue(0.f), fTargetingDelay(0.00f)
+	:lpRenderer(nullptr), lpTarget(nullptr),
+	fSpeed(0.f), iDamage(1)
 {
 }
 
@@ -38,71 +36,46 @@ void Missile::Init()
 			lpRenderer->SetShaderVector("gWorldCamera", &Vector4(CAMERA.GetPos(), 1.f));
 			lpRenderer->SetShaderTexture("gDiffuseMap", lpRenderer->GetMesh()->GetDiffuseMap(0));
 			lpRenderer->SetShaderTexture("gSpecularMap", lpRenderer->GetMesh()->GetSpecularMap(0));
-			lpRenderer->SetShaderFloat("gAmbient", 0.3f);
+			lpRenderer->SetShaderFloat("gAmbient", 0.6f);
 		});
 
 	AC(SphereCollider)->InitSphere(Vector3(0.f, 0.f, 50.f), 3);
 
-	transform->scale = Vector3(0.5f, 0.5f, 1.f);
+	transform->scale = Vector3(1.f, 1.f, 1.f);
 
 }
 
 void Missile::Update()
 {
-	if (lpTargetObject->GetDestroy())
+	if (lpTarget->GetDestroy())
 	{
-		float fRandomScale = GetRandomNumber(150.f, 300.f);
-		CreateEffectA(transform->pos, Vector3(fRandomScale, fRandomScale, 1.f), 0.05f);
+		CreateEffectA(transform->worldPos, Vector3(50.f, 50.f, 50.f));
 		SetDestroy(true);
+		SetActive(false);
 		return;
 	}
-	
-	Vector3 vTargetDirection = lpTargetObject->transform->worldPos - transform->worldPos;
-	normalize(vTargetDirection);
 
-	Vector3 vRotationAxis;
-	D3DXVec3Cross(&vRotationAxis, &vDir, &vTargetDirection);
-
-	float thath = acos(D3DXVec3Dot(&vTargetDirection, &vDir));
-	
-	if(vRotationAxis.z > 0.f)
-		thath = acos(D3DXVec3Dot(&vTargetDirection, &vDir));
-	else
-		thath = -acos(D3DXVec3Dot(&vTargetDirection, &vDir));
-
-	if (fAngle < thath)
-		thath = fAngle;
-
-	Matrix matRot;
-	D3DXMatrixRotationAxis(&matRot, &vRotationAxis, thath);
-	D3DXVec3TransformNormal(&vDir, &vDir, &matRot);
-	normalize(vDir);
-
-	GetLookAt(transform->qRot, transform->worldPos + vDir, transform->worldPos);
-	
 	transform->pos += vDir * (fSpeed * Et);
 
-	DEBUG_VEC(vDir);
+	Matrix matRot;
+
+	GetSLerpLookAt(lpTarget->transform->worldPos, transform->pos, transform->qRot, 0.1f);	
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+
+	vDir = Vector3(0.f, 0.f, 1.f);
+	D3DXVec3TransformNormal(&vDir, &vDir, &matRot);
 }
 
-
-void Missile::SetMissile(GameObject* _target, const Vector3& vFirePos,const Vector3& _vOriginDir, float _fSpeed, int _fDamage, float _fAngle)
+void Missile::SetMissile(GameObject* _lpTarget, const Vector3& _vFirePos, Quaternion &qRot, int _iDamage, float _fSpeed)
 {
-	lpTargetObject = _target;	
-	vDir	= vOriginDir =_vOriginDir;
-	fSpeed	= _fSpeed;
-	iDamage = _fDamage;
-	fAngle = D3DXToRadian(_fAngle);
+	lpTarget = _lpTarget;
+	transform->pos = _vFirePos;
+	transform->qRot = qRot;
+	iDamage = _iDamage;
+	fSpeed = _fSpeed;
 
-	if (lpTargetObject->GetDestroy())
-	{
-		SetDestroy(true);
-		return;
-	}
-	GetLookAt(transform->qRot, transform->worldPos+vDir, transform->worldPos);
+	D3DXMATRIX matRot;
+	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
+	D3DXVec3TransformCoord(&vDir, &Vector3(0.f, 0.f, 1.f), &matRot);
 
-	transform->pos = vFirePos;
-	
 }
-
-

@@ -64,8 +64,7 @@ void ObjectManager::Update()
 void ObjectManager::Render()
 {
 	CAMERA.SetCameraTransform();
-
-	CAMERA.SetProjectionTransform();
+	
 	for (auto Iter : liRenderers)
 	{
 		if (!(Iter->gameObject->GetActive()))

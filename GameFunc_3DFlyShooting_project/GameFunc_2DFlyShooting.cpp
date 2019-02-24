@@ -43,7 +43,7 @@ bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* p
 HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc,
                                      void* pUserContext )
 {
-	//_CrtSetBreakAlloc(479);
+	//_CrtSetBreakAlloc(635);
 	mg.Init();
     return S_OK;
 }
@@ -152,7 +152,7 @@ INT WINAPI wWinMain( HINSTANCE, HINSTANCE, LPWSTR, int )
     DXUTSetHotkeyHandling( true, false, true );  // handle the default hotkeys
     DXUTSetCursorSettings( true, true ); // Show the cursor and clip it when in full screen
     DXUTCreateWindow( L"GameFunc_2DFlyShooting" );
-    DXUTCreateDevice( true, WINSIZEX, WINSIZEY);
+    DXUTCreateDevice( false, WINSIZEX, WINSIZEY);
 
     // Start the render loop
     DXUTMainLoop();

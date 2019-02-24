@@ -22,12 +22,12 @@ void LifeBar::Init()
 	transform->pos = Vector3(23.f, 578.f, 0.f);
 
 	lpRenderer = AC(UIRenderer);
-	lpRenderer->SetTexture(IMAGE.LoadTexture("LifeBar", "./rs/Sprite/UI/healthBar.png"), false);
+	lpRenderer->SetTexture(IMAGE.LoadTexture("LifeBar", "./rs/Sprite/UI/LifeBar.png"), false);
 
 	for (int i = 0; i < 5; ++i)
 	{
 		veGauge.push_back(OBJECT.AddObject<LifeGauge>(this));
-		veGauge[i]->transform->pos = Vector3(131.f + (48 * i), 33.f, 0.f);
+		veGauge[i]->transform->pos = Vector3(121.f + (45 * i), 10.f, 0.f);
 	}
 }
 

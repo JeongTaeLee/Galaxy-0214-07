@@ -25,9 +25,9 @@ void GameVictroy::Init()
 
 	Button* button = OBJECT.AddObject<Button>();
 	button->transform->pos = Vector3(WINSIZEX / 2, 531.f, 0.f);
-	button->SetTexture(IMAGE.LoadTexture("NextState", "./rs/Sprite/UI/NextState.png"), true);
+	button->SetTexture(IMAGE.LoadTexture("NextStage", "./rs/Sprite/UI/NextStage.png"), true);
 	button->SetFunc([&]() {
-		if (GAMEMANAGER.iNowState == 1)
+		if (SCENE.sNowScene == "Stage01")
 			SCENE.ChangeScene("Stage02");
 		else
 			SCENE.ChangeScene("MainManu");

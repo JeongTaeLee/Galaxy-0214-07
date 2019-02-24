@@ -66,6 +66,7 @@ ImageManager::~ImageManager()
 
 	for (auto Iter : mTextures)
 	{
+
 		SAFE_RELEASE(Iter.second->lpD3DTexture);
 		SAFE_DELETE(Iter.second);
 	}
@@ -77,33 +78,36 @@ ImageManager::~ImageManager()
 	}
 	
 	for (auto Iter : mEffects)
-	{
 		SAFE_RELEASE(Iter.second);
-
-	}
 	
 	mEffects.clear();
 }
 
 void ImageManager::Reset()
 {
-	for (auto Iter : mTextures)
+	for (auto Iter = mTextures.begin(); Iter != mTextures.end();)
 	{
-		if(!Iter.second->bNoneDelete)
-		{ 
-			SAFE_RELEASE(Iter.second->lpD3DTexture);
-			SAFE_DELETE(Iter.second);
+		if (!Iter->second->bNoneDelete)
+		{
+			SAFE_RELEASE(Iter->second->lpD3DTexture);
+			SAFE_DELETE(Iter->second);
+		
+			Iter = mTextures.erase(Iter);
 		}
+		else
+			++Iter;	
 	}
-	mTextures.clear();
 
-	for (auto Iter : mMeshs)
+	for (auto Iter = mMeshs.begin(); Iter != mMeshs.end();)
 	{
-		if (!Iter.second->bNoneDelete)
-			SAFE_DELETE(Iter.second);
+		if (!Iter->second->bNoneDelete)
+		{
+			SAFE_DELETE(Iter->second);
+			Iter = mMeshs.erase(Iter);
+		}
+		else
+			++Iter;
 	}
-	mMeshs.clear();
-
 
 }
 

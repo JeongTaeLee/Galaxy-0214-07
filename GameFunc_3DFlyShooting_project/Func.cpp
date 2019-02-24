@@ -5,6 +5,7 @@
 #include "CameraManager.h"
 #include "ObjectManager.h"
 #include "ImageManager.h"
+#include "SoundManager.h"
 
 //Component
 #include "Transform.h"
@@ -74,7 +75,7 @@ void GetSLerpLookAt(const Vector3& v1, const Vector3& v2, Quaternion& nowQuater,
 
 	Matrix matRot;
 	D3DXMatrixLookAtLH(&matRot, &D3DXVECTOR3(0, 0, 0), &vDir,&D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matRot, &matRot); //
+	D3DXMatrixTranspose(&matRot, &matRot); 
 
 	D3DXQUATERNION currQ;
 	D3DXQuaternionRotationMatrix(&currQ, &matRot);
@@ -98,6 +99,7 @@ void CreateEffectA(const Vector3& pos, const Vector3& scale, float speed)
 	EffectA* effect = OBJECT.AddObject<EffectA>();
   	effect->transform->pos = pos;
 
+	SOUND.DuplicatePlay("Explosion");
 	effect->SetEffect("EffectA%d", "./rs/Sprite/Effect_A/(%d).png", 1, 14, scale, speed);
 }
 
@@ -106,11 +108,11 @@ void LoadImages(std::vector<texture*>& veTex, const std::string& keys, const std
 	for (int i = mn; i <= mx; ++i)
 	{
 		char key[256];
-		sprintf(key, "SpeedEffect%d", i);
+		sprintf(key, keys.c_str(), i);
 		
 		char path[256];
 		sprintf(path, paths.c_str(), i);
 
-		veTex.push_back(IMAGE.LoadTexture(key, " "));
+		veTex.push_back(IMAGE.LoadTexture(key, " ", false));
 	}
 }

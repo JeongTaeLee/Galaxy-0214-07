@@ -37,7 +37,7 @@ void PlayerBullet::ReceiveCollider(Collider* Other)
 	{
 		float fRandomScale = GetRandomNumber(50.f, 200.f);
 
-		CreateEffectA(transform->pos, Vector3(fRandomScale, fRandomScale, 1.f), 0.01f);
+		CreateEffectA(transform->worldPos, Vector3(fRandomScale, fRandomScale, 1.f), 0.01f);
 		SetDestroy(true);
 	}
 }

@@ -31,11 +31,12 @@ void AirPlane::YawRotation(float fAngle)
 	D3DXQuaternionRotationAxis(&qRot, &vAxis[E_AXIS_UP], fAngle);
 	transform->qRot = transform->qRot * qRot;
 	
-	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &qRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
+	//Matrix matRot;
+	//D3DXMatrixRotationQuaternion(&matRot, &qRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
 
+	SetAxis();
 }
 
 void AirPlane::RollRotation(float fAngle)
@@ -44,10 +45,12 @@ void AirPlane::RollRotation(float fAngle)
 	D3DXQuaternionRotationAxis(&qRot, &vAxis[E_AXIS_FORWARD], fAngle);
 	transform->qRot = transform->qRot * qRot;
 
-	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &qRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
+	//Matrix matRot;
+	//D3DXMatrixRotationQuaternion(&matRot, &qRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
+
+	SetAxis();
 }
 
 void AirPlane::PitchRotation(float fAngle)
@@ -56,10 +59,12 @@ void AirPlane::PitchRotation(float fAngle)
 	D3DXQuaternionRotationAxis(&qRot, &vAxis[E_AXIS_RIGHT], fAngle);
 	transform->qRot = transform->qRot * qRot;
 
-	Matrix matRot;
-	D3DXMatrixRotationQuaternion(&matRot, &qRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
-	D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
+	//Matrix matRot;
+	//D3DXMatrixRotationQuaternion(&matRot, &qRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
+	//D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
+
+	SetAxis();
 }
 
 void AirPlane::SetAirPlaneMatrix()
@@ -83,7 +88,10 @@ void AirPlane::SetAxis()
 	Matrix matRot;	
 	D3DXMatrixRotationQuaternion(&matRot, &transform->qRot);
 
+	vAxis[E_AXIS_FORWARD] = Vector3(0.f, 0.f, 1.f);
 	D3DXVec3TransformNormal(&vAxis[E_AXIS_FORWARD], &vAxis[E_AXIS_FORWARD], &matRot);
+	vAxis[E_AXIS_RIGHT] = Vector3(1.f, 0.f, 0.f);
 	D3DXVec3TransformNormal(&vAxis[E_AXIS_RIGHT], &vAxis[E_AXIS_RIGHT], &matRot);
+	vAxis[E_AXIS_UP] = Vector3(0.f, 1.f, 0.f);
 	D3DXVec3TransformNormal(&vAxis[E_AXIS_UP], &vAxis[E_AXIS_UP], &matRot);
 }

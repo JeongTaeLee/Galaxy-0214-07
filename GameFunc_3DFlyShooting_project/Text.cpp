@@ -7,7 +7,7 @@
 
 #include "Transform.h"
 Text::Text()
-	:sText("None"), iSize(0.f), color(D3DXCOLOR(1.f, 1.f, 1.f, 1.f))
+	:sText("None"), iSize(0), color(D3DXCOLOR(1.f, 1.f, 1.f, 1.f))
 {
 
 }
@@ -19,6 +19,8 @@ Text::~Text()
 
 void Text::Init()
 {
+	transform->eUpdateType = TransformUpdateType::E_UPDATE_UI;
+
 	OBJECT.RegisterUIRenderer(this);
 }
 

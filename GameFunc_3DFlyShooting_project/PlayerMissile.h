@@ -10,6 +10,9 @@ public:
 	PlayerMissile();
 	~PlayerMissile();
 
+public:
+
+public:
 	virtual void ReceiveCollider(Collider* Other) override;
 };
 

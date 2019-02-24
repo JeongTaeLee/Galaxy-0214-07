@@ -1,33 +1,39 @@
 #pragma once
 #include "singleton.h"
+
+struct Camera
+{
+	Vector3 vPos;
+	Vector3 vLookAt;
+	Vector3 vUp;
+	
+	Camera()
+		:vPos(0.f, 0.f, 0.f),
+		vLookAt(0.f, 0.f, 0.f),
+		vUp(0.f, 0.f, 0.f) 
+	{}
+};
+
 class CameraManager :
 	public singleton<CameraManager>
 {
 public:
-	Vector3 vPos;
-	Vector3 vLookAt;
-	Vector3 vUp;
-
-private:
-	Vector3 vTargetPos;
-	bool	bLerpPos;
-	float	fLerpPos;
-
-	Vector3 vTargetLookAt;
-	bool	bLerpLookAt;
-	float	fLerpLookAt;
-
-	Vector3 vTargetUp;
-	bool	bLerpUp;
-	float	fLerpUp;
+	std::string sNowCamera;
+	Camera* lpNowCamera;
+	Camera* lpNextCamera;
+	std::map<std::string, Camera*> mCamers;
 
 	Matrix matView;
-	Matrix matOrthoProj;
 	Matrix matProj;
 public:
 	CameraManager();
 	virtual ~CameraManager();
 
+	Camera* AddCamera(const std::string& key, Camera* _lpCamera = nullptr);
+	Camera* ChangeCamera(const std::string& key);
+	Camera* GetCamera(const std::string& key);
+	void DeleteCamera(const std::string& key);
+public:
 	void Update();
 
 	void SetViewMatrix();
@@ -35,18 +41,16 @@ public:
 
 	void SetCameraTransform();
 	void SetProjectionTransform();
-	void SetOrthoProjectionTransform();
 
 	Matrix& GetViewMatrix() { return matView; }
 	Matrix& GetProjMatrix() { return matProj; }
 
-	Vector3& GetPos() { return vPos; }
-	Vector3& GetLookAt() { return vLookAt; }
+	Vector3 GetPos();
+	Vector3 GetLookAt();
 
-	void SetCameraPos(const Vector3& _vPos, bool _bLerpPos, float _fLerp);
-	void SetCameraLookAt(const Vector3& _vLookAt, bool _bLerpPos, float _fLerp = 0.3f);
-	void SetCameraUp(const Vector3& _vUp, bool _bLerpUp, float _fLerp = 0.3f);
-
+	Camera* GetCamera() { return lpNowCamera; }
+	const std::string& GetNowCameraName() { return sNowCamera; }
+	
 };
 
 #define CAMERA CameraManager::GetInst()

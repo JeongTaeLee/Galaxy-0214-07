@@ -19,24 +19,24 @@ GameResult::~GameResult()
 
 void GameResult::Init()
 {
-	INPUT.SwitchClipMouse();
-	INPUT.SwitchShowMouse();
+	INPUT.SetMouseClip(false);
+	INPUT.SetShowMouse(true);
 
 	transform->pos = Vector3(WINSIZEX / 2, WINSIZEY / 2, 0.f);
 	lpRenderer = AC(UIRenderer);
 
 	GameObject* ScoreObject = OBJECT.AddObject<GameObject>();
-	ScoreObject->transform->pos = Vector3(346, 371, 0);
+	ScoreObject->transform->pos = Vector3(982, 371, 0);
 	lpScore = ScoreObject->AC(Text);
 
 	GameObject* KillMonsterObject = OBJECT.AddObject<GameObject>();
-	KillMonsterObject->transform->pos = Vector3(982, 371, 0);
+	KillMonsterObject->transform->pos = Vector3(320, 371, 0);
 	lpKillMonster = KillMonsterObject->AC(Text);
 
 	char number[256];
-	sprintf(number, "%05d", GAMEMANAGER.iKillMonsterCount * 10);
+	sprintf(number, "%05d", GAMEMANAGER.GetNowKillCount() * 10);
 	lpScore->SetText(number, 50);
 
-	sprintf(number, "%05d", GAMEMANAGER.iKillMonsterCount);
+	sprintf(number, "%05d", GAMEMANAGER.GetNowKillCount());
 	lpKillMonster->SetText(number, 50);
 }
