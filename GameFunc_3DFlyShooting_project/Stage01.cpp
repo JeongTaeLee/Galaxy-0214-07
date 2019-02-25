@@ -71,7 +71,7 @@ void Stage01::LoadingResource()
 	SOUND.SetVol("Explosion", 90);
 
 	SOUND.AddSound("IngameSound", "./rs/Sound/IngameSound.wav");
-	SOUND.SetVol("IngameSound", 90);
+	SOUND.SetVol("IngameSound", 95);
 
 	SOUND.AddSound("PlayerFire", "./rs/Sound/PlayerFire.wav");
 	SOUND.SetVol("PlayerFire", 85);
@@ -81,7 +81,7 @@ void Stage01::LoadingResource()
 	SOUND.AddSound("MissileFire", "./rs/Sound/MissileFire.wav");
 
 	SOUND.AddSound("LockOnedWarning", "./rs/Sound/Warning.wav");
-	SOUND.SetVol("LockOnedWarning", 85);
+	SOUND.SetVol("LockOnedWarning", 82);
 	/****OBJ****/
 	
 	//Player

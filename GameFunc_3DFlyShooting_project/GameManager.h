@@ -14,7 +14,9 @@ private:
 	bool bMission;
 	int iKillMonsterCount;
 	int iTargetKillMonsterCount;
+
 public:
+	int iTotalKill;
 	int iLastState;
 	int iNowState;
 
@@ -34,7 +36,9 @@ public:
 	{ return iTargetKillMonsterCount; }
 	
 	void AddNowKill(int i) 
-	{ iKillMonsterCount += i; }
+	{
+		iKillMonsterCount += i; iTotalKill = iKillMonsterCount;
+	}
 };
 
 #define GAMEMANAGER GameManager::GetInst()

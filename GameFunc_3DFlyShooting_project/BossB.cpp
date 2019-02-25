@@ -119,7 +119,7 @@ void BossB::AttackType01()
 
 	D3DXVec3TransformCoord(&vFirePos, &vOriginFirePos, &matRot);
 
-	GetLookAt(qRot, lpPlayer->transform->worldPos, transform->pos);
+	GetLookAt(qRot, lpPlayer->transform->worldPos, vFirePos);
 	bullet->SetBullet(vFirePos, qRot, 1500.f, 1);
 }
 

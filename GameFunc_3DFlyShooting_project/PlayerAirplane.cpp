@@ -617,7 +617,6 @@ void PlayerAirplane::ReceiveCollider(Collider* Other)
 	if ((Other->gameObject->sTag == "Monster" || Other->gameObject->sTag == "Meteor" || Other->gameObject->sTag == "MonsterBullet" || 
 		Other->gameObject->sTag == "MonsterMissile") && iLife != 0)
 	{
-
 		if (fHitAccrue >= fHitDelay)
 		{
 			fHitAccrue = 0.f;

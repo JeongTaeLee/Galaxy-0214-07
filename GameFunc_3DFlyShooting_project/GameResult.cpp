@@ -34,9 +34,9 @@ void GameResult::Init()
 	lpKillMonster = KillMonsterObject->AC(Text);
 
 	char number[256];
-	sprintf(number, "%05d", GAMEMANAGER.GetNowKillCount() * 10);
+	sprintf(number, "%05d", GAMEMANAGER.iTotalKill * 10);
 	lpScore->SetText(number, 50);
 
-	sprintf(number, "%05d", GAMEMANAGER.GetNowKillCount());
+	sprintf(number, "%05d", GAMEMANAGER.iTotalKill);
 	lpKillMonster->SetText(number, 50);
 }

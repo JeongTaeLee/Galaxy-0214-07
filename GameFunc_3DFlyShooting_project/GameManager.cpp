@@ -9,7 +9,7 @@
 
 GameManager::GameManager()
 	:iNowState(1), iLastState(1), iKillMonsterCount(0), iTargetKillMonsterCount(1),bMission(false),
-	lpStageMission(nullptr), bCompleteMiddleBoss(false)
+	lpStageMission(nullptr), bCompleteMiddleBoss(false), iTotalKill(0)
 {
 }
 
@@ -46,6 +46,7 @@ void GameManager::Reset()
 {
 	iTargetKillMonsterCount = 1;
 	iKillMonsterCount = 0;
+	iTotalKill = 0;
 	bCompleteMiddleBoss = false;
 }
 

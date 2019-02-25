@@ -64,7 +64,6 @@ void MonsterA2::Attack()
 
 		bSecondAttack = !bSecondAttack;
 
-
 		Quaternion qRot;
 
 		if (bFlight)
@@ -78,6 +77,7 @@ void MonsterA2::Attack()
 
 		D3DXVec3TransformCoord(&vFirePos, &vFirePos, &matRot);
 
+		GetLookAt(qRot, lpPlayer->transform->worldPos, vFirePos);
 		OBJECT.AddObject<MonsterBullet>()->SetBullet(vFirePos, qRot, 1500.f, 3);
 	}
 	else
