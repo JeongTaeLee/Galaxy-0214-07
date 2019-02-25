@@ -28,6 +28,12 @@ Meteor::~Meteor()
 
 void Meteor::Init()
 {
+	float fScale = GetRandomNumber(5.f, 15.f);
+	transform->scale = Vector3(fScale, fScale, fScale);
+
+	float fRotation = GetRandomNumber(0.f, 6.28f);
+	transform->rot = Vector3(fRotation, fRotation, fRotation);
+
 #pragma region Renderer
 	lpRenderer = AC(ShaderRenderer);
 	lpRenderer->LoadMesh(IMAGE.LoadObjFile("Meteor", "./rs/obj/Meteor/Meteor.obj"));
@@ -47,12 +53,6 @@ void Meteor::Init()
 	lpCollider->InitSphere(Vector3(0.f, 0.f, 0.f), fOriginColliderScale * transform->scale.x);
 	lpCollider->SetEnable(false);
 #pragma endregion Collider
-
-	float fScale = GetRandomNumber(5.f, 15.f);
-	transform->scale = Vector3(fScale, fScale, fScale);
-
-	float fRotation = GetRandomNumber(0.f, 6.28f);
-	transform->rot = Vector3(fRotation, fRotation, fRotation);
 }
 
 void Meteor::Update()
